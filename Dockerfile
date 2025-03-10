@@ -8,14 +8,14 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Copiar el resto del código
+# Copiar el resto del Analizacódigo
 COPY . .
 
 # Compilar TypeScript a JavaScript
-RUN npm run build
+#RUN npm run build
 
 # Exponer el puerto en el que corre la aplicación
 EXPOSE 4000
 
 # Comando para iniciar la aplicación
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
