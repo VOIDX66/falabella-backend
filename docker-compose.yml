@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    container_name: falabella-app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: arepa_user
+      DB_PASS: meroscrum
+      DB_NAME: mi_arepa
+      JWT_SECRET: el_sancocho_es_mas_rico_que_el_mondongo
+
+  db:
+    image: postgres:15
+    container_name: falabella-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: arepa_user
+      POSTGRES_PASSWORD: meroscrum
+      POSTGRES_DB: mi_arepa
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
