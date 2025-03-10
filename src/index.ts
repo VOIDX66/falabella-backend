@@ -12,7 +12,7 @@ async function main(){
         if(AppDataSource.isInitialized){
             //await seedDatabase();
         }
-        app.listen(3000);
+        app.listen(4000);
         console.log("Server is listeng on port, http://localhost:3000");
     } catch (error) {
         console.error(error);
