@@ -77,14 +77,15 @@ export const register = async (req: Request, res: Response): Promise<any> => {
         }
 
         // Validar nombre
-        if (name && !/^[A-Za-z]{2,}$/.test(name)) {
-            errors.push({ field: "name", message: "Name must be at least 2 characters long and cannot contain special characters or numbers" });
+        if (name && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ]+( [A-Za-zÁÉÍÓÚáéíóúñÑ]+)*$/.test(name)) {
+            errors.push({ field: "name", message: "Name must be at least 2 characters long and can only contain letters and spaces" });
         }
 
         // Validar apellido
-        if (lastname && !/^[A-Za-z]{2,}$/.test(lastname)) {
-            errors.push({ field: "lastname", message: "Lastname must be at least 2 characters long and cannot contain special characters or numbers" });
+        if (lastname && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ]+( [A-Za-zÁÉÍÓÚáéíóúñÑ]+)*$/.test(lastname)) {
+            errors.push({ field: "lastname", message: "Lastname must be at least 2 characters long and can only contain letters and spaces" });
         }
+
 
         // Validar id_type
         if (id_type && id_type !== "CC" && id_type !== "CE") {
