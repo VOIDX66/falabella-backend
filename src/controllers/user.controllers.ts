@@ -15,6 +15,8 @@ export const get_user_profile = async (req: Request, res: Response): Promise<any
             user_id: user.user_id,
             name: user.name,
             lastname: user.lastname,
+            id_type : user.id_type,
+            id_number : user.id_number,
             email: user.email,
             phone: user.phone
         });
