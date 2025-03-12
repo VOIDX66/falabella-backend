@@ -10,7 +10,7 @@ async function main(){
         console.log("Database Connected...");
         // Nos aseguramos que la base de datos este inicializada antes de insertar los datos
         if(AppDataSource.isInitialized){
-            //await seedDatabase();
+            await seedDatabase();
         }
         app.listen(4000);
         console.log("Server is listeng on port, http://localhost:4000");

@@ -6,6 +6,11 @@ import { SectionCategory } from "./entities/sectioncategory";
 import { CategorySubcategory } from "./entities/categorysubcategory";
 
 export const seedDatabase = async () => {
+  const sectionCount = await AppDataSource.manager.count(Section)
+  if (sectionCount > 0){
+    console.log("Seed de categorias ya esta cargada")
+    return; 
+  }
     try {
         console.log("📦 Base de datos conectada");
 
