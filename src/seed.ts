@@ -4,6 +4,7 @@ import { Category } from "./entities/category";
 import { Subcategory } from "./entities/subcategory";
 import { SectionCategory } from "./entities/sectioncategory";
 import { CategorySubcategory } from "./entities/categorysubcategory";
+import { Product } from "./entities/product";
 
 export const seedDatabase = async () => {
   const sectionCount = await AppDataSource.manager.count(Section)
@@ -14,59 +15,72 @@ export const seedDatabase = async () => {
     try {
         console.log("📦 Base de datos conectada");
 
-        // 1) Insertar SECTIONS
+        // 1) Insertar SECTIONS con slug
         const sectionsData = [
-            "Tecnología",
-            "Celulares y accesorios",
-            "Electrohogar",
-            "Moda mujer",
-            "Moda hombre"
+          "Tecnología",
+          "Celulares y accesorios",
+          "Electrohogar",
+          "Moda mujer",
+          "Moda hombre"
         ];
         const sections: Section[] = [];
         for (const name of sectionsData) {
-            const section = new Section();
-            section.name_section = name;
-            // Reemplazamos section.save() por AppDataSource.manager.save(section)
-            const savedSection = await AppDataSource.manager.save(section);
-            sections.push(savedSection);
+          const section = new Section();
+          section.name_section = name;
+          section.slug = name
+              .normalize("NFD") // Descompone caracteres con tilde
+              .replace(/[\u0300-\u036f]/g, "") // Elimina los diacríticos (tildes)
+              .toLowerCase()
+              .replace(/\s+/g, "_"); // Reemplaza espacios con guiones
+
+          // Guardamos la sección con el slug generado
+          const savedSection = await AppDataSource.manager.save(section);
+          sections.push(savedSection);
         }
 
-        // 2) Insertar CATEGORIES (sin referencia a Section)
+        // 2) Insertar CATEGORIES con slug (sin referencia a Section)
         const categoriesData = [
-            "Computación",
-            "Audio",
-            "TV y video",
-            "Zona gamer",
-            "Consolas",
-            "Smartwatch y accesorios",
-            "Cámaras y drones",
-            "Patinenas elétricas",
-            "Smart Home",
-            "Celulares",
-            "Audífonos",
-            "Accesorios celulares",
-            "Refrigeración",
-            "Lavado y planchado",
-            "Climatización",
-            "Cocina",
-            "Aspirado y limpieza",
-            "Electrodomésticos de cocina",
-            "Maquinas de coser",
-            "Cuidado personal",
-            "Ropa",
-            "Ropa interior y pijamas",
-            "Ropa deportiva",
-            "Accesorios",
-            "Zapatos"
+          "Computación",
+          "Audio",
+          "TV y video",
+          "Zona gamer",
+          "Consolas",
+          "Smartwatch y accesorios",
+          "Cámaras y drones",
+          "Patinetas eléctricas",
+          "Smart Home",
+          "Celulares",
+          "Audífonos",
+          "Accesorios celulares",
+          "Refrigeración",
+          "Lavado y planchado",
+          "Climatización",
+          "Cocina",
+          "Aspirado y limpieza",
+          "Electrodomésticos de cocina",
+          "Máquinas de coser",
+          "Cuidado personal",
+          "Ropa",
+          "Ropa interior y pijamas",
+          "Ropa deportiva",
+          "Accesorios",
+          "Zapatos"
         ];
         const categories: Category[] = [];
         for (const name of categoriesData) {
-            const category = new Category();
-            category.name_category = name;
-            // Reemplazamos category.save() por AppDataSource.manager.save(category)
-            const savedCategory = await AppDataSource.manager.save(category);
-            categories.push(savedCategory);
+          const category = new Category();
+          category.name_category = name;
+          category.slug = name
+              .normalize("NFD") // Descompone caracteres con tilde
+              .replace(/[\u0300-\u036f]/g, "") // Elimina los diacríticos (tildes)
+              .toLowerCase()
+              .replace(/\s+/g, "_"); // Reemplaza espacios con guiones
+
+          // Guardamos la categoría con el slug generado
+          const savedCategory = await AppDataSource.manager.save(category);
+          categories.push(savedCategory);
         }
+
 
         // 3) Insertar SUBCATEGORIES (sin referencia a Category)
         const subcategoriesData = [
@@ -168,7 +182,7 @@ export const seedDatabase = async () => {
             "Pijamas",
             "Chaquetas y cortavientos",
             "Leggins y licras",
-            "Pantalones, shorts y faldas",
+            "Pantalones shorts y faldas",
             "Sacos y hoddies",
             "Tops deportivos",
             "Medias deportivas",
@@ -188,7 +202,13 @@ export const seedDatabase = async () => {
         for (const name of subcategoriesData) {
             const subcat = new Subcategory();
             subcat.name_subcategory = name;
-            // Reemplazamos subcat.save() por AppDataSource.manager.save(subcat)
+            subcat.slug = name
+                .normalize("NFD") // Descompone caracteres con tilde
+                .replace(/[\u0300-\u036f]/g, "") // Elimina los diacríticos (tildes)
+                .toLowerCase()
+                .replace(/\s+/g, "_"); // Reemplaza espacios con guiones
+
+            // Guardamos la subcategoría con el slug generado
             const savedSubcat = await AppDataSource.manager.save(subcat);
             subcategories.push(savedSubcat);
         }
@@ -527,11 +547,105 @@ export const seedDatabase = async () => {
                 }
             }
         }
+        
+        const productsData = [
+            {
+                brand: "Apple",
+                title: "iPhone 14 Pro",
+                price: 999.99,
+                discount_percentage: 10.00,
+                discount_price: null,
+                images: ["iphone14pro_1.jpg", "iphone14pro_2.jpg"],
+                specifications: { storage: "128GB", color: "Space Black" },
+                subcategory_slug: "smartphones"
+            },
+            {
+                brand: "Samsung",
+                title: "Galaxy S23 Ultra",
+                price: 1199.99,
+                discount_percentage: 5.00,
+                discount_price: null,
+                images: ["s23ultra_1.jpg", "s23ultra_2.jpg"],
+                specifications: { storage: "256GB", color: "Phantom Black" },
+                subcategory_slug: "smartphones"
+            },
+            {
+                brand: "Sony",
+                title: "PlayStation 5",
+                price: 499.99,
+                discount_percentage: null,
+                discount_price: null,
+                images: ["ps5_1.jpg", "ps5_2.jpg"],
+                specifications: { edition: "Standard", controller: "DualSense" },
+                subcategory_slug: "playstation"
+            },
+            {
+                brand: "LG",
+                title: "Smart TV OLED 55\"",
+                price: 1499.99,
+                discount_percentage: 15.00,
+                discount_price: null,
+                images: ["lg_oled55_1.jpg", "lg_oled55_2.jpg", "lg_oled55_3.jpg"],
+                specifications: { resolution: "4K", HDR: "Dolby Vision" },
+                subcategory_slug: "televisores"
+            },
+            {
+                brand: "Dell",
+                title: "Laptop XPS 15",
+                price: 1799.99,
+                discount_percentage: null,
+                discount_price: null,
+                images: ["xps15_1.jpg", "xps15_2.jpg"],
+                specifications: { RAM: "16GB", processor: "Intel i7" },
+                subcategory_slug: "portatiles"
+            }
+        ];
+      
+        
+        console.log("🔄 Iniciando inserción de productos...");
+
+        const products: Product[] = [];
+
+        for (const productData of productsData) {
+            try {
+                console.log(`📦 Procesando producto: ${productData.title}`);
+
+                if (!productData.price) {
+                    console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
+                    continue; // Saltamos este producto para evitar errores
+                }
+
+                const product = new Product();
+                product.brand = productData.brand;
+                product.title = productData.title;
+                product.price = productData.price;
+                product.discount_percentage = productData.discount_percentage;
+
+                // Calculamos el precio con descuento si hay un porcentaje definido
+                if (product.discount_percentage) {
+                    product.discount_price = Number((product.price * (1 - product.discount_percentage / 100)).toFixed(2));
+                } else {
+                    product.discount_price = product.price; // Si no hay descuento, queda igual
+                }
+
+                product.images = productData.images;
+                product.specifications = JSON.stringify(productData.specifications);
+                product.subcategory_slug = productData.subcategory_slug;
+
+                console.log(`💾 Guardando en la base de datos: ${product.title}`);
+                const savedProduct = await AppDataSource.manager.save(product);
+                products.push(savedProduct);
+                console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
+            } catch (error) {
+                console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
+            }
+        }
+
+        console.log("✅ Inserción de productos completada.");
+      
 
         console.log("✅ Datos insertados correctamente");
     } catch (error) {
         console.error("❌ Error insertando datos:", error);
-    } finally {
-        await AppDataSource.destroy();
     }
-};
+}

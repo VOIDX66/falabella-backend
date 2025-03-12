@@ -12,4 +12,7 @@ export class Subcategory extends BaseEntity {
 
     @Column({ unique : true })
     name_subcategory: string;
+
+    @Column({ unique : true })
+    slug : string;
 }

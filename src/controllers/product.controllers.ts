@@ -4,16 +4,17 @@ import { Product } from "../entities/product";
 
 export const getProductsBySection = async (req: Request, res: Response): Promise<any> => {
     try {
-        const { sectionId } = req.params;
+        const { sectionSlug } = req.params;
         if(AppDataSource.isInitialized){
             console.log("si")
         }
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
-            .innerJoin("category_subcategory", "cs", "product.subcategoryIdSubcategory = cs.subcategoryIdSubcategory")
+            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
-            .innerJoin("section", "s", "sc.sectionIdSection = s.id_section")
-            .where("s.id_section = :sectionId", { sectionId })
+            .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
+            .where("sec.slug = :sectionSlug", { sectionSlug })
             .getMany();
 
         return res.json(products);
@@ -25,11 +26,13 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
 
 export const getProductsByCategory = async (req: Request, res: Response): Promise<any> => {
     try {
-        const { categoryId } = req.params;
+        const { categorySlug } = req.params;
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
-            .innerJoin("category_subcategory", "cs", "product.subcategoryIdSubcategory = cs.subcategoryIdSubcategory")
-            .where("cs.categoryIdCategory = :categoryId", { categoryId })
+            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+            .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
+            .where("c.slug = :categorySlug", { categorySlug })
             .getMany();
 
         return res.json(products);
@@ -40,10 +43,11 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
 
 export const getProductsBySubcategory = async (req: Request, res: Response): Promise<any> => {
     try {
-        const { subcategoryId } = req.params;
+        const { subcategorySlug } = req.params; // Ahora recibimos el slug en los parámetros
+        console.log(subcategorySlug)
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
-            .where("product.subcategoryIdSubcategory = :subcategoryId", { subcategoryId })
+            .where("product.subcategory_slug = :subcategorySlug", { subcategorySlug })
             .getMany();
 
         return res.json(products);
@@ -51,3 +55,4 @@ export const getProductsBySubcategory = async (req: Request, res: Response): Pro
         return res.status(500).json({ message: "Error al obtener productos por subcategoría", error });
     }
 };
+
