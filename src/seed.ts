@@ -547,13 +547,15 @@ export const seedDatabase = async () => {
                 }
             }
         }
-        
+        //
         const productsData = [
           {
               brand: "Apple",
               title: "iPhone 14 Pro",
               price: 999.99,
               discount_percentage: 10.00,
+              special_discount_percentage: 5.00,
+              rating: 4.5, // Valor opcional, si no está, se asigna 0
               images: ["id1_1.jpg", "id1_2.jpg"],
               specifications: { storage: "128GB", color: "Space Black" },
               subcategory_slug: "smartphones",
@@ -564,6 +566,8 @@ export const seedDatabase = async () => {
               title: "Galaxy S23 Ultra",
               price: 1199.99,
               discount_percentage: 5.00,
+              special_discount_percentage: null,
+              rating: 4.7,
               images: ["id2_1.jpg", "id2_2.jpg"],
               specifications: { storage: "256GB", color: "Phantom Black" },
               subcategory_slug: "smartphones",
@@ -574,6 +578,8 @@ export const seedDatabase = async () => {
               title: "PlayStation 5",
               price: 499.99,
               discount_percentage: null,
+              special_discount_percentage: 10.00,
+              rating: null, // Se inicializará en 0
               images: ["id3_1.jpg", "id3_2.jpg"],
               specifications: { edition: "Standard", controller: "DualSense" },
               subcategory_slug: "playstation",
@@ -584,8 +590,8 @@ export const seedDatabase = async () => {
               title: "Smart TV OLED 55\"",
               price: 1499.99,
               discount_percentage: 15.00,
+              special_discount_percentage: null,
               images: ["id4_1.jpg", "id4_2.jpg", "id4_3.jpg"],
-              specifications: { resolution: "4K", HDR: "Dolby Vision" },
               subcategory_slug: "televisores",
               sold_by: "Falabella"
           },
@@ -594,6 +600,7 @@ export const seedDatabase = async () => {
               title: "Laptop XPS 15",
               price: 1799.99,
               discount_percentage: null,
+              special_discount_percentage: null,
               images: ["id5_1.jpg", "id5_2.jpg"],
               specifications: { RAM: "16GB", processor: "Intel i7" },
               subcategory_slug: "portatiles",
@@ -606,37 +613,36 @@ export const seedDatabase = async () => {
       const products: Product[] = [];
       
       for (const productData of productsData) {
-          try {
-              console.log(`📦 Procesando producto: ${productData.title}`);
-      
-              if (!productData.price) {
-                  console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
-                  continue; // Evita errores si no hay precio
-              }
-      
-              const product = new Product();
-              product.brand = productData.brand;
-              product.title = productData.title;
-              product.price = productData.price;
-              product.discount_percentage = productData.discount_percentage || 0;
-              product.discount_price = product.discount_percentage
-                  ? Number((product.price * (1 - product.discount_percentage / 100)).toFixed(2))
-                  : product.price;
-              product.images = productData.images;
-              product.specifications = productData.specifications;
-              product.subcategory_slug = productData.subcategory_slug;
-              product.sold_by = productData.sold_by || "Marketplace"; // Si no está definido, lo asigna como "Marketplace"
-      
-              console.log(`💾 Guardando en la base de datos: ${product.title}`);
-              const savedProduct = await AppDataSource.manager.save(product);
-              products.push(savedProduct);
-              console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
+        try {
+            console.log(`📦 Procesando producto: ${productData.title}`);
+    
+            if (!productData.price) {
+                console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
+                continue;
+            }
+    
+            const product = new Product();
+            product.brand = productData.brand;
+            product.title = productData.title;
+            product.price = productData.price;
+            product.discount_percentage = productData.discount_percentage || null;
+            product.special_discount_percentage = productData.special_discount_percentage || null;
+            product.rating = productData.rating ?? 0; // Si no tiene, inicia en 0
+            product.images = productData.images;
+            product.specifications = productData.specifications;
+            product.subcategory_slug = productData.subcategory_slug;
+            product.sold_by = productData.sold_by || "Marketplace";
+    
+            console.log(`💾 Guardando en la base de datos: ${product.title}`);
+            const savedProduct = await AppDataSource.manager.save(product);
+            products.push(savedProduct);
+            console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
+              //
           } catch (error) {
               console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
           }
       }
       
-
         console.log("✅ Datos insertados correctamente");
     } catch (error) {
         console.error("❌ Error insertando datos:", error);

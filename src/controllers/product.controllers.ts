@@ -76,22 +76,25 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
 
         // Filtrado por precio (mínimo y máximo)
         if (filters.price) {
-            query = query.andWhere("COALESCE(product.discount_price, product.price) >= :minPrice", { 
-                minPrice: filters.price.min || 0 
-            });
+            query = query.andWhere(
+                `COALESCE(product.special_price, product.discount_price, product.price) >= :minPrice`, 
+                { minPrice: filters.price.min || 0 }
+            );
 
             if (filters.price.max) {
-                query = query.andWhere("COALESCE(product.discount_price, product.price) <= :maxPrice", { 
-                    maxPrice: filters.price.max 
-                });
+                query = query.andWhere(
+                    `COALESCE(product.special_price, product.discount_price, product.price) <= :maxPrice`, 
+                    { maxPrice: filters.price.max }
+                );
             }
         }
 
         // Filtrado por descuento mínimo
         if (filters.discount_percentage?.min) {
-            query = query.andWhere("product.discount_percentage >= :minDiscount", {
-                minDiscount: filters.discount_percentage.min
-            });
+            query = query.andWhere(
+                `COALESCE(product.special_discount_percentage, product.discount_percentage, 0) >= :minDiscount`,
+                { minDiscount: filters.discount_percentage.min }
+            );
         }
 
         // Filtrado por marca
@@ -148,6 +151,11 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
                     { vendors: ["Homecenter"] }
                 );
             }
+        }
+
+        // Filtrado por "rating"
+        if (filters.rating) {
+            query = query.andWhere(`product.rating >= :minRating`, { minRating: filters.rating });
         }
 
         console.log(query.getQueryAndParameters());
