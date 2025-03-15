@@ -69,12 +69,12 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section");
 
-        // Filtrar por sección, categoría o subcategoría según el parámetro recibido
-        if (sectionSlug) query = query.where("sec.slug = :sectionSlug", { sectionSlug });
-        if (categorySlug) query = query.where("c.slug = :categorySlug", { categorySlug });
-        if (subcategorySlug) query = query.where("sub.slug = :subcategorySlug", { subcategorySlug });
+        // Aseguramos que los productos pertenezcan a la sección/categoría/subcategoría especificada en la ruta
+        if (sectionSlug) query = query.andWhere("sec.slug = :sectionSlug", { sectionSlug });
+        if (categorySlug) query = query.andWhere("c.slug = :categorySlug", { categorySlug });
+        if (subcategorySlug) query = query.andWhere("sub.slug = :subcategorySlug", { subcategorySlug });
 
-        // Filtrado por precio (mínimo y máximo) usando el precio con descuento si existe
+        // Filtrado por precio (mínimo y máximo)
         if (filters.price) {
             query = query.andWhere("COALESCE(product.discount_price, product.price) >= :minPrice", { 
                 minPrice: filters.price.min || 0 
@@ -94,13 +94,13 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             });
         }
 
-        // Filtrado por una o varias marcas
+        // Filtrado por marca
         if (filters.brand) {
             const brands = Array.isArray(filters.brand) ? filters.brand : [filters.brand];
             query = query.andWhere("product.brand IN (:...brands)", { brands });
         }
 
-        // Filtrado por especificaciones, permitiendo arrays de opciones
+        // Filtrado por especificaciones dinámicas (JSONB)
         if (filters.specifications) {
             Object.entries(filters.specifications).forEach(([key, value], index) => {
                 if (Array.isArray(value) && value.length > 0) {
@@ -120,25 +120,39 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
         // Filtrado por "sold_by"
         if (filters.sold_by) {
             const soldByFilters = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
-
+        
             const includesFalabella = soldByFilters.includes("Falabella");
             const includesHomecenter = soldByFilters.includes("Homecenter");
             const includesMarketplace = soldByFilters.includes("Marketplace");
-
+        
             if (includesMarketplace && !includesFalabella && !includesHomecenter) {
                 // Solo "Marketplace": Excluir Falabella y Homecenter
-                query = query.andWhere("product.sold_by NOT IN (:...excludedVendors)", {
+                query = query.andWhere(`(product.sold_by NOT IN (:...excludedVendors))`, {
                     excludedVendors: ["Falabella", "Homecenter"]
                 });
             } else if (!includesMarketplace && (includesFalabella || includesHomecenter)) {
                 // Si NO se selecciona "Marketplace", solo incluir los seleccionados
-                query = query.andWhere("product.sold_by IN (:...vendors)", {
+                query = query.andWhere(`(product.sold_by IN (:...vendors))`, {
                     vendors: soldByFilters
                 });
+            } else if (includesMarketplace && includesFalabella && !includesHomecenter) {
+                // Marketplace + Falabella: Incluir ambos, pero excluir Homecenter
+                query = query.andWhere(
+                    `(product.sold_by = 'Marketplace' OR product.sold_by IN (:...vendors))`,
+                    { vendors: ["Falabella"] }
+                );
+            } else if (includesMarketplace && includesHomecenter && !includesFalabella) {
+                // Marketplace + Homecenter: Incluir ambos, pero excluir Falabella
+                query = query.andWhere(
+                    `(product.sold_by = 'Marketplace' OR product.sold_by IN (:...vendors))`,
+                    { vendors: ["Homecenter"] }
+                );
             }
-            // Si se seleccionan todos, no aplicamos ningún filtro (trae todos).
         }
 
+        console.log(query.getQueryAndParameters());
+
+        // Ejecutar la consulta y devolver los productos
         const products = await query.getMany();
         return res.json(products);
 
