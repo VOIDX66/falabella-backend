@@ -555,7 +555,7 @@ export const seedDatabase = async () => {
                 price: 999.99,
                 discount_percentage: 10.00,
                 discount_price: null,
-                images: ["iphone14pro_1.jpg", "iphone14pro_2.jpg"],
+                images: ["id1_1.jpg", "id2_2.jpg"],
                 specifications: { storage: "128GB", color: "Space Black" },
                 subcategory_slug: "smartphones"
             },
@@ -565,7 +565,7 @@ export const seedDatabase = async () => {
                 price: 1199.99,
                 discount_percentage: 5.00,
                 discount_price: null,
-                images: ["s23ultra_1.jpg", "s23ultra_2.jpg"],
+                images: ["id2_1.jpg", "id2_2.jpg"],
                 specifications: { storage: "256GB", color: "Phantom Black" },
                 subcategory_slug: "smartphones"
             },
@@ -575,7 +575,7 @@ export const seedDatabase = async () => {
                 price: 499.99,
                 discount_percentage: null,
                 discount_price: null,
-                images: ["ps5_1.jpg", "ps5_2.jpg"],
+                images: ["id3_1.jpg", "id3_2.jpg"],
                 specifications: { edition: "Standard", controller: "DualSense" },
                 subcategory_slug: "playstation"
             },
@@ -585,7 +585,7 @@ export const seedDatabase = async () => {
                 price: 1499.99,
                 discount_percentage: 15.00,
                 discount_price: null,
-                images: ["lg_oled55_1.jpg", "lg_oled55_2.jpg", "lg_oled55_3.jpg"],
+                images: ["id4_1.jpg", "id4_2.jpg", "id4_3.jpg"],
                 specifications: { resolution: "4K", HDR: "Dolby Vision" },
                 subcategory_slug: "televisores"
             },
@@ -595,7 +595,7 @@ export const seedDatabase = async () => {
                 price: 1799.99,
                 discount_percentage: null,
                 discount_price: null,
-                images: ["xps15_1.jpg", "xps15_2.jpg"],
+                images: ["id5_1.jpg", "id5_2.jpg"],
                 specifications: { RAM: "16GB", processor: "Intel i7" },
                 subcategory_slug: "portatiles"
             }
@@ -629,7 +629,7 @@ export const seedDatabase = async () => {
                 }
 
                 product.images = productData.images;
-                product.specifications = JSON.stringify(productData.specifications);
+                product.specifications = productData.specifications;
                 product.subcategory_slug = productData.subcategory_slug;
 
                 console.log(`💾 Guardando en la base de datos: ${product.title}`);
