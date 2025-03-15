@@ -549,99 +549,92 @@ export const seedDatabase = async () => {
         }
         
         const productsData = [
-            {
-                brand: "Apple",
-                title: "iPhone 14 Pro",
-                price: 999.99,
-                discount_percentage: 10.00,
-                discount_price: null,
-                images: ["id1_1.jpg", "id2_2.jpg"],
-                specifications: { storage: "128GB", color: "Space Black" },
-                subcategory_slug: "smartphones"
-            },
-            {
-                brand: "Samsung",
-                title: "Galaxy S23 Ultra",
-                price: 1199.99,
-                discount_percentage: 5.00,
-                discount_price: null,
-                images: ["id2_1.jpg", "id2_2.jpg"],
-                specifications: { storage: "256GB", color: "Phantom Black" },
-                subcategory_slug: "smartphones"
-            },
-            {
-                brand: "Sony",
-                title: "PlayStation 5",
-                price: 499.99,
-                discount_percentage: null,
-                discount_price: null,
-                images: ["id3_1.jpg", "id3_2.jpg"],
-                specifications: { edition: "Standard", controller: "DualSense" },
-                subcategory_slug: "playstation"
-            },
-            {
-                brand: "LG",
-                title: "Smart TV OLED 55\"",
-                price: 1499.99,
-                discount_percentage: 15.00,
-                discount_price: null,
-                images: ["id4_1.jpg", "id4_2.jpg", "id4_3.jpg"],
-                specifications: { resolution: "4K", HDR: "Dolby Vision" },
-                subcategory_slug: "televisores"
-            },
-            {
-                brand: "Dell",
-                title: "Laptop XPS 15",
-                price: 1799.99,
-                discount_percentage: null,
-                discount_price: null,
-                images: ["id5_1.jpg", "id5_2.jpg"],
-                specifications: { RAM: "16GB", processor: "Intel i7" },
-                subcategory_slug: "portatiles"
-            }
-        ];
+          {
+              brand: "Apple",
+              title: "iPhone 14 Pro",
+              price: 999.99,
+              discount_percentage: 10.00,
+              images: ["id1_1.jpg", "id1_2.jpg"],
+              specifications: { storage: "128GB", color: "Space Black" },
+              subcategory_slug: "smartphones",
+              sold_by: "Falabella"
+          },
+          {
+              brand: "Samsung",
+              title: "Galaxy S23 Ultra",
+              price: 1199.99,
+              discount_percentage: 5.00,
+              images: ["id2_1.jpg", "id2_2.jpg"],
+              specifications: { storage: "256GB", color: "Phantom Black" },
+              subcategory_slug: "smartphones",
+              sold_by: "Homecenter"
+          },
+          {
+              brand: "Sony",
+              title: "PlayStation 5",
+              price: 499.99,
+              discount_percentage: null,
+              images: ["id3_1.jpg", "id3_2.jpg"],
+              specifications: { edition: "Standard", controller: "DualSense" },
+              subcategory_slug: "playstation",
+              sold_by: "Marketplace"
+          },
+          {
+              brand: "LG",
+              title: "Smart TV OLED 55\"",
+              price: 1499.99,
+              discount_percentage: 15.00,
+              images: ["id4_1.jpg", "id4_2.jpg", "id4_3.jpg"],
+              specifications: { resolution: "4K", HDR: "Dolby Vision" },
+              subcategory_slug: "televisores",
+              sold_by: "Falabella"
+          },
+          {
+              brand: "Dell",
+              title: "Laptop XPS 15",
+              price: 1799.99,
+              discount_percentage: null,
+              images: ["id5_1.jpg", "id5_2.jpg"],
+              specifications: { RAM: "16GB", processor: "Intel i7" },
+              subcategory_slug: "portatiles",
+              sold_by: "Marketplace"
+          }
+      ];
       
-        
-        console.log("🔄 Iniciando inserción de productos...");
-
-        const products: Product[] = [];
-
-        for (const productData of productsData) {
-            try {
-                console.log(`📦 Procesando producto: ${productData.title}`);
-
-                if (!productData.price) {
-                    console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
-                    continue; // Saltamos este producto para evitar errores
-                }
-
-                const product = new Product();
-                product.brand = productData.brand;
-                product.title = productData.title;
-                product.price = productData.price;
-                product.discount_percentage = productData.discount_percentage;
-
-                // Calculamos el precio con descuento si hay un porcentaje definido
-                if (product.discount_percentage) {
-                    product.discount_price = Number((product.price * (1 - product.discount_percentage / 100)).toFixed(2));
-                } else {
-                    product.discount_price = product.price; // Si no hay descuento, queda igual
-                }
-
-                product.images = productData.images;
-                product.specifications = productData.specifications;
-                product.subcategory_slug = productData.subcategory_slug;
-
-                console.log(`💾 Guardando en la base de datos: ${product.title}`);
-                const savedProduct = await AppDataSource.manager.save(product);
-                products.push(savedProduct);
-                console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
-            } catch (error) {
-                console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
-            }
-        }
-
-        console.log("✅ Inserción de productos completada.");
+      console.log("🔄 Iniciando inserción de productos...");
+      
+      const products: Product[] = [];
+      
+      for (const productData of productsData) {
+          try {
+              console.log(`📦 Procesando producto: ${productData.title}`);
+      
+              if (!productData.price) {
+                  console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
+                  continue; // Evita errores si no hay precio
+              }
+      
+              const product = new Product();
+              product.brand = productData.brand;
+              product.title = productData.title;
+              product.price = productData.price;
+              product.discount_percentage = productData.discount_percentage || 0;
+              product.discount_price = product.discount_percentage
+                  ? Number((product.price * (1 - product.discount_percentage / 100)).toFixed(2))
+                  : product.price;
+              product.images = productData.images;
+              product.specifications = productData.specifications;
+              product.subcategory_slug = productData.subcategory_slug;
+              product.sold_by = productData.sold_by || "Marketplace"; // Si no está definido, lo asigna como "Marketplace"
+      
+              console.log(`💾 Guardando en la base de datos: ${product.title}`);
+              const savedProduct = await AppDataSource.manager.save(product);
+              products.push(savedProduct);
+              console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
+          } catch (error) {
+              console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
+          }
+      }
       
 
         console.log("✅ Datos insertados correctamente");

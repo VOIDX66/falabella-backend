@@ -96,15 +96,8 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
 
         // 📌 Filtrado por una o varias marcas
         if (filters.brand) {
-            if (Array.isArray(filters.brand) && filters.brand.length > 0) {
-                query = query.andWhere("product.brand IN (:...brands)", {
-                    brands: filters.brand
-                });
-            } else {
-                query = query.andWhere("product.brand ILIKE :brand", {
-                    brand: `%${filters.brand}%`
-                });
-            }
+            const brands = Array.isArray(filters.brand) ? filters.brand : [filters.brand];
+            query = query.andWhere("product.brand IN (:...brands)", { brands });
         }
 
         // 📌 Filtrado por especificaciones, permitiendo arrays de opciones
@@ -122,6 +115,28 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
                     );
                 }
             });
+        }
+
+        // 📌 Filtrado por "sold_by"
+        if (filters.sold_by) {
+            const soldByFilters = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
+
+            const includesFalabella = soldByFilters.includes("Falabella");
+            const includesHomecenter = soldByFilters.includes("Homecenter");
+            const includesMarketplace = soldByFilters.includes("Marketplace");
+
+            if (includesMarketplace && !includesFalabella && !includesHomecenter) {
+                // Solo "Marketplace": Excluir Falabella y Homecenter
+                query = query.andWhere("product.sold_by NOT IN (:...excludedVendors)", {
+                    excludedVendors: ["Falabella", "Homecenter"]
+                });
+            } else if (!includesMarketplace && (includesFalabella || includesHomecenter)) {
+                // Si NO se selecciona "Marketplace", solo incluir los seleccionados
+                query = query.andWhere("product.sold_by IN (:...vendors)", {
+                    vendors: soldByFilters
+                });
+            }
+            // Si se seleccionan todos, no aplicamos ningún filtro (trae todos).
         }
 
         const products = await query.getMany();

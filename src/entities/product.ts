@@ -29,7 +29,7 @@ export class Product extends BaseEntity {
   @Column("decimal", { precision: 10, scale: 2, nullable: true })
   discount_price: number | null;
 
-  @Column({ type: "jsonb", default: "[]" })  // <-- Aquí guardamos múltiples imágenes
+  @Column({ type: "jsonb", default: "[]" }) // Almacenar múltiples imágenes
   images: string[];
 
   @Column({ type: "jsonb", nullable: true })
@@ -38,6 +38,9 @@ export class Product extends BaseEntity {
   // Almacenar solo el slug de la subcategoría en lugar de la relación
   @Column()
   subcategory_slug: string;
+
+  @Column()
+  sold_by: string; // Campo para "Vendido por"
 
   @CreateDateColumn()
   created_at: Date;
