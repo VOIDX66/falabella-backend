@@ -69,12 +69,12 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section");
 
-        // 📌 Filtrar por sección, categoría o subcategoría según el parámetro recibido
+        // Filtrar por sección, categoría o subcategoría según el parámetro recibido
         if (sectionSlug) query = query.where("sec.slug = :sectionSlug", { sectionSlug });
         if (categorySlug) query = query.where("c.slug = :categorySlug", { categorySlug });
         if (subcategorySlug) query = query.where("sub.slug = :subcategorySlug", { subcategorySlug });
 
-        // 📌 Filtrado por precio (mínimo y máximo) usando el precio con descuento si existe
+        // Filtrado por precio (mínimo y máximo) usando el precio con descuento si existe
         if (filters.price) {
             query = query.andWhere("COALESCE(product.discount_price, product.price) >= :minPrice", { 
                 minPrice: filters.price.min || 0 
@@ -87,20 +87,20 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             }
         }
 
-        // 📌 Filtrado por descuento mínimo
+        // Filtrado por descuento mínimo
         if (filters.discount_percentage?.min) {
             query = query.andWhere("product.discount_percentage >= :minDiscount", {
                 minDiscount: filters.discount_percentage.min
             });
         }
 
-        // 📌 Filtrado por una o varias marcas
+        // Filtrado por una o varias marcas
         if (filters.brand) {
             const brands = Array.isArray(filters.brand) ? filters.brand : [filters.brand];
             query = query.andWhere("product.brand IN (:...brands)", { brands });
         }
 
-        // 📌 Filtrado por especificaciones, permitiendo arrays de opciones
+        // Filtrado por especificaciones, permitiendo arrays de opciones
         if (filters.specifications) {
             Object.entries(filters.specifications).forEach(([key, value], index) => {
                 if (Array.isArray(value) && value.length > 0) {
@@ -117,7 +117,7 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             });
         }
 
-        // 📌 Filtrado por "sold_by"
+        // Filtrado por "sold_by"
         if (filters.sold_by) {
             const soldByFilters = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
 
