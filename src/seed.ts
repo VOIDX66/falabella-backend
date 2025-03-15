@@ -60,11 +60,16 @@ export const seedDatabase = async () => {
           "Electrodomésticos de cocina",
           "Máquinas de coser",
           "Cuidado personal",
-          "Ropa",
-          "Ropa interior y pijamas",
-          "Ropa deportiva",
-          "Accesorios",
-          "Zapatos"
+          "Ropa Mujer",
+          "Ropa Hombre",
+          "Ropa interior y pijamas Mujer",
+          "Ropa interior y pijamas Hhombre",
+          "Ropa deportiva Mujer",
+          "Ropa deportiva Hombre",
+          "Accesorios Mujer",
+          "Accesorios Hombre",
+          "Zapatos Mujer",
+          "Zapatos Hombre"
         ];
         const categories: Category[] = [];
         for (const name of categoriesData) {
@@ -162,41 +167,53 @@ export const seedDatabase = async () => {
             "Barbería",
             "Depiladoras eléctricas",
             "Masajeadores eléctricos",
-            "Blazers",
-            "Blusas",
-            "Camisetas",
-            "Chaquetas y abrigos",
-            "Faldas",
-            "Jeans",
-            "Pantalones",
-            "Sacos y hoodies",
-            "Shorts",
+            "Blazers Mujer",
+            "Blusas Mujer", 
+            "Camisetas Mujer",
+            "Camisetas Hombre",
+            "Chaquetas y abrigos Mujer",
+            "Chaquetas y abrigos Hombre",
+            "Faldas Mujer",
+            "Jeans Mujer",
+            "Jeans Hombre",
+            "Pantalones Mujer",
+            "Pantalones Hombre",
+            "Sacos y hoodies Mujer",
+            "Sacos y hoodies Hombre",
+            "Shorts Mujer",
             "Vestidos y enterizos",
             "Vestidos de Baño",
-            "Brasiers",
-            "Calzones",
-            "Fajas y moldeadores",
-            "Medias",
-            "Packs",
-            "Pantuflas",
-            "Pijamas",
-            "Chaquetas y cortavientos",
-            "Leggins y licras",
-            "Pantalones shorts y faldas",
-            "Sacos y hoddies",
-            "Tops deportivos",
-            "Medias deportivas",
-            "Mundo futbol",
-            "Camisetas polo",
-            "Camisas Casuales",
-            "Shorts y bermudas",
-            "Pantalonetas de baño",
-            "Trajes formales",
-            "Boxers y calzoncillos",
-            "Pantalones deportivos",
-            "Gorras y sombreros",
-            "Cinturones",
-            "Billeteras"
+            "Brasiers Mujer",
+            "Calzones Mujer",
+            "Fajas y moldeadores Mujer",
+            "Medias Mujer",
+            "Medias Hombre",
+            "Packs Mujer",
+            "Packs Hombre",
+            "Pantuflas Mujer",
+            "Pantuflas Hombre",
+            "Pijamas Mujer",
+            "Pijamas Hombre",
+            "Chaquetas y cortavientos Mujer",
+            "Chaquetas y cortavientos Hombre",
+            "Leggins y licras Mujer",
+            "Pantalones shorts y faldas Mujer",
+            "Tops deportivos Mujer",
+            "Medias deportivas Mujer",
+            "Medias deportivas Hombre",
+            "Mundo futbol Mujer",
+            "Mundo futbol Hombre",
+            "Camisetas polo Mujer", 
+            "Camisetas polo Hombre", 
+            "Camisas Casuales Hombre",
+            "Shorts y bermudas Hombre",
+            "Pantalonetas de baño Hombre",
+            "Trajes formales Hombre",
+            "Boxers y calzoncillos Hombre",
+            "Pantalones deportivos Hombre",
+            "Gorras y sombreros Hombre",
+            "Cinturones Hombre",
+            "Billeteras Hombre"
         ];
         const subcategories: Subcategory[] = [];
         for (const name of subcategoriesData) {
@@ -253,24 +270,24 @@ export const seedDatabase = async () => {
                 ]
             },
             {
-                sectionName: "Moda mujer",
-                categoryNames: [
-                    "Ropa",
-                    "Ropa interior y pijamas",
-                    "Ropa deportiva",
-                    "Accesorios",
-                    "Zapatos"
-                ]
+              sectionName: "Moda mujer",
+              categoryNames: [
+                "Ropa Mujer",
+                "Ropa interior y pijamas Mujer",
+                "Ropa deportiva Mujer",
+                "Accesorios Mujer",
+                "Zapatos Mujer"
+              ]
             },
             {
-                sectionName: "Moda hombre",
-                categoryNames: [
-                    "Ropa",
-                    "Ropa interior y pijamas",
-                    "Ropa deportiva",
-                    "Accesorios",
-                    "Zapatos"
-                ]
+              sectionName: "Moda hombre",
+              categoryNames: [
+                "Ropa Hombre",
+                "Ropa interior y pijamas Hombre",
+                "Ropa deportiva Hombre",
+                "Accesorios Hombre",
+                "Zapatos Hombre"
+              ]
             }
         ];
 
@@ -470,64 +487,98 @@ export const seedDatabase = async () => {
               ]
             },
             {
-              categoryName: "Ropa",
+              categoryName: "Ropa Mujer",
               subNames: [
-                "Blazers",
-                "Blusas",
-                "Camisetas",
-                "Chaquetas y abrigos",
-                "Faldas",
-                "Jeans",
-                "Pantalones",
-                "Sacos y hoodies",
-                "Shorts",
+                "Blazers Mujer",
+                "Blusas Mujer",
+                "Camisetas Mujer",
+                "Chaquetas y abrigos Mujer",
+                "Faldas Mujer",
+                "Jeans Mujer",
+                "Pantalones Mujer",
+                "Sacos y hoodies Mujer",
+                "Shorts Mujer",
                 "Vestidos y enterizos",
                 "Vestidos de Baño",
-                "Camisetas polo",
-                "Camisas casuales",
-                "Shorts y bermudas",
-                "Pantalones de baño",
-                "Trajes formales"
+                "Chaquetas y cortavientos Mujer",
+                "Leggins y licras Mujer",
+                "Pantalones shorts y faldas Mujer",
+                "Camisetas polo Mujer"
               ]
             },
             {
-              categoryName: "Ropa interior y pijamas",
+              categoryName: "Ropa Hombre",
               subNames: [
-                "Brasiers",
-                "Calzones",
-                "Fajas y moldeadores",
-                "Medias",
-                "Packs",
-                "Pantuflas",
-                "Pijamas",
-                "Boxers y calzoncillos"
+                "Camisetas Hombre",
+                "Chaquetas y abrigos Hombre",
+                "Jeans Hombre",
+                "Pantalones Hombre",
+                "Sacos y hoodies Hombre",
+                "Chaquetas y cortavientos Hombre",
+                "Camisetas polo Hombre",
+                "Camisas Casuales Hombre",
+                "Shorts y bermudas Hombre",
+                "Pantalonetas de baño Hombre",
+                "Trajes formales Hombre",
+                "Pantalones deportivos Hombre"
               ]
             },
             {
-              categoryName: "Ropa deportiva",
+              categoryName: "Ropa interior y pijamas Mujer",
               subNames: [
-                "Camisetas",
-                "Chaquetas y cortavientos",
-                "Leggins y licras",
-                "Pantalones, shorts y faldas",
-                "Sacos y hoddies",
-                "Tops deportivos",
-                "Medias deportivas",
-                "Mundo futbol",
-                "Pantalones deportivos",
-                "Pantalonetas"
+                "Brasiers Mujer",
+                "Calzones Mujer",
+                "Fajas y moldeadores Mujer",
+                "Medias Mujer",
+                "Packs Mujer",
+                "Pantuflas Mujer",
+                "Pijamas Mujer"
               ]
             },
             {
-              categoryName: "Accesorios",
+              categoryName: "Ropa interior y pijamas Hombre",
               subNames: [
-                "Gorras y sombreros",
-                "Cinturones",
-                "Billeteras"
+                "Medias Hombre",
+                "Packs Hombre",
+                "Pantuflas Hombre",
+                "Pijamas Hombre",
+                "Boxers y calzoncillos Hombre"
               ]
             },
             {
-              categoryName: "Zapatos",
+              categoryName: "Ropa deportiva Mujer",
+              subNames: [
+                "Tops deportivos Mujer",
+                "Medias deportivas Mujer",
+                "Mundo futbol Mujer"
+              ]
+            },
+            {
+              categoryName: "Ropa deportiva Hombre",
+              subNames: [
+                "Medias deportivas Hombre",
+                "Mundo futbol Hombre",
+                "Pantalones deportivos Hombre"
+              ]
+            },
+            {
+              categoryName: "Accesorios Mujer",
+              subNames: []
+            },
+            {
+              categoryName: "Accesorios Hombre",
+              subNames: [
+                "Gorras y sombreros Hombre",
+                "Cinturones Hombre",
+                "Billeteras Hombre"
+              ]
+            },
+            {
+              categoryName: "Zapatos Mujer",
+              subNames: []
+            },
+            {
+              categoryName: "Zapatos Hombre",
               subNames: []
             }
         ];
