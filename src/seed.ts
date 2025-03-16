@@ -840,6 +840,237 @@ export const seedDatabase = async () => {
             sold_by: "Falabella",
             description: null,
             stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "INDURAMA",
+            title: 'Congelador Indurama CI-199 de 200 litros',
+            price: 1250000,
+            discount_percentage: null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["4_1.avif", "4_2.avif", "4_3.avif", "4_4.avif", "4_5.avif"],
+            specifications: {
+                              "Incluye": "congelador",
+                              "Modelo": "CI-199",
+                              "Alto": 85,
+                              "Ancho": 91,
+                              "Color": "Blanco",
+                              "Garantía": "1 año",
+                              "Capacidad total útil": 199,
+                              "Clase de clima": "T (Tropical) 18ºC-43ºC",
+                              "Condición del producto": "Nuevo",
+                              "Uso": "Industrial",
+                              "Características": "Ajuste de temperatura",
+                              "Material de electrodomésticos": "Acero",
+                              "Cuenta con ruedas": "Sí",
+                              "Consumo energético": "36 kWh al mes",
+                              "Potencia": "400w",
+                              "Eficiencia energética": "A++",
+                              "Material de las bandejas": "Policarbonato",
+                              "Voltaje": 220,
+                              "No frost": "Sí",
+                              "Tipo de freezer": "Horizontal"
+                            },
+            subcategory_slug: "congeladores",
+            sold_by: "Innovar",
+            description: `
+            Resumen de Producto - Congelador CI-199
+            El Congelador CI-199 es una solución versátil y eficiente para la conservación de alimentos, ofreciendo un sistema Frost con refrigerante R600, ideal para mantener una temperatura óptima. Su capacidad de producción de hielo es de 13,6 kg en 24 horas, asegurando un frío máximo para un rendimiento superior.
+            Características Destacadas:
+            Diseño y Exterior:
+
+            Disponible en blanco
+            Control de temperatura digital para mayor precisión
+            Puerta con llave para mayor seguridad
+            Ruedas de alta resistencia para facilitar su movilidad
+            Interior y Funcionalidad:
+
+            Sistema doble acción: funciona como congelador y enfriador
+            Iluminación LED para mejor visibilidad
+            Incluye una canasta metálica para una mejor organización
+            Dimensiones:
+
+            Alto: 85 cm
+            Ancho: 91 cm
+            Profundidad: 55 cm
+            Este modelo es ideal para quienes buscan un congelador práctico, seguro y de alto rendimiento.
+            `,
+            stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "ELECTROLUX",
+            title: 'Congelador Horizontal Electrolux 251L con Función Turbo EFCC25C3HUW',
+            price: 2209900,
+            discount_percentage: 40,
+            special_discount_percentage: 50,
+            rating: 4.7, // Se inicializará en 0
+            images: ["5_1.avif", "5_2.avif", "5_3.avif", "5_4.avif", "5_5.avif"],
+            specifications: {
+                              "Requiere Serial Number": "No",
+                              "Alto": "84.5 cm",
+                              "Modelo": "EFCC25C3HUW",
+                              "Ancho": "95.4 cm",
+                              "Color": "Blanco",
+                              "Garantía": "1 año",
+                              "Capacidad total útil": 251,
+                              "Detalle de la garantía": "12 meses",
+                              "Condición del producto": "Nuevo",
+                              "Clase de clima": "SN (SubNormal) 10ºC-32ºC",
+                              "Características": ["Ajuste de temperatura", "Iluminación", "Bandeja desmontable"],
+                              "Uso": "Industrial",
+                              "Cuenta con ruedas": "Sí",
+                              "Consumo energético": "45 kWh/mes",
+                              "Eficiencia energética": "No aplica",
+                              "Profundidad": "61.6 cm",
+                              "Voltaje": "115 V",
+                              "No frost": "No",
+                              "Temperatura máxima de congelamiento": "-21 °C",
+                              "Tipo de freezer": "Horizontal"
+                            },
+            subcategory_slug: "congeladores",
+            sold_by: "Electrolux",
+            description: `
+            El congelador horizontal EFCC25C3HUW tiene una capacidad de 251L netos, es de una sola puerta y funciona con control de temperatura mecánico. Brinda el máximo poder de congelamiento, ya que está clasificado con 4 estrellas, alcanzando una temperatura de -18 °C, lo que garantiza que los alimentos se conserven por más tiempo. Además, si necesitas hacer un congelamiento rápido, puedes utilizar la Función Turbo para llegar a -21 °C.
+
+            Aunque su uso principal será congelar, debes saber que este modelo también te permite refrigerar, gracias a su función dual.
+
+            Para organizar los alimentos, dispone de 1 canastilla, donde se pueden guardar pequeños artículos o los que sean de uso más frecuente, pues permite un fácil acceso.
+
+            En cuanto al mecanismo de descongelación, este es manual y tiene un drenaje para eliminar el agua. Utiliza gas refrigerante R600, lo que evita la emisión de gases que afectan la capa de ozono, haciéndolo más ecológico.
+
+            También, cuenta con luz LED que se activa al abrir el congelador, lo que te permitirá ver y acomodar mejor los alimentos y unas luces indicadoras de función. La luz verde indica que el compresor está funcionando correctamente y la luz naranja señala que la opción turbo está encendida.
+
+            Como características adicionales, tiene 4 ruedas, lo que facilita su desplazamiento sin mucho esfuerzo. Su funcionamiento produce un nivel bajo de ruido y, para mayor seguridad, tiene llave, la cual se expulsa al cerrar la puerta.
+            `,
+            stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "XIAOMI",
+            title: 'Xiaomi Redmi Note 14 Pro 256/8GB Azul',
+            price: 2199900,
+            discount_percentage: 50,
+            special_discount_percentage: 52,
+            rating: null, // Se inicializará en 0
+            images: ["6_1.avif", "6_2.avif", "6_3.avif", "6_4.avif"],
+            specifications: {
+                              "brand": "XIAOMI",
+                              "Capacidad de almacenamiento": "256 GB",
+                              "Cámara posterior": "200 MP",
+                              "Condición del producto": "Nuevo",
+                              "Conectividad": "4G LTE"
+                            },
+            subcategory_slug: "smartphones",
+            sold_by: "Lisertec",
+            description: null,
+            stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "SAMSUNG",
+            title: 'Celular Samsung Galaxy S24 FE 512GB + 8GB - Negro',
+            price: 3499900,
+            discount_percentage: 20,
+            special_discount_percentage: 26,
+            rating: null, // Se inicializará en 0
+            images: ["7_1.avif", "7_2.avif", "7_3.avif", "7_4.avif"],
+            specifications: {
+                              "Requiere IMEI": "Sí",
+                              "brand": "SAMSUNG",
+                              "Requiere Serial Number": "Sí",
+                              "Capacidad de almacenamiento": "128 GB",
+                              "Tamaño de la pantalla": 6,
+                              "Capacidad de la batería (en mAh)": 4700,
+                              "Cámara posterior": "50 MP",
+                              "Procesador": "Samsung Exynos",
+                              "Cámara frontal": "10 MP",
+                              "Modelo": "S24FE",
+                              "País de origen": "Vietnam",
+                              "Color": "Gris",
+                              "Detalle de la garantía": "12 meses, directamente con la marca (Samsung).",
+                              "Condición del producto": "Nuevo",
+                              "Año de lanzamiento": 2024,
+                              "Conectividad": "4G",
+                              "Memoria expandible": "512GB",
+                              "Memoria RAM": "8GB",
+                              "Núcleos del procesador": "Deca core",
+                              "Sistema operativo específico": "Android 14",
+                              "Proveedor de servicio/compañía": "Desbloqueado",
+                              "Sistema operativo": "Android",
+                              "Resistente al agua": "No"
+                            },
+            subcategory_slug: "smartphones",
+            sold_by: "Comunicaciones",
+            description: `
+            Conoce el celular Samsung Galaxy S24 FE con Galaxy AI, donde cada foto genera una creatividad sin límites. Sumérgete en la experiencia completa de Galaxy AI y descubre innumerables formas de explorar tu imaginación. Captura fotos, haz círculos, tócalas... descubre por qué vale la pena. Con una pantalla con bisel más delgado. La forma redondeada garantiza un agarre cómodo, mientras que el diseño limpio y plano mejora el placer de la visualización. Con triple cámara de 50MP + 12MP + 8MP y  cámara frontal de 10MP y pantalla larga de 6.7 pulgadas FHD+. Disfruta de un tiempo de juego extendido, alimentado por una batería típica más grande de 4700 mAh. Perfectamente optimizado para la transmisión de video, es tu compañero ideal para un entretenimiento ininterrumpido. Un procesador Samsung Exynos 2400e Deca – Core, con una memoria interna de 512GB y RAM de 8GB. Equipo no incluye cargador solo cable de datos, las garantías son directamente con el fabricante (Samsung).
+            `,
+            stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "CAELI",
+            title: 'chaqueta abrigo ovegera MUJER lluvia frio semi impermeable marca CAELI',
+            price: 94900,
+            discount_percentage: null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["8_1.avif"],
+            specifications: {
+                              "Incluye": "chaqueta",
+                              "Modelo": "PRINCESA",
+                              "País de origen": "Colombia",
+                              "Largo de mangas": "Manga larga",
+                              "Material de vestuario": "Poliéster",
+                              "Composición": "tela nailon",
+                              "Género": "Mujer",
+                              "Tipo de cierre": "Cierre plástico",
+                              "Detalle de la garantía": "30 dias por costuras",
+                              "Condición del producto": "Nuevo",
+                              "Material del forro": "Textil",
+                              "Tipo": "Chaquetas",
+                              "Tipo de cuello": "Alto"
+                            },
+            subcategory_slug: "chaquetas_y_abrigos_mujer",
+            sold_by: "Caeli",
+            description: `
+            chaqueta para dama acolchada REF princesa marca CAELI
+            dos bolsillos laterales con cremallera
+            caucho en el puño 
+            2 bolsillo en el forro. 
+            Cordón en la capota.
+            forrada en ovegero espalda delanteros y capotas mangas en ceda.
+            tallas S,M,L,XL,XXL. 
+            colores negro , azul oscuro , verde militar, vinotinto, beige, verde manzana, mostaza.
+            producto nacional.
+            capota desmontable con sistema de cremallera.
+            ANTES DE HACER TU COMPRA CONSULTA LA TABLA DE TALLAS
+            `,
+            stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "BASEMENT",
+            title: 'Saco de vestir para Hombre Basement',
+            price: 329990,
+            discount_percentage: null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["9_1.avif", "9_2.avif", "9_3.avif", "9_4.avif", "9_5.avif"],
+            specifications: {
+                              "Mas verde": "No",
+                              "Marca": "Basement",
+                              "Estilo": "Vestir",
+                              "Temporada": "Toda temporada",
+                              "NIT": "900017447-8",
+                              "Registro SIC": "900017447",
+                              "Cantidad de bolsillos": 2,
+                              "Modelo": "VSSL BASIC ST",
+                              "Cantidad de bolsillos interiores": 1,
+                              "País de origen": "China",
+                              "Género": "Hombre",
+                              "Fit": "Recto",
+                              "Composición": "89% Poliéster 9% Viscosa 2% Elastano"
+                            },
+            subcategory_slug: "trajes_formales_hombre",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
           }
         ];
         
