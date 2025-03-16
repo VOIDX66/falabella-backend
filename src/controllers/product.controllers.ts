@@ -139,37 +139,69 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
         }
             
         // Filtrado por "sold_by"
+        // Filtrado por "sold_by"
         if (filters.sold_by) {
-            const soldByFilters = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
+            const soldByFilters: string[] = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
         
             const includesFalabella = soldByFilters.includes("Falabella");
             const includesHomecenter = soldByFilters.includes("Homecenter");
             const includesMarketplace = soldByFilters.includes("Marketplace");
         
-            if (includesMarketplace && !includesFalabella && !includesHomecenter) {
-                // Solo "Marketplace": Excluir Falabella y Homecenter
-                query = query.andWhere(`(product.sold_by NOT IN (:...excludedVendors))`, {
-                    excludedVendors: ["Falabella", "Homecenter"]
+            console.log("Filtros seleccionados:", soldByFilters);
+            console.log("Incluye Falabella:", includesFalabella);
+            console.log("Incluye Homecenter:", includesHomecenter);
+            console.log("Incluye Marketplace:", includesMarketplace);
+        
+            // Falabella + Homecenter + Marketplace: Incluir todos
+            if (includesFalabella && includesHomecenter && includesMarketplace) {
+                console.log("Caso: Falabella + Homecenter + Marketplace");
+                query = query.andWhere(`product.sold_by IN (:...vendors)`, {
+                    vendors: ["Falabella", "Homecenter", "Marketplace"]
                 });
-            } else if (!includesMarketplace && (includesFalabella || includesHomecenter)) {
-                // Si NO se selecciona "Marketplace", solo incluir los seleccionados
-                query = query.andWhere(`(product.sold_by IN (:...vendors))`, {
-                    vendors: soldByFilters
+            }
+            // Falabella + Homecenter: Incluir ambos
+            else if (includesFalabella && includesHomecenter) {
+                console.log("Caso: Falabella + Homecenter");
+                query = query.andWhere(`product.sold_by IN (:...vendors)`, {
+                    vendors: ["Falabella", "Homecenter"]
                 });
-            } else if (includesMarketplace && includesFalabella && !includesHomecenter) {
-                // Marketplace + Falabella: Incluir ambos, pero excluir Homecenter
+            }
+            // Falabella + Marketplace: Incluir Falabella y Marketplace
+            else if (includesFalabella && includesMarketplace && !includesHomecenter) {
+                console.log("Caso: Falabella + Marketplace");
                 query = query.andWhere(
-                    `(product.sold_by = 'Marketplace' OR product.sold_by IN (:...vendors))`,
-                    { vendors: ["Falabella"] }
-                );
-            } else if (includesMarketplace && includesHomecenter && !includesFalabella) {
-                // Marketplace + Homecenter: Incluir ambos, pero excluir Falabella
-                query = query.andWhere(
-                    `(product.sold_by = 'Marketplace' OR product.sold_by IN (:...vendors))`,
-                    { vendors: ["Homecenter"] }
+                    `(product.sold_by = 'Falabella' OR product.sold_by NOT IN ('Falabella', 'Homecenter'))`
                 );
             }
+            // Homecenter + Marketplace: Incluir Homecenter y Marketplace
+            else if (includesHomecenter && includesMarketplace && !includesFalabella) {
+                console.log("Caso: Homecenter + Marketplace");
+                query = query.andWhere(
+                    `(product.sold_by = 'Homecenter' OR product.sold_by NOT IN ('Falabella', 'Homecenter'))`
+                );
+            }
+            // Solo Falabella
+            else if (includesFalabella) {
+                console.log("Caso: Solo Falabella");
+                query = query.andWhere(`product.sold_by = 'Falabella'`);
+            }
+            // Solo Homecenter
+            else if (includesHomecenter) {
+                console.log("Caso: Solo Homecenter");
+                query = query.andWhere(`product.sold_by = 'Homecenter'`);
+            }
+            // Solo Marketplace: Buscar cualquier tienda que no sea Falabella ni Homecenter
+            else if (includesMarketplace) {
+                console.log("Caso: Solo Marketplace");
+                query = query.andWhere(
+                    `product.sold_by NOT IN ('Falabella', 'Homecenter')`
+                );
+            }
+        
+            console.log("Consulta generada:", query.getQuery());
         }
+        
+
 
         // Filtrado por "rating"
         if (filters.rating) {

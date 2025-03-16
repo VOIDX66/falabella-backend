@@ -708,119 +708,139 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
-          /*
           {
             brand: "ASUS",
             title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
             price: 3899900,
             discount_percentage: 40,
             special_discount_percentage: 46,
-            rating: null, // Se inicializará en 0
-            images: ["1_1.avif", "1_2.avif"],
+            rating: 5, // Se inicializará en 0
+            images: ["2_1.avif", "2_2.avif", "2_3.avif", "2_4.avif", "2_5.avif", "2_6.avif", "2_7.avif"],
             specifications: {
-                              "Disco duro HDD" : "No aplica",
-                              "RAM expansible" : "Si",
-                              "Idioma del teclado" : "Español",
-                              "Requiere Serial Number": "No",
-                              "Requiere IMEI": "No",
-                              "Tamaño de la pantalla" : 15.6,
-                              "Capacidad de almacenamiento" : "2TB",
-                              "Caracteristicas de la pantalla" : "FHD",
-                              "Cantidad de puertos HDMI" : 1,
-                              "Garantia" : "1 año",
-                              "Resolución de pantalla" : "1920x1080",
-                              "Cantidad de puertos USB" : 3,
-                              "Detalle de la garantia" : `
-                              La garantía cubre únicamente defectos de fábrica presentes en el producto. Es indispensable conservar la caja original y todos los accesorios incluidos para cualquier gestión relacionada. Los inconvenientes relacionados con el sistema operativo, configuraciones o software no están cubiertos por esta garantía. Asimismo, no aplica en casos de uso indebido, negligencia, golpes, caídas u otros daños físicos ocasionados al producto.
-                              `,
-                              "Condición del producto" : "Nuevo",
-                              "Pantalla touch" : "No",
-                              "Memoria RAM" : "24GB",
-                              "Núcleos del procesador" : "Octa core",
-                              "Velocidad de imagen" : "120Hz",
-                              "Procesador" : "Intel Corei5",
-                              "Sistema operativo" : "Windows11",
-                              "Tipo de computador" : "Notebook",
-                              "Marca tarjeta gráfica" : "Integrada"
+                              "Disco duro HDD": "No aplica",
+                              "RAM expandible": "Sí",
+                              "Idioma del teclado": "Español",
+                              "Entradas HDMI": 1,
+                              "Entradas USB": 3,
+                              "Peso del producto": "1.88 kg",
+                              "Marca": "ASUS",
+                              "Nombre comercial": "ASUS Vivobook 16 X1605ZA",
+                              "Tamaño de la pantalla": 16,
+                              "Incluye": "No",
+                              "Capacidad de almacenamiento": "1 TB",
+                              "Modelo": "X1605ZA-MB639W",
+                              "País de origen": "China",
+                              "Garantía": "1 año",
+                              "Resolución de pantalla": "WUXGA",
+                              "Conectividad/conexión": "Wifi 6",
+                              "Cuenta con bluetooth": "Sí",
+                              "Condición del producto": "Nuevo",
+                              "Pantalla touch": "No",
+                              "Memoria RAM": "16GB",
+                              "Alto": "35.87 cm",
+                              "Ancho": "24.95 cm",
+                              "Núcleos del procesador": "12 core",
+                              "Duración de la batería (hrs)": "Hasta 7 horas de batería",
+                              "Velocidad de procesamiento (GHz)": "2.5 GHz",
+                              "Procesador": "Intel Core i5",
+                              "Profundidad": "1.99 cm",
+                              "Sistema operativo": "Windows 11",
+                              "Tasa de refresco nativa": "60Hz",
+                              "Tipo de computador": "Notebook",
+                              "Velocidad máxima": "4.5 GHz",
+                              "Procesador específico txt": "Intel Core i5",
+                              "Marca tarjeta gráfica": "Integrada"
                             },
             subcategory_slug: "portatiles",
             sold_by: "Falabella",
             description: `
-            Dell Inspiron 3520 Core I5-1235U 24GB 2TB
-
-            Tareas diarias realizadas
-            Disfrute de un rendimiento ágil y silencioso, con procesadores Intel Core de 12. generación combinados con opciones de PCIe SSD.
-
-            Disfrute de teclas de mayor tamaño y de un amplio panel táctil para desplazarse con facilidad por el contenido, además del software ComfortView, que es una solución con certificación TuV Rheinland y reduce las nocivas emisiones de luz azul para que no se le canse vista cuando tenga que estar mucho tiempo delante de la pantalla. Además, sus elegantes bordes finos en tres lados admiten una pantalla FHD opcional.
-
-            Un diseño moderno
-            Disfrute de un diseño clásico Una cámara web de alta definición integrada le permite conectarse con total confianza y con la seguridad de que su aspecto va a ser excelente. Su PC está desarrollado para aguantar un uso regular, con unas diminutas patas de goma y topes en la bisagra que evitan que se deslice y proporcionan una estabilidad adicional sobre superficies duras.
-
-            CONDICIONES
-            Producto Nuevo
-            Modelo Inspiron 3520
-            N/P P112F-C3VHY
-            Marca DELL
-
-            PROCESADOR
-            Intel Core i5-1235U
-            10 núcleos / 12 subprocesos
-            3.30 GHz/4.40 GHz
-
-            MEMORIA TOTAL 64GB
-            24GB, DDR4, 2666 MHz
-
-            ALMACENAMIENTO
-            2TB CL35 M.2 SSD
-
-            TARJETA DE VÍDEO:
-            Intel UHD Graphics
-
-            PANTALLA
-            15.6, FHD
-            1920 x 1080, 120Hz, WVA, Non-Touch, Anti-Glare, 250 nit, Narrow Border, LED-Backlit
-
-            TECLADO
-            no retroiluminado, español (castellano)
-
-            Audio y altavoces
-            Dos altavoces estéreo de 2 W, 4 W en total
-
-            Cámara
-            cámara HD de 720p a 30 fps con un micrófono integrado.
-
-            Conexión inalámbrica
-            Tarjeta inalámbrica Intel Wi-Fi 6 AX201, 2x2, 802.11ax, Bluetooth
-
-            SISTEMA OPERATIVO:
-            WINDOWS 11 HOME (LICENCIA ORIGINAL)
-
-            PUERTOS:
-            1 HDMI 1.4 port
-            2 USB 3.2 Gen 1 ports;
-            1 USB 2.0 port
-            1 conector de alimentación
-            1 puerto para auriculares (combinado para micrófono y auriculares)
-            1 ranura para tarjeta SD 3.0
-            1 ranura M.2 2230/2280 para unidad de estado solido
-
-            DIMENSIONES
-            Ancho 358.50mm
-            Profundidad 235.56mm
-            Altura 16.96mm - 21.07mm
-            Peso 1.65kg
-
-            Normativas
-            ENERGY STAR
-
-            BATERIA PRINCIPAL:
-            3 celdas, 41 Wh, integrada
-            Alimentación
-            Adaptador de CA de 65 vatios
+            Ficha técnica:
+            Procesador: Intel Core I5
+            Memoria RAM: 16GB
+            Unidad de estado sólido SSD: 1TB
+            Resolución de la pantalla: WUXGA (1920 x 1200)
+            Tamaño de la pantalla: 16 pulgadas
+            Disco duro HDD: No aplica
+            Núcleos del procesador: 12 Core
+            Memoria total (RAM + Intel Optane): 16GB
+            Velocidad de procesamiento (GHz): 2.5 GHz
+            Velocidad máxima del procesador: 4.5 GHz
+            Modelo del procesador: Intel® Corei5-12500H
+            Generación del procesador: 12°
+            RAM expandible: Sí
+            Características de la pantalla: WUXGA
+            Pantalla touch: No
+            Tipo de teclado: Chiclet Keyboard with Num-key
+            Idioma del teclado: Español
+            Sistema de audio: SonicMaster
+            Duración aproximada de la batería: Hasta 7 horas de batería
+            Entradas HDMI: 1
+            Entradas USB: 3
+            Unidad óptica: No
+            Cámara Web: Sí
+            Conexión Bluetooth: Sí
+            Conectividad: Wifi 6
+            Alto: 35.87 cm
+            Ancho: 24.95 cm
+            Profundidad: 1.99 cm
+            Peso del producto: 1.88 kg
+            Incluye accesorios: No
+            Sistema operativo: Windows 11
+            Marca: ASUS
+            Modelo: X1605ZA-MB639W
+            Tipo: Portátiles
+            Hecho en: China
+            Garantía del proveedor: 1 año
+            Tasa de refresco: 60Hz
+            Nombre comercial: ASUS Vivobook 16 X1605ZA
+            Condición del producto: Nuevo
+            Capacidad de almacenamiento: 1TB
+            Procesador específico: Intel Core i5
+            Tarjeta gráfica: Integrada
+            Marca procesador: Intel Core I5
+            Garantía del proveedor
+            1 año.
+            Información adicional
+            FingerPrint Military Grade.
+            INFORMACIÓN SOBRE LA BATERÍA:
+            Todas las afirmaciones sobre la duración de la batería son aproximadas. La duración de la batería puede variar dependiendo de varios motivos, entre ellos la configuración y el uso del producto, el software, las condiciones de funcionamiento, la funcionalidad inalámbrica y la administración de energía.
             `,
             stock: 10, // Unidades disponibles
+          },
+          {
+            brand: "SOUNDCORE",
+            title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
+            price: 462900,
+            discount_percentage: 35,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["3_1.avif", "3_2.avif", "3_3.avif", "3_4.avif", "3_5.avif", "3_6.avif"],
+            specifications: {
+                              "Peso del producto": "0.617kg",
+                              "Audio HQ": "IA",
+                              "Aislador de sonido": "Sí",
+                              "Incluye micrófono": "Sí",
+                              "Cantidad de entradas auxiliares de 3.5 mm": 0,
+                              "Modelo": "A3872Z11",
+                              "Compatible con": "Universal",
+                              "Frecuencia de operación": "No aplica",
+                              "País de origen": "China",
+                              "Garantía": "18 meses",
+                              "Cuenta con bluetooth": "Sí",
+                              "Condición del producto": "Nuevo",
+                              "Impedancia": 11,
+                              "Material": "Sintético",
+                              "Potencia": "20Hz-20kHz",
+                              "Tipo de auricular": "On-Ear",
+                              "Resistente al agua": "IPX5 (Protegido contra el agua en chorros a presión)",
+                              "Alto": "No aplica",
+                              "Ancho": "No aplica"
+                            },
+            subcategory_slug: "audifonos_in_ear",
+            sold_by: "Falabella",
+            description: null,
+            stock: 10, // Unidades disponibles
           }
-          */
         ];
         
         console.log("🔄 Iniciando inserción de productos...");
