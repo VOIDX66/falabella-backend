@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../db";
 import { Product } from "../entities/product";
 
+
 export const getProductsBySection = async (req: Request, res: Response): Promise<any> => {
     try {
         const { sectionSlug } = req.params;
@@ -103,23 +104,40 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             query = query.andWhere("product.brand IN (:...brands)", { brands });
         }
 
-        // Filtrado por especificaciones dinámicas (JSONB)
+        // Filtrado de especificaciones dinamico
         if (filters.specifications) {
             Object.entries(filters.specifications).forEach(([key, value], index) => {
-                if (Array.isArray(value) && value.length > 0) {
-                    query = query.andWhere(
-                        `product.specifications ->> :key${index} IN (:...values${index})`,
-                        { [`key${index}`]: key, [`values${index}`]: value }
-                    );
-                } else {
-                    query = query.andWhere(
-                        `product.specifications ->> :key${index} = :value${index}`,
-                        { [`key${index}`]: key, [`value${index}`]: value }
-                    );
+                // Asegurar que `value` sea un string o array de strings
+                if (typeof value !== "string" && !Array.isArray(value)) {
+                    throw new Error("Valor de especificación no válido");
                 }
+        
+                // Normalizar clave y valor (manejar arrays si es necesario)
+                const normalizedKey = key.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const normalizedValues = Array.isArray(value) 
+                    ? value.map(v => v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) 
+                    : [value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")];
+        
+                // Construir condiciones para cada valor
+                const conditions = normalizedValues.map((val, valIndex) => 
+                    `EXISTS (
+                        SELECT 1
+                        FROM jsonb_each_text(product.specifications) AS spec
+                        WHERE LOWER(TRANSLATE(spec.key, 'áéíóú', 'aeiou')) ILIKE :key${index}
+                        AND LOWER(TRANSLATE(spec.value, 'áéíóú', 'aeiou')) ILIKE :value${index}_${valIndex}
+                    )`
+                ).join(" OR ");
+        
+                query = query.andWhere(`(${conditions})`, {
+                    [`key${index}`]: `%${normalizedKey}%`,
+                    ...normalizedValues.reduce((acc, val, valIndex) => ({
+                        ...acc,
+                        [`value${index}_${valIndex}`]: `%${val}%`
+                    }), {})
+                });
             });
         }
-
+            
         // Filtrado por "sold_by"
         if (filters.sold_by) {
             const soldByFilters = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];

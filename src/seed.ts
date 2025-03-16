@@ -601,77 +601,241 @@ export const seedDatabase = async () => {
         //
         const productsData = [
           {
-              brand: "Apple",
-              title: "iPhone 14 Pro",
-              price: 999.99,
-              discount_percentage: 10.00,
-              special_discount_percentage: 5.00,
-              rating: 4.5, // Valor opcional, si no está, se asigna 0
-              images: ["id1_1.jpg", "id1_2.jpg"],
-              specifications: { storage: "128GB", color: "Space Black" },
-              subcategory_slug: "smartphones",
-              sold_by: "Falabella"
+            brand: "DELL",
+            title: 'PORTATIL DELL INSPIRON 3520 15.6" FHD INTEL CORE I5 1235U RAM 24GB DDR4 SSD 2TB + COMBO INALAMBRICO',
+            price: 5200000,
+            discount_percentage: 53,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["1_1.avif", "1_2.avif"],
+            specifications: {
+                              "Requiere Serial Number": "No",
+                              "Requiere IMEI": "No",
+                              "Tamaño de la pantalla" : 15.6,
+                              "Capacidad de almacenamiento" : "2TB",
+                              "Caracteristicas de la pantalla" : "FHD",
+                              "Cantidad de puertos HDMI" : 1,
+                              "Garantia" : "1 año",
+                              "Resolución de pantalla" : "1920x1080",
+                              "Cantidad de puertos USB" : 3,
+                              "Detalle de la garantia" : `
+                              La garantía cubre únicamente defectos de fábrica presentes en el producto. Es indispensable conservar la caja original y todos los accesorios incluidos para cualquier gestión relacionada. Los inconvenientes relacionados con el sistema operativo, configuraciones o software no están cubiertos por esta garantía. Asimismo, no aplica en casos de uso indebido, negligencia, golpes, caídas u otros daños físicos ocasionados al producto.
+                              `,
+                              "Condición del producto" : "Nuevo",
+                              "Pantalla touch" : "No",
+                              "Memoria RAM" : "24GB",
+                              "Núcleos del procesador" : "Octa core",
+                              "Velocidad de imagen" : "120Hz",
+                              "Procesador" : "Intel Corei5",
+                              "Sistema operativo" : "Windows11",
+                              "Tipo de computador" : "Notebook",
+                              "Marca tarjeta gráfica" : "Integrada"
+                            },
+            subcategory_slug: "portatiles",
+            sold_by: "Technology S.A.S",
+            description: `
+            Dell Inspiron 3520 Core I5-1235U 24GB 2TB
+
+            Tareas diarias realizadas
+            Disfrute de un rendimiento ágil y silencioso, con procesadores Intel Core de 12. generación combinados con opciones de PCIe SSD.
+
+            Disfrute de teclas de mayor tamaño y de un amplio panel táctil para desplazarse con facilidad por el contenido, además del software ComfortView, que es una solución con certificación TuV Rheinland y reduce las nocivas emisiones de luz azul para que no se le canse vista cuando tenga que estar mucho tiempo delante de la pantalla. Además, sus elegantes bordes finos en tres lados admiten una pantalla FHD opcional.
+
+            Un diseño moderno
+            Disfrute de un diseño clásico Una cámara web de alta definición integrada le permite conectarse con total confianza y con la seguridad de que su aspecto va a ser excelente. Su PC está desarrollado para aguantar un uso regular, con unas diminutas patas de goma y topes en la bisagra que evitan que se deslice y proporcionan una estabilidad adicional sobre superficies duras.
+
+            CONDICIONES
+            Producto Nuevo
+            Modelo Inspiron 3520
+            N/P P112F-C3VHY
+            Marca DELL
+
+            PROCESADOR
+            Intel Core i5-1235U
+            10 núcleos / 12 subprocesos
+            3.30 GHz/4.40 GHz
+
+            MEMORIA TOTAL 64GB
+            24GB, DDR4, 2666 MHz
+
+            ALMACENAMIENTO
+            2TB CL35 M.2 SSD
+
+            TARJETA DE VÍDEO:
+            Intel UHD Graphics
+
+            PANTALLA
+            15.6, FHD
+            1920 x 1080, 120Hz, WVA, Non-Touch, Anti-Glare, 250 nit, Narrow Border, LED-Backlit
+
+            TECLADO
+            no retroiluminado, español (castellano)
+
+            Audio y altavoces
+            Dos altavoces estéreo de 2 W, 4 W en total
+
+            Cámara
+            cámara HD de 720p a 30 fps con un micrófono integrado.
+
+            Conexión inalámbrica
+            Tarjeta inalámbrica Intel Wi-Fi 6 AX201, 2x2, 802.11ax, Bluetooth
+
+            SISTEMA OPERATIVO:
+            WINDOWS 11 HOME (LICENCIA ORIGINAL)
+
+            PUERTOS:
+            1 HDMI 1.4 port
+            2 USB 3.2 Gen 1 ports;
+            1 USB 2.0 port
+            1 conector de alimentación
+            1 puerto para auriculares (combinado para micrófono y auriculares)
+            1 ranura para tarjeta SD 3.0
+            1 ranura M.2 2230/2280 para unidad de estado solido
+
+            DIMENSIONES
+            Ancho 358.50mm
+            Profundidad 235.56mm
+            Altura 16.96mm - 21.07mm
+            Peso 1.65kg
+
+            Normativas
+            ENERGY STAR
+
+            BATERIA PRINCIPAL:
+            3 celdas, 41 Wh, integrada
+            Alimentación
+            Adaptador de CA de 65 vatios
+            `,
+            stock: 10, // Unidades disponibles
           },
+          /*
           {
-              brand: "Samsung",
-              title: "Galaxy S23 Ultra",
-              price: 1199.99,
-              discount_percentage: 5.00,
-              special_discount_percentage: null,
-              rating: 4.7,
-              images: ["id2_1.jpg", "id2_2.jpg"],
-              specifications: { storage: "256GB", color: "Phantom Black" },
-              subcategory_slug: "smartphones",
-              sold_by: "Homecenter"
-          },
-          {
-              brand: "Sony",
-              title: "PlayStation 5",
-              price: 499.99,
-              discount_percentage: null,
-              special_discount_percentage: 10.00,
-              rating: null, // Se inicializará en 0
-              images: ["id3_1.jpg", "id3_2.jpg"],
-              specifications: { edition: "Standard", controller: "DualSense" },
-              subcategory_slug: "playstation",
-              sold_by: "Marketplace"
-          },
-          {
-              brand: "LG",
-              title: "Smart TV OLED 55\"",
-              price: 1499.99,
-              discount_percentage: 15.00,
-              special_discount_percentage: null,
-              images: ["id4_1.jpg", "id4_2.jpg", "id4_3.jpg"],
-              subcategory_slug: "televisores",
-              sold_by: "Falabella"
-          },
-          {
-              brand: "Dell",
-              title: "Laptop XPS 15",
-              price: 1799.99,
-              discount_percentage: null,
-              special_discount_percentage: null,
-              images: ["id5_1.jpg", "id5_2.jpg"],
-              specifications: { RAM: "16GB", processor: "Intel i7" },
-              subcategory_slug: "portatiles",
-              sold_by: "Marketplace"
+            brand: "ASUS",
+            title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
+            price: 3899900,
+            discount_percentage: 40,
+            special_discount_percentage: 46,
+            rating: null, // Se inicializará en 0
+            images: ["1_1.avif", "1_2.avif"],
+            specifications: {
+                              "Disco duro HDD" : "No aplica",
+                              "RAM expansible" : "Si",
+                              "Idioma del teclado" : "Español",
+                              "Requiere Serial Number": "No",
+                              "Requiere IMEI": "No",
+                              "Tamaño de la pantalla" : 15.6,
+                              "Capacidad de almacenamiento" : "2TB",
+                              "Caracteristicas de la pantalla" : "FHD",
+                              "Cantidad de puertos HDMI" : 1,
+                              "Garantia" : "1 año",
+                              "Resolución de pantalla" : "1920x1080",
+                              "Cantidad de puertos USB" : 3,
+                              "Detalle de la garantia" : `
+                              La garantía cubre únicamente defectos de fábrica presentes en el producto. Es indispensable conservar la caja original y todos los accesorios incluidos para cualquier gestión relacionada. Los inconvenientes relacionados con el sistema operativo, configuraciones o software no están cubiertos por esta garantía. Asimismo, no aplica en casos de uso indebido, negligencia, golpes, caídas u otros daños físicos ocasionados al producto.
+                              `,
+                              "Condición del producto" : "Nuevo",
+                              "Pantalla touch" : "No",
+                              "Memoria RAM" : "24GB",
+                              "Núcleos del procesador" : "Octa core",
+                              "Velocidad de imagen" : "120Hz",
+                              "Procesador" : "Intel Corei5",
+                              "Sistema operativo" : "Windows11",
+                              "Tipo de computador" : "Notebook",
+                              "Marca tarjeta gráfica" : "Integrada"
+                            },
+            subcategory_slug: "portatiles",
+            sold_by: "Falabella",
+            description: `
+            Dell Inspiron 3520 Core I5-1235U 24GB 2TB
+
+            Tareas diarias realizadas
+            Disfrute de un rendimiento ágil y silencioso, con procesadores Intel Core de 12. generación combinados con opciones de PCIe SSD.
+
+            Disfrute de teclas de mayor tamaño y de un amplio panel táctil para desplazarse con facilidad por el contenido, además del software ComfortView, que es una solución con certificación TuV Rheinland y reduce las nocivas emisiones de luz azul para que no se le canse vista cuando tenga que estar mucho tiempo delante de la pantalla. Además, sus elegantes bordes finos en tres lados admiten una pantalla FHD opcional.
+
+            Un diseño moderno
+            Disfrute de un diseño clásico Una cámara web de alta definición integrada le permite conectarse con total confianza y con la seguridad de que su aspecto va a ser excelente. Su PC está desarrollado para aguantar un uso regular, con unas diminutas patas de goma y topes en la bisagra que evitan que se deslice y proporcionan una estabilidad adicional sobre superficies duras.
+
+            CONDICIONES
+            Producto Nuevo
+            Modelo Inspiron 3520
+            N/P P112F-C3VHY
+            Marca DELL
+
+            PROCESADOR
+            Intel Core i5-1235U
+            10 núcleos / 12 subprocesos
+            3.30 GHz/4.40 GHz
+
+            MEMORIA TOTAL 64GB
+            24GB, DDR4, 2666 MHz
+
+            ALMACENAMIENTO
+            2TB CL35 M.2 SSD
+
+            TARJETA DE VÍDEO:
+            Intel UHD Graphics
+
+            PANTALLA
+            15.6, FHD
+            1920 x 1080, 120Hz, WVA, Non-Touch, Anti-Glare, 250 nit, Narrow Border, LED-Backlit
+
+            TECLADO
+            no retroiluminado, español (castellano)
+
+            Audio y altavoces
+            Dos altavoces estéreo de 2 W, 4 W en total
+
+            Cámara
+            cámara HD de 720p a 30 fps con un micrófono integrado.
+
+            Conexión inalámbrica
+            Tarjeta inalámbrica Intel Wi-Fi 6 AX201, 2x2, 802.11ax, Bluetooth
+
+            SISTEMA OPERATIVO:
+            WINDOWS 11 HOME (LICENCIA ORIGINAL)
+
+            PUERTOS:
+            1 HDMI 1.4 port
+            2 USB 3.2 Gen 1 ports;
+            1 USB 2.0 port
+            1 conector de alimentación
+            1 puerto para auriculares (combinado para micrófono y auriculares)
+            1 ranura para tarjeta SD 3.0
+            1 ranura M.2 2230/2280 para unidad de estado solido
+
+            DIMENSIONES
+            Ancho 358.50mm
+            Profundidad 235.56mm
+            Altura 16.96mm - 21.07mm
+            Peso 1.65kg
+
+            Normativas
+            ENERGY STAR
+
+            BATERIA PRINCIPAL:
+            3 celdas, 41 Wh, integrada
+            Alimentación
+            Adaptador de CA de 65 vatios
+            `,
+            stock: 10, // Unidades disponibles
           }
-      ];
-      
-      console.log("🔄 Iniciando inserción de productos...");
-      
-      const products: Product[] = [];
-      
-      for (const productData of productsData) {
-        try {
+          */
+        ];
+        
+        console.log("🔄 Iniciando inserción de productos...");
+        
+        const products: Product[] = [];
+        
+        for (const productData of productsData) {
+          try {
             console.log(`📦 Procesando producto: ${productData.title}`);
-    
+        
             if (!productData.price) {
-                console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
-                continue;
+              console.error(`❌ ERROR: El producto "${productData.title}" no tiene precio definido.`);
+              continue;
             }
-    
+        
             const product = new Product();
             product.brand = productData.brand;
             product.title = productData.title;
@@ -683,17 +847,19 @@ export const seedDatabase = async () => {
             product.specifications = productData.specifications;
             product.subcategory_slug = productData.subcategory_slug;
             product.sold_by = productData.sold_by || "Marketplace";
-    
+            product.description = productData.description || null; // Información adicional
+            product.stock = productData.stock ?? 0; // Si no tiene, inicia en 0
+        
             console.log(`💾 Guardando en la base de datos: ${product.title}`);
             const savedProduct = await AppDataSource.manager.save(product);
             products.push(savedProduct);
             console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
-              //
+        
           } catch (error) {
-              console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
+            console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
           }
-      }
-      
+        }        
+      //
         console.log("✅ Datos insertados correctamente");
     } catch (error) {
         console.error("❌ Error insertando datos:", error);

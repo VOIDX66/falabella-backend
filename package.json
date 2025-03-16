@@ -23,6 +23,7 @@
     "morgan": "^1.10.0",
     "pg": "^8.13.3",
     "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
