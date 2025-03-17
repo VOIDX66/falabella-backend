@@ -600,6 +600,7 @@ export const seedDatabase = async () => {
         }
         //
         const productsData = [
+          // Producto 1 
           {
             brand: "DELL",
             title: 'PORTATIL DELL INSPIRON 3520 15.6" FHD INTEL CORE I5 1235U RAM 24GB DDR4 SSD 2TB + COMBO INALAMBRICO',
@@ -708,6 +709,7 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
+          // Producto 2
           {
             brand: "ASUS",
             title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
@@ -807,6 +809,7 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
+          // Producto 3
           {
             brand: "SOUNDCORE",
             title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
@@ -841,6 +844,7 @@ export const seedDatabase = async () => {
             description: null,
             stock: 10, // Unidades disponibles
           },
+          // Producto 4
           {
             brand: "INDURAMA",
             title: 'Congelador Indurama CI-199 de 200 litros',
@@ -897,6 +901,7 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
+          // Producto 5
           {
             brand: "ELECTROLUX",
             title: 'Congelador Horizontal Electrolux 251L con Función Turbo EFCC25C3HUW',
@@ -916,7 +921,7 @@ export const seedDatabase = async () => {
                               "Detalle de la garantía": "12 meses",
                               "Condición del producto": "Nuevo",
                               "Clase de clima": "SN (SubNormal) 10ºC-32ºC",
-                              "Características": ["Ajuste de temperatura", "Iluminación", "Bandeja desmontable"],
+                              "Características": "Ajuste de temperatura, Iluminación, Bandeja desmontable",
                               "Uso": "Industrial",
                               "Cuenta con ruedas": "Sí",
                               "Consumo energético": "45 kWh/mes",
@@ -944,6 +949,7 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
+          // Producto 6
           {
             brand: "XIAOMI",
             title: 'Xiaomi Redmi Note 14 Pro 256/8GB Azul',
@@ -964,6 +970,7 @@ export const seedDatabase = async () => {
             description: null,
             stock: 10, // Unidades disponibles
           },
+          // Producto 7
           {
             brand: "SAMSUNG",
             title: 'Celular Samsung Galaxy S24 FE 512GB + 8GB - Negro',
@@ -1004,6 +1011,7 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
+          // Producto 8
           {
             brand: "CAELI",
             title: 'chaqueta abrigo ovegera MUJER lluvia frio semi impermeable marca CAELI',
@@ -1044,6 +1052,7 @@ export const seedDatabase = async () => {
             `,
             stock: 10, // Unidades disponibles
           },
+          // Producto 9
           {
             brand: "BASEMENT",
             title: 'Saco de vestir para Hombre Basement',
@@ -1071,6 +1080,395 @@ export const seedDatabase = async () => {
             sold_by: "Falabella",
             description: "Mucho texto",
             stock: 10, // Unidades disponibles
+          },
+          // Producto 10
+          {
+            brand: "LENOVO",
+            title: 'Tablet Lenovo Idea Tab Pro 256GB | Incluye Teclado, Lápiz y Aud| Pantalla 12.7 pulgadas | 8GB RAM | Camara Posterior 13MP | Camara Frontal 8MP',
+            price: 2699900,
+            discount_percentage: 15,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["10_1.avif", "10_2.avif", "10_3.avif", "10_4.avif", "10_5.avif"],
+            specifications: {
+                              "Marca": "Lenovo",
+                              "Procesador": "Mediatek Dimensity",
+                              "Memoria externa incluida": "No",
+                              "Entradas HDMI": "No incluye",
+                              "Entradas USB": "Sin entradas",
+                              "Peso del producto": "6.2 kg",
+                              "Nombre comercial": "Tablet Lenovo Idea Tab Pro 256GB | Incluye Teclado, Lápiz y Aud| Pantalla 12.7 pulgadas | 8GB RAM | Camara Posterior 13MP | Camara Frontal 8MP",
+                              "Tasa de refresco": "No aplica",
+                              "Tamaño de la pantalla": "12.7 pulgadas",
+                              "Incluye": "Teclado, Lápiz, Audífonos",
+                              "Capacidad de almacenamiento": "256 GB",
+                              "Cámara frontal": "8 MP",
+                              "Cámara posterior": "13 MP",
+                              "Características de la pantalla": "IPS",
+                              "Modelo": "Idea Tab Pro",
+                              "País de origen": "China",
+                              "Tipo de tablet": "Tablet",
+                              "Garantía": "1 año",
+                              "Conectividad/conexión": "Wifi",
+                              "Cuenta con bluetooth": "Sí",
+                              "Condición del producto": "Nuevo",
+                              "Memoria expandible": "1TB",
+                              "Memoria RAM": "8GB",
+                              "Núcleos del procesador": "Octa core",
+                              "Velocidad de procesamiento (GHz)": "3.2GHz",
+                              "Sistema operativo": "Android",
+                              "Profundidad": "6,9 cm",
+                              "Alto": "29,1 cm",
+                              "Ancho": "18,9 cm"
+                            },
+            subcategory_slug: "tablets",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 11
+          {
+            brand: "XIAOMI",
+            title: 'Tableta Xiaomi Redmi Pad Se 8.7, 4 GB de RAM, 128 GB Verde',
+            price: 1000000,
+            discount_percentage: 40,
+            special_discount_percentage: 52,
+            rating: null, // Se inicializará en 0
+            images: ["11_1.avif", "11_2.avif", "11_3.avif"],
+            specifications: {
+                              "Requiere IMEI": "Sí",
+                              "Requiere Serial Number": "Sí",
+                              "Capacidad de almacenamiento": "128 GB",
+                              "Incluye": "TABLET",
+                              "Dimensiones": "211x125x8",
+                              "Tamaño de la pantalla": "8",
+                              "Procesador": "MediaTek Helio",
+                              "Cámara posterior": "8 MP",
+                              "Modelo": "REDMI PAD SE WIFI 8.7",
+                              "Características de la pantalla": "HD",
+                              "Cámara frontal": "5 MP",
+                              "País de origen": "China",
+                              "Garantía": "1 año",
+                              "Tipo de tablet": "Tablet",
+                              "Detalle de la garantía": "Aplica únicamente contra defectos de fabrica, o fallas que no tienen que ver con el mal uso del producto.",
+                              "Conectividad/conexión": "Bluetooth, Wifi",
+                              "Color": "VERDE",
+                              "Condición del producto": "Nuevo",
+                              "Memoria expandible": "2TB",
+                              "Memoria RAM": "4GB",
+                              "Núcleos del procesador": "Octa core",
+                              "Sistema operativo específico": "Android 13 tiramisu",
+                              "Velocidad de procesamiento (GHz)": "2",
+                              "Velocidad de imagen": "75 Hz",
+                              "Sistema operativo": "Android",
+                              "Procesador específico txt": "MEDIATEK HELIO G85",
+                              "Marca tarjeta gráfica": "No aplica",
+                              "Alto": "211",
+                              "Ancho": "125",
+                              "Largo": "8"
+                            },
+            subcategory_slug: "tablets",
+            sold_by: "Star",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 12
+          {
+            brand: "EPSON",
+            title: 'IMPRESORA EPSON L3210 RECARGA CONTINUA MULTIFUNCIONAL USB',
+            price: 915000,
+            discount_percentage: 15,
+            special_discount_percentage: 25,
+            rating: null, // Se inicializará en 0
+            images: ["12_1.avif", "12_2.avif"],
+            specifications: {
+                              "Requiere IMEI": "Sí",
+                              "Requiere Serial Number": "Sí",
+                              "Capacidad de almacenamiento": "128 GB",
+                              "Incluye": "TABLET",
+                              "Dimensiones": "211x125x8",
+                              "Tamaño de la pantalla": "8",
+                              "Procesador": "MediaTek Helio",
+                              "Cámara posterior": "8 MP",
+                              "Modelo": "REDMI PAD SE WIFI 8.7",
+                              "Características de la pantalla": "HD",
+                              "Cámara frontal": "5 MP",
+                              "País de origen": "China",
+                              "Garantía": "1 año",
+                              "Tipo de tablet": "Tablet",
+                              "Detalle de la garantía": "Aplica únicamente contra defectos de fabrica, o fallas que no tienen que ver con el mal uso del producto.",
+                              "Conectividad/conexión": "Bluetooth, Wifi",
+                              "Color": "VERDE",
+                              "Condición del producto": "Nuevo",
+                              "Memoria expandible": "2TB",
+                              "Memoria RAM": "4GB",
+                              "Núcleos del procesador": "Octa core",
+                              "Sistema operativo específico": "Android 13 tiramisu",
+                              "Velocidad de procesamiento (GHz)": "2",
+                              "Velocidad de imagen": "75 Hz",
+                              "Sistema operativo": "Android",
+                              "Procesador específico txt": "MEDIATEK HELIO G85",
+                              "Marca tarjeta gráfica": "No aplica",
+                              "Alto": "211",
+                              "Ancho": "125",
+                              "Largo": "8"
+                            },
+            subcategory_slug: "impresoras",
+            sold_by: "Technology store 2006 SAS",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 13
+          {
+            brand: "HP",
+            title: 'Impresora Multifuncional HP Smart Tank 585',
+            price: 819900,
+            discount_percentage: 15,
+            special_discount_percentage: 17,
+            rating: null, // Se inicializará en 0
+            images: ["13_1.avif", "13_2.avif", "13_3.avif", "13_4.avif", "13_5.avif", "13_6.avif"],
+            specifications: {
+                              "Dimensiones": "495x198x478 mm",
+                              "Calidad de impresión": "Alta resolución",
+                              "Compatible con": "Windows",
+                              "Modelo": "1F3Y4AAKY",
+                              "Cantidad de bandejas": "1",
+                              "Cantidad de hojas": "20",
+                              "Garantía": "1 año",
+                              "Conectividad/conexión": "USB",
+                              "Detalle de la garantía": "12 meses DIRECTAMENTE CON A MARCA (HP)",
+                              "Cantidad de puertos USB": "1",
+                              "Condición del producto": "Nuevo",
+                              "Cuenta con bluetooth": "Sí",
+                              "Entrada": "usb",
+                              "Tipo de impresora": "Multifuncional",
+                              "Tipo de impresión": "Inyección a color"
+                            },
+            subcategory_slug: "impresoras",
+            sold_by: "Smartbuy",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 14
+          {
+            brand: "PRIMUS",
+            title: 'Mouse Gamer Primus Grogu Gladius12400T',
+            price: 319900,
+            discount_percentage: 40,
+            special_discount_percentage: 43,
+            rating: null, // Se inicializará en 0
+            images: ["14_1.avif", "14_2.avif", "14_3.avif", "14_4.avif", "14_5.avif", "14_6.avif"],
+            specifications: {
+                              "Requiere IMEI": "No",
+                              "Requiere Serial Number": "Sí",
+                              "Dimensiones": "15X5X8",
+                              "Modelo": "PMO-S203GR",
+                              "País de origen": "China",
+                              "Garantía": "2 años",
+                              "Segmento": "Gamer",
+                              "Color": "MULTICOLOR",
+                              "Conectividad/conexión": "Alámbrico",
+                              "Detalle de la garantía": "Por daños de fabricacion, no cubre daños por mal uso o alteracion del usuario",
+                              "Condición del producto": "Nuevo",
+                              "Año de lanzamiento": "2025",
+                              "Autonomía": "NO APLICA"
+                            },
+            subcategory_slug: "accesorios_computacion",
+            sold_by: "D&C",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 15
+          {
+            brand: "STARLINK",
+            title: 'Kit de Internet satelital Mini Starlink | Velocidad 100 MB',
+            price: 800000,
+            discount_percentage: null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["15_1.avif", "15_2.avif", "15_3.avif", "15_4.avif", "15_5.avif", "15_6.avif"],
+            specifications: {
+                              "Marca": "Starlink",
+                              "Tipo": "Routers",
+                              "Banda dual": "Dual Band 3 x 3 MU-MIMO",
+                              "Cantidad de antenas": "1",
+                              "Entradas USB": "Sin entradas",
+                              "Velocidad": "100MB",
+                              "Dimensiones": "29,85 x 25,9 x 3,85 cm",
+                              "Modelo": "2535001",
+                              "País de origen": "Estados Unidos",
+                              "Garantía": "1 año",
+                              "Condición del producto": "Nuevo"
+                            },
+            subcategory_slug: "accesorios_computacion",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 16
+          {
+            brand: "HP",
+            title: 'Monitor HP Gaming OMEN 24 | 23.8 Pulgadas LED | Tasa de Refresco 165Hz | 780D9AA',
+            price: 1599000,
+            discount_percentage: 56,
+            special_discount_percentage: null,
+            rating: 3, // Se inicializará en 0
+            images: ["16_1.avif", "16_2.avif", "16_3.avif", "16_4.avif", "16_5.avif", "16_6.avif"],
+            specifications: {
+                              "Marca": "HP",
+                              "Tipo": "Monitores LED",
+                              "Profundidad": "5.2 cm",
+                              "Peso del producto": "6.35 Kg",
+                              "Tipo de pantalla": "Plana",
+                              "Aspecto ratio": "0,672916666666667",
+                              "Tamaño de la pantalla": "23.8",
+                              "Modelo": "780D9AA",
+                              "País de origen": "China",
+                              "Garantía": "1 año",
+                              "Resolución de pantalla": "FHD",
+                              "Condición del producto": "Nuevo",
+                              "Tiempo de respuesta": "1 ms GTG",
+                              "Alto": "32.15 cm",
+                              "Ancho": "53.94 cm"
+                            },
+            subcategory_slug: "monitores",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 17
+          {
+            brand: "SAMSUNG",
+            title: 'MONITOR Samsung CURVO 32" 4MS- 75 HZ 1920 x 1080 - HDMI VGA Headphone',
+            price: 967900,
+            discount_percentage: 20,
+            special_discount_percentage: 28,
+            rating: null, // Se inicializará en 0
+            images: ["17_1.avif", "17_2.avif", "17_3.avif", "17_4.avif", "17_5.avif"],
+            specifications: {
+                              "Requiere Serial Number": "Sí",
+                              "Tamaño de la pantalla": "32",
+                              "Cantidad de entradas": "2",
+                              "Dimensiones": "843.0 x 229.0 x 557.0 mm",
+                              "Características de la pantalla": "FHD",
+                              "Compatible con": "Windows",
+                              "Garantía": "1 año",
+                              "Detalle de la garantía": "12 meses DIRECTAMENTE CON A MARCA (SAMSUNG)",
+                              "Condición del producto": "Nuevo",
+                              "Detalle de la condición": "NUEVO",
+                              "Velocidad de procesamiento (GHz)": "75",
+                              "Velocidad de imagen": "75 Hz"
+                            },
+            subcategory_slug: "monitores",
+            sold_by: "Smartbuy",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 18
+          {
+            brand: "ACER",
+            title: 'TODO EN UNO ACER AMD RYZEN 5-5500U SSD 1TB RAM 16GB LED 24 FHD',
+            price: 3299800,
+            discount_percentage: 30,
+            special_discount_percentage: 37,
+            rating: null, // Se inicializará en 0
+            images: ["18_1.avif", "18_2.avif", "18_3.avif", "18_4.avif", "18_5.avif", "18_6.avif"],
+            specifications: {
+                              "Requiere Serial Number": "No",
+                              "Requiere IMEI": "No",
+                              "Incluye": "ALL IN ONE MOUSE Y TECLADO ALAMBRICO MANUALES",
+                              "Dimensiones": "10 x 10 x 10",
+                              "Tamaño de la pantalla": "24",
+                              "Capacidad de almacenamiento": "1 TB",
+                              "Características": "Cuenta con bluetooth, Cuenta con wifi, Cámara Web",
+                              "Modelo": "ASPIRE C24-1100-COR585E",
+                              "Procesador": "AMD Ryzen 5",
+                              "Garantía": "1 año",
+                              "Detalle de la garantía": "GARANTIA DE 12 MESES DIRECTAMENTE CON EL VENDEDOR",
+                              "Color": "PLATEADO",
+                              "Cantidad de puertos USB": "4",
+                              "Conectividad/conexión": "Cableado",
+                              "Resolución de pantalla": "FHD",
+                              "Condición del producto": "Nuevo",
+                              "Cuenta con bluetooth": "Sí",
+                              "Disco duro secundario": "No aplica",
+                              "Memoria RAM": "16GB",
+                              "Núcleos del procesador": "Hexa core",
+                              "Sistema operativo específico": "Windows de Prueba",
+                              "Velocidad de procesamiento (GHz)": "2,1",
+                              "Sistema operativo": "Windows 11",
+                              "Tipo de computador": "All in one",
+                              "Tarjeta gráfica específica": "AMD RADEON GRAPHICS",
+                              "Procesador específico txt": "AMD RYZEN 5-5500U",
+                              "Marca tarjeta gráfica": "AMD",
+                              "Alto": "30",
+                              "Ancho": "7",
+                              "Características de la pantalla": "FHD"
+                            },
+            subcategory_slug: "accesorios_computacion",
+            sold_by: "Compumarket Bga",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 19
+          {
+            brand: "JBL",
+            title: 'JBL Soundbar SB180 Bluetooth',
+            price: 999900,
+            discount_percentage: 20,
+            special_discount_percentage: 25,
+            rating: null, // Se inicializará en 0
+            images: ["19_1.avif", "19_2.avif", "19_3.avif", "19_4.avif", "19_5.avif", "19_6.avif"],
+            specifications: {
+                              "Requiere IMEI": "No",
+                              "Dimensiones": "920 x 63 x 99 mm / 36.2\" x 2,48\" x 3.89\" (soundbar); 210 x 328 x 248 mm / 8,27\" x 12.91\" x 9.76\" (subwoofer)",
+                              "Cantidad de entradas auxiliares de 3.5 mm": "1",
+                              "Modelo": "SB180",
+                              "Duración en condiciones previsibles de uso": "10",
+                              "Características": "Cuenta con bluetooth",
+                              "Garantía": "1 año",
+                              "Conectividad/conexión": "Bluetooth",
+                              "Plazo de disponibilidad de repuestos": "12",
+                              "Color": "Negro",
+                              "Detalle de la garantía": "12",
+                              "Condición del producto": "Nuevo",
+                              "Año de lanzamiento": "2024",
+                              "Conectividad": "2G",
+                              "Tipo de altavoz": "Soundbar",
+                              "Potencia": "220W"
+                            },
+            subcategory_slug: "barras_de_sonido",
+            sold_by: "Techspot",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 20
+          {
+            brand: "SONY",
+            title: 'Control Backbone One PlayStation (USB-C) Android y iPhone 15',
+            price: 599900,
+            discount_percentage: null,
+            discount_price : 400000,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["20_1.avif", "20_2.avif", "20_3.avif", "20_4.avif"],
+            specifications: {
+                              "Año de Fabricación": "2024",
+                              "Modelo": "Backbone Android y iPhone 15",
+                              "Tipo de accesorio de video juegos": "Joystick",
+                              "País de origen": "China",
+                              "Tipo de consola": "Playstation 5",
+                              "Garantía": "1 año",
+                              "Detalle de la garantía": "Este producto cuenta con 1 año de garantía Sony en Colombia por defectos de fabricación.",
+                              "Condición del producto": "Nuevo",
+                              "Detalle de la condición": "Producto Nuevo",
+                              "Requiere IMEI": "No",
+                              "Requiere Serial Number": "No"
+                            },
+            subcategory_slug: "playstation",
+            sold_by: "Sony Colombia",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
           }
         ];
         
@@ -1092,6 +1490,7 @@ export const seedDatabase = async () => {
             product.title = productData.title;
             product.price = productData.price;
             product.discount_percentage = productData.discount_percentage || null;
+            product.discount_price = productData.discount_price || null;
             product.special_discount_percentage = productData.special_discount_percentage || null;
             product.rating = productData.rating ?? 0; // Si no tiene, inicia en 0
             product.images = productData.images;
@@ -1101,7 +1500,7 @@ export const seedDatabase = async () => {
             product.description = productData.description || null; // Información adicional
             product.stock = productData.stock ?? 0; // Si no tiene, inicia en 0
         
-            console.log(`💾 Guardando en la base de datos: ${product.title}`);
+            console.log(`Guardando en la base de datos: ${product.title}`);
             const savedProduct = await AppDataSource.manager.save(product);
             products.push(savedProduct);
             console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);

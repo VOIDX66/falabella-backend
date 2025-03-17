@@ -20,19 +20,19 @@ export class Product extends BaseEntity {
   @Column()
   title: string;
 
-  @Column("decimal", { precision: 10, scale: 2 })
+  @Column("int") // Ahora en pesos COP sin decimales
   price: number;
 
-  @Column("decimal", { precision: 5, scale: 2, nullable: true })
+  @Column("int", { nullable: true }) // Porcentajes enteros
   discount_percentage: number | null;
 
-  @Column("decimal", { precision: 10, scale: 2, nullable: true })
+  @Column("int", { nullable: true }) // Ahora en pesos COP sin decimales
   discount_price: number | null;
 
-  @Column("decimal", { precision: 5, scale: 2, nullable: true })
+  @Column("int", { nullable: true }) // Porcentajes enteros
   special_discount_percentage: number | null;
 
-  @Column("decimal", { precision: 10, scale: 2, nullable: true })
+  @Column("int", { nullable: true }) // Ahora en pesos COP sin decimales
   special_price: number | null;
 
   @Column({ type: "jsonb", default: "[]" })
@@ -50,10 +50,10 @@ export class Product extends BaseEntity {
   @Column("decimal", { precision: 3, scale: 1, default: 0 })
   rating: number;
 
-  @Column({ type: "text", nullable: true }) // Campo para información adicional extensa
+  @Column({ type: "text", nullable: true })
   description: string | null;
 
-  @Column({ type: "int", default: 0 }) // Campo para unidades disponibles
+  @Column({ type: "int", default: 0 }) // Unidades disponibles
   stock: number;
 
   @CreateDateColumn()
@@ -66,10 +66,14 @@ export class Product extends BaseEntity {
   @BeforeUpdate()
   calculateDiscounts() {
     if (this.discount_percentage && this.discount_percentage > 0) {
-      this.discount_price = this.price - (this.price * (this.discount_percentage / 100));
+      this.discount_price = Math.round(
+        this.price - (this.price * this.discount_percentage) / 100
+      );
 
       if (this.special_discount_percentage && this.special_discount_percentage > 0) {
-        this.special_price = this.price - (this.price * (this.special_discount_percentage / 100));
+        this.special_price = Math.round(
+          this.price - (this.price * this.special_discount_percentage) / 100
+        );
       } else {
         this.special_price = null;
       }
