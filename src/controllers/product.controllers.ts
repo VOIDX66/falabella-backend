@@ -3,12 +3,29 @@ import { AppDataSource } from "../db";
 import { Product } from "../entities/product";
 
 
+export const getProductById = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const { id } = req.params;
+        const product = await AppDataSource.getRepository(Product)
+        .createQueryBuilder("product")
+        .where("product.id_product = :id", { id })
+        .getOne();
+        if (product)
+        {
+            return res.json(product);
+        }
+        return res.status(404).json({ message: "Producto no encontrado" });
+
+        
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ message: "Error al obtener producto por ID" });
+    }
+};
+
 export const getProductsBySection = async (req: Request, res: Response): Promise<any> => {
     try {
         const { sectionSlug } = req.params;
-        if(AppDataSource.isInitialized){
-            console.log("si")
-        }
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")

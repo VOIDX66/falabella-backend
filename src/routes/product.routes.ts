@@ -1,15 +1,18 @@
 import { Router } from "express";
-import { getProductsBySection, getProductsByCategory, getProductsBySubcategory, getFilteredProducts } from "../controllers/product.controllers";
+import { getProductById, getProductsBySection, getProductsByCategory, getProductsBySubcategory, getFilteredProducts } from "../controllers/product.controllers";
 
 const router = Router();
 
-// Obtener productos por sección (usando ID)
+// Obtener producto en especifico (usando Id)
+router.get("/product/:id", getProductById);
+
+// Obtener productos por sección (usando Slug)
 router.get("/section/:sectionSlug", getProductsBySection);
 
-// Obtener productos por categoría (usando ID)
+// Obtener productos por categoría (usando Slug)
 router.get("/category/:categorySlug", getProductsByCategory);
 
-// Obtener productos por subcategoría (usando ID)
+// Obtener productos por subcategoría (usando Slug)
 router.get("/subcategory/:subcategorySlug", getProductsBySubcategory);
 
 // Filtrar productos por sección
