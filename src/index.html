@@ -52,10 +52,33 @@
     .product-card:hover {
       transform: scale(1.05);
     }
+    .product-image-container {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
     .product-image {
       width: 100%;
       height: 200px;
       object-fit: cover;
+    }
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 10;
+    }
+    .arrow-left {
+      left: 10px;
+    }
+    .arrow-right {
+      right: 10px;
     }
     .product-info {
       padding: 15px;
@@ -85,62 +108,23 @@
 <body>
   <h1 style="text-align: center; margin-top: 20px;">Filtros de Productos</h1>
 
-  <!-- Campo de búsqueda de subcategoría -->
   <div class="search-container">
-    <input type="text" id="subcategory-input" placeholder="Ingresa el nombre de la subcategoría (ej: portatiles)">
-    <button onclick="searchProducts()">Buscar Subcategoría</button>
+    <input type="text" id="section-input" placeholder="Ingresa el nombre de la sección (ej: Tecnología)">
+    <button onclick="searchProducts()">Buscar Sección</button>
   </div>
 
-  <!-- Filtros -->
   <div class="filters-container">
-    <div class="filter-group">
-      <h3>Marcas</h3>
-      <label><input type="checkbox" name="brand" value="Samsung"> Samsung</label>
-      <label><input type="checkbox" name="brand" value="Apple"> Apple</label>
-      <label><input type="checkbox" name="brand" value="DELL"> DELL</label>
-      <label><input type="checkbox" name="brand" value="ASUS"> ASUS</label>
-    </div>
-
-    <div class="filter-group">
-      <h3>Descuento mínimo (%)</h3>
-      <input type="number" id="min-discount" placeholder="Mínimo">
-    </div>
-
-    <div class="filter-group">
-      <h3>Rango de precios</h3>
-      <input type="number" id="min-price" placeholder="Mínimo">
-      <input type="number" id="max-price" placeholder="Máximo">
-    </div>
-
-    <div class="filter-group">
-      <h3>Especificaciones</h3>
-      <label><input type="checkbox" name="specifications" value="RAM"> RAM</label>
-      <label><input type="checkbox" name="specifications" value="Procesador"> Procesador</label>
-      <label><input type="checkbox" name="specifications" value="Puertos USB"> Puertos USB</label>
-    </div>
-
-    <div class="filter-group">
-      <h3>Vendido por</h3>
-      <label><input type="checkbox" name="sold_by" value="Marketplace"> Marketplace</label>
-      <label><input type="checkbox" name="sold_by" value="Falabella"> Falabella</label>
-      <label><input type="checkbox" name="sold_by" value="Homecenter"> Homecenter</label>
-    </div>
-
     <button onclick="applyFilters()">Aplicar Filtros</button>
   </div>
 
-  <!-- Contenedor de productos -->
-  <div class="container" id="product-container">
-    <!-- Los productos se cargarán aquí dinámicamente -->
-  </div>
+  <div class="container" id="product-container"></div>
 
   <script>
-    // Función para buscar productos por subcategoría
     async function searchProducts() {
-      const subcategory = document.getElementById('subcategory-input').value.trim();
-      if (subcategory) {
+      const section = document.getElementById('section-input').value.trim();
+      if (section) {
         try {
-          const response = await fetch(`http://localhost:4000/subcategory/${subcategory}`);
+          const response = await fetch(`http://localhost:4000/section/${section}`);
           if (!response.ok) {
             throw new Error('Error al obtener los productos');
           }
@@ -148,89 +132,16 @@
           renderProducts(products);
         } catch (error) {
           console.error('Error:', error);
-          alert('No se encontraron productos para esta subcategoría');
+          alert('No se encontraron productos para esta sección');
         }
       } else {
-        alert('Por favor, ingresa el nombre de una subcategoría.');
+        alert('Por favor, ingresa el nombre de una sección.');
       }
     }
 
-    // Función para aplicar los filtros
-    async function applyFilters() {
-      const subcategory = document.getElementById('subcategory-input').value.trim();
-      if (!subcategory) {
-        alert('Por favor, ingresa el nombre de una subcategoría antes de aplicar filtros.');
-        return;
-      }
-
-      // Recopilar valores de los filtros
-      const filters = {};
-
-      // Marcas
-      const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked')).map(checkbox => checkbox.value);
-      if (selectedBrands.length > 0) {
-        filters.brand = selectedBrands;
-      }
-
-      // Descuento mínimo
-      const minDiscount = document.getElementById('min-discount').value;
-      if (minDiscount) {
-        filters.discount_percentage = { min: parseInt(minDiscount) };
-      }
-
-      // Rango de precios
-      const minPrice = document.getElementById('min-price').value;
-      const maxPrice = document.getElementById('max-price').value;
-      if (minPrice || maxPrice) {
-        filters.price = {};
-        if (minPrice) filters.price.min = parseInt(minPrice);
-        if (maxPrice) filters.price.max = parseInt(maxPrice);
-      }
-
-      // Especificaciones
-      const selectedSpecs = Array.from(document.querySelectorAll('input[name="specifications"]:checked'));
-      if (selectedSpecs.length > 0) {
-        filters.specifications = {};
-        selectedSpecs.forEach(checkbox => {
-          filters.specifications[checkbox.value] = "Sí"; // Puedes cambiar "Sí" por un valor dinámico si es necesario
-        });
-      }
-
-      // Vendido por
-      const selectedSoldBy = Array.from(document.querySelectorAll('input[name="sold_by"]:checked')).map(checkbox => checkbox.value);
-      if (selectedSoldBy.length > 0) {
-        filters.sold_by = selectedSoldBy;
-      }
-
-      // Mostrar el JSON en la consola antes de enviarlo
-      console.log("JSON que se enviará al backend:", JSON.stringify(filters, null, 2));
-
-      // Enviar los filtros al backend mediante POST
-      try {
-        const response = await fetch(`http://localhost:4000/subcategory/${subcategory}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(filters),
-        });
-
-        if (!response.ok) {
-          throw new Error('Error al aplicar los filtros');
-        }
-
-        const products = await response.json();
-        renderProducts(products);
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Error al aplicar los filtros');
-      }
-    }
-
-    // Función para renderizar los productos en el DOM
     function renderProducts(products) {
       const container = document.getElementById('product-container');
-      container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos productos
+      container.innerHTML = '';
 
       if (products.length === 0) {
         container.innerHTML = '<p>No se encontraron productos.</p>';
@@ -241,45 +152,47 @@
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
 
-        // Imagen del producto (usamos la primera imagen del array)
-        const productImage = document.createElement('img');
-        if (product.images && product.images.length > 0) {
-          productImage.src = `images/${product.images[0]}`; // Ruta de la imagen
-        } else {
-          productImage.src = 'images/placeholder.jpg'; // Imagen de placeholder si no hay imágenes
-        }
-        productImage.alt = product.title;
-        productImage.className = 'product-image';
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'product-image-container';
 
-        // Información del producto
+        const productImage = document.createElement('img');
+        let imageIndex = 0;
+        const images = product.images && product.images.length > 0 ? product.images : ['placeholder.jpg'];
+        productImage.src = `images/${images[imageIndex]}`;
+        productImage.className = 'product-image';
+        imageContainer.appendChild(productImage);
+
+        if (images.length > 1) {
+          const leftArrow = document.createElement('button');
+          leftArrow.className = 'arrow arrow-left';
+          leftArrow.innerHTML = '&#9664;';
+          leftArrow.onclick = () => {
+            imageIndex = (imageIndex - 1 + images.length) % images.length;
+            productImage.src = `images/${images[imageIndex]}`;
+          };
+          imageContainer.appendChild(leftArrow);
+
+          const rightArrow = document.createElement('button');
+          rightArrow.className = 'arrow arrow-right';
+          rightArrow.innerHTML = '&#9654;';
+          rightArrow.onclick = () => {
+            imageIndex = (imageIndex + 1) % images.length;
+            productImage.src = `images/${images[imageIndex]}`;
+          };
+          imageContainer.appendChild(rightArrow);
+        }
+
         const productInfo = document.createElement('div');
         productInfo.className = 'product-info';
+        productInfo.innerHTML = `
+          <h2 class="product-title">${product.title}</h2>
+          <p class="product-price">Precio: $${product.price.toLocaleString()}</p>
+          <p class="product-discount">Descuento: ${product.discount_percentage}%</p>
+          <p class="product-stock">Stock: ${product.stock} unidades</p>
+        `;
 
-        const productTitle = document.createElement('h2');
-        productTitle.className = 'product-title';
-        productTitle.textContent = product.title;
-
-        const productPrice = document.createElement('p');
-        productPrice.className = 'product-price';
-        productPrice.textContent = `Precio: $${product.price.toLocaleString()}`;
-
-        const productDiscount = document.createElement('p');
-        productDiscount.className = 'product-discount';
-        productDiscount.textContent = `Descuento: ${product.discount_percentage}%`;
-
-        const productStock = document.createElement('p');
-        productStock.className = 'product-stock';
-        productStock.textContent = `Stock: ${product.stock} unidades`;
-
-        // Agregar elementos al DOM
-        productInfo.appendChild(productTitle);
-        productInfo.appendChild(productPrice);
-        productInfo.appendChild(productDiscount);
-        productInfo.appendChild(productStock);
-
-        productCard.appendChild(productImage);
+        productCard.appendChild(imageContainer);
         productCard.appendChild(productInfo);
-
         container.appendChild(productCard);
       });
     }

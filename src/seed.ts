@@ -812,7 +812,7 @@ export const seedDatabase = async () => {
           // Producto 3
           {
             brand: "SOUNDCORE",
-            title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
+            title: 'Audífonos Inalámbricos Soundcore AeroFit Open-Ear',
             price: 462900,
             discount_percentage: 35,
             special_discount_percentage: null,
