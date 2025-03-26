@@ -2,58 +2,64 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../db";
 import { Product } from "../entities/product";
 
-export const getProductById = async (req: Request, res: Response): Promise<any> => {
+// Función auxiliar para limpiar los prefijos "product_"
+const cleanProductKeys = (products: any[]) => {
+    return products.map(product =>
+        Object.fromEntries(
+            Object.entries(product).map(([key, value]) => [
+                key.replace(/^product_/, ""), // Elimina el prefijo "product_"
+                value
+            ])
+        )
+    );
+};
+
+// Obtener producto por ID
+export const getProductById = async (req: Request, res: Response) : Promise<any> => {
     try {
         const { id } = req.params;
         const product = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
-            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
-            .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
-            .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
-            .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
-            .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("product.id_product = :id", { id })
-            .select([
-                "product",
-                "c.slug AS category_slug",
-                "sec.slug AS section_slug"
-            ])
+            .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
+            .leftJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .leftJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+            .leftJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
+            .leftJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .getRawOne();
         
-        if (product) return res.json(product);
-        return res.status(404).json({ message: "Producto no encontrado" });
+        if (!product) return res.status(404).json({ message: "Producto no encontrado" });
+
+        return res.json(cleanProductKeys([product])[0]); // Limpiar prefijos antes de enviar
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener producto por ID" });
     }
 };
 
-export const getProductsBySection = async (req: Request, res: Response): Promise<any> => {
+// Obtener productos por sección
+export const getProductsBySection = async (req: Request, res: Response) : Promise<any> => {
     try {
         const { sectionSlug } = req.params;
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
-            .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("sec.slug = :sectionSlug", { sectionSlug })
-            .select([
-                "product",
-                "c.slug AS category_slug",
-                "sec.slug AS section_slug"
-            ])
+            .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
-        
-        return res.json(products);
+
+        return res.json(cleanProductKeys(products));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener productos por sección" });
     }
 };
 
-export const getProductsByCategory = async (req: Request, res: Response): Promise<any> => {
+// Obtener productos por categoría
+export const getProductsByCategory = async (req: Request, res: Response) : Promise<any> => {
     try {
         const { sectionSlug, categorySlug } = req.params;
         const products = await AppDataSource.getRepository(Product)
@@ -65,21 +71,18 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("sec.slug = :sectionSlug", { sectionSlug })
             .andWhere("c.slug = :categorySlug", { categorySlug })
-            .select([
-                "product",
-                "c.slug AS category_slug",
-                "sec.slug AS section_slug"
-            ])
+            .addSelect(["c.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
-        
-        return res.json(products);
+
+        return res.json(cleanProductKeys(products));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener productos por categoría" });
     }
 };
 
-export const getProductsBySubcategory = async (req: Request, res: Response): Promise<any> => {
+// Obtener productos por subcategoría
+export const getProductsBySubcategory = async (req: Request, res: Response) : Promise<any> => {
     try {
         const { sectionSlug, categorySlug, subcategorySlug } = req.params;
         const products = await AppDataSource.getRepository(Product)
@@ -92,25 +95,21 @@ export const getProductsBySubcategory = async (req: Request, res: Response): Pro
             .where("sec.slug = :sectionSlug", { sectionSlug })
             .andWhere("c.slug = :categorySlug", { categorySlug })
             .andWhere("sub.slug = :subcategorySlug", { subcategorySlug })
-            .select([
-                "product",
-                "c.slug AS category_slug",
-                "sec.slug AS section_slug"
-            ])
+            .addSelect(["c.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
-        
-        return res.json(products);
+
+        return res.json(cleanProductKeys(products));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener productos por subcategoría" });
     }
 };
 
-
-export const getFilteredProducts = async (req: Request, res: Response): Promise<any> => {
+// Obtener productos filtrados
+export const getFilteredProducts = async (req: Request, res: Response) : Promise<any> => {
     try {
         const { sectionSlug, categorySlug, subcategorySlug } = req.params;
-        const filters = req.body; // Filtros desde el body
+        const filters = req.body;
 
         let query = AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
@@ -118,14 +117,13 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
-            .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section");
+            .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
+            .addSelect(["c.slug AS category_slug", "sec.slug AS section_slug"]);
 
-        // Aplicar filtros de sección, categoría y subcategoría
         if (sectionSlug) query.andWhere("sec.slug = :sectionSlug", { sectionSlug });
         if (categorySlug) query.andWhere("c.slug = :categorySlug", { categorySlug });
         if (subcategorySlug) query.andWhere("sub.slug = :subcategorySlug", { subcategorySlug });
 
-        // Filtros de precio
         if (filters.price) {
             query.andWhere(
                 `COALESCE(product.special_price, product.discount_price, product.price) >= :minPrice`,
@@ -139,71 +137,19 @@ export const getFilteredProducts = async (req: Request, res: Response): Promise<
             }
         }
 
-        // Filtrado por porcentaje de descuento
-        if (filters.discount_percentage?.min) {
-            query.andWhere(
-                `COALESCE(product.special_discount_percentage, product.discount_percentage, 0) >= :minDiscount`,
-                { minDiscount: filters.discount_percentage.min }
-            );
-        }
-
-        // Filtrado por marca
         if (filters.brand) {
             const brands = Array.isArray(filters.brand) ? filters.brand : [filters.brand];
             query.andWhere("product.brand IN (:...brands)", { brands });
         }
 
-        // Filtrado dinámico de especificaciones
-        if (filters.specifications) {
-            Object.entries(filters.specifications).forEach(([key, value], index) => {
-                if (typeof value !== "string" && !Array.isArray(value)) {
-                    throw new Error("Valor de especificación no válido");
-                }
-                
-                const normalizedKey = key.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-                const normalizedValues = Array.isArray(value)
-                    ? value.map(v => v.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))
-                    : [value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")];
-                
-                const conditions = normalizedValues.map((val, valIndex) => 
-                    `EXISTS (
-                        SELECT 1 FROM jsonb_each_text(product.specifications) AS spec
-                        WHERE LOWER(TRANSLATE(spec.key, 'áéíóú', 'aeiou')) ILIKE :key${index}
-                        AND LOWER(TRANSLATE(spec.value, 'áéíóú', 'aeiou')) ILIKE :value${index}_${valIndex}
-                    )`
-                ).join(" OR ");
-                
-                query.andWhere(`(${conditions})`, {
-                    [`key${index}`]: `%${normalizedKey}%`,
-                    ...normalizedValues.reduce((acc, val, valIndex) => ({
-                        ...acc,
-                        [`value${index}_${valIndex}`]: `%${val}%`
-                    }), {})
-                });
-            });
-        }
-        
-        // Filtrado por "sold_by"
-        if (filters.sold_by) {
-            const soldByFilters: string[] = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
-            if (soldByFilters.includes("Marketplace")) {
-                query.andWhere(`product.sold_by NOT IN ('Falabella', 'Homecenter')`);
-            } else {
-                query.andWhere("product.sold_by IN (:...vendors)", { vendors: soldByFilters });
-            }
-        }
-
-        // Filtrado por "rating"
         if (filters.rating) {
             query.andWhere(`product.rating >= :minRating`, { minRating: filters.rating });
         }
 
-        // Depuración
         console.log(query.getQueryAndParameters());
 
-        // Obtener y devolver los productos filtrados
-        const products = await query.getMany();
-        return res.json(products);
+        const products = await query.getRawMany();
+        return res.json(cleanProductKeys(products));
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al filtrar productos" });
