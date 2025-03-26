@@ -7,8 +7,18 @@ export const getProductById = async (req: Request, res: Response): Promise<any> 
         const { id } = req.params;
         const product = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
+            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+            .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
+            .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
+            .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("product.id_product = :id", { id })
-            .getOne();
+            .select([
+                "product",
+                "c.slug AS category_slug",
+                "sec.slug AS section_slug"
+            ])
+            .getRawOne();
         
         if (product) return res.json(product);
         return res.status(404).json({ message: "Producto no encontrado" });
@@ -25,10 +35,16 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
             .createQueryBuilder("product")
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+            .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("sec.slug = :sectionSlug", { sectionSlug })
-            .getMany();
+            .select([
+                "product",
+                "c.slug AS category_slug",
+                "sec.slug AS section_slug"
+            ])
+            .getRawMany();
         
         return res.json(products);
     } catch (error) {
@@ -49,7 +65,12 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("sec.slug = :sectionSlug", { sectionSlug })
             .andWhere("c.slug = :categorySlug", { categorySlug })
-            .getMany();
+            .select([
+                "product",
+                "c.slug AS category_slug",
+                "sec.slug AS section_slug"
+            ])
+            .getRawMany();
         
         return res.json(products);
     } catch (error) {
@@ -71,7 +92,12 @@ export const getProductsBySubcategory = async (req: Request, res: Response): Pro
             .where("sec.slug = :sectionSlug", { sectionSlug })
             .andWhere("c.slug = :categorySlug", { categorySlug })
             .andWhere("sub.slug = :subcategorySlug", { subcategorySlug })
-            .getMany();
+            .select([
+                "product",
+                "c.slug AS category_slug",
+                "sec.slug AS section_slug"
+            ])
+            .getRawMany();
         
         return res.json(products);
     } catch (error) {
@@ -79,6 +105,7 @@ export const getProductsBySubcategory = async (req: Request, res: Response): Pro
         return res.status(500).json({ message: "Error al obtener productos por subcategoría" });
     }
 };
+
 
 export const getFilteredProducts = async (req: Request, res: Response): Promise<any> => {
     try {
