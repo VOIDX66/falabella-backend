@@ -1469,6 +1469,1190 @@ export const seedDatabase = async () => {
             sold_by: "Sony Colombia",
             description: "Mucho texto",
             stock: 10, // Unidades disponibles
+          },
+          // Producto 21
+          {
+            brand: "NINTENDO",
+            title: 'Consola Nintendo Switch | Modelo OLED | Incluye Juego Mario Kart 8 Deluxe (Juego Completo Descargable + 3 Meses de Membresía Nintendo Switch Online) | 64 GB de almacenamiento',
+            price: 1799000,
+            discount_percentage: 20,
+            discount_price : null,
+            special_discount_percentage: 25,
+            rating: null, // Se inicializará en 0
+            images: ["21_1.avif", "21_2.avif", "21_3.avif", "21_4.avif"],
+            specifications: {
+                              "procesador": "Nvidia Tegra",
+                              "marca": "Nintendo",
+                              "modelo": "HPG-S-KAASA",
+                              "pais_origen": "Japón",
+                              "garantia": "1 año",
+                              "conectividad": "Wifi",
+                              "condicion": "Nuevo",
+                              "puertos": {
+                                "USB": 1,
+                                "HDMI": 1
+                              },
+                              "incluye": [
+                                "Consola Nintendo Switch (Modelo OLED)",
+                                "Base de Nintendo Switch (Modelo OLED)",
+                                "Joy-Con izquierdo blanco",
+                                "Joy-Con derecho blanco",
+                                "Correas de los controles Joy-Con",
+                                "Armazón para controles Joy-Con",
+                                "Cable HDMI de alta velocidad",
+                                "Adaptador de corriente de Nintendo Switch",
+                                "Descarga gratuita del juego Mario Kart 8 Deluxe",
+                                "Código para canjear suscripción individual de 3 meses a Nintendo Switch Online"
+                              ]
+                            },
+            subcategory_slug: "nintendo",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 22
+          {
+            brand: "XBOX",
+            title: 'Xbox Serie X + 2 Controles + Game Pass ultimate 1 mes 1 TB',
+            price: 3697900,
+            discount_percentage: null,
+            discount_price : 3169900,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["22_1.avif", "22_2.avif", "22_3.avif"],
+            specifications: {
+                              "procesador": "AMD Zen 2",
+                              "marca": "XBOX",
+                              "modelo": "RRT-00004",
+                              "pais_origen": "Estados Unidos",
+                              "garantia": "1 año",
+                              "conectividad": ["Wifi", "Ethernet"],
+                              "condicion": "Nuevo",
+                              "puertos": {
+                                "USB": 3,
+                                "HDMI": 1
+                              },
+                              "incluye": [
+                                "2 controles inalámbricos",
+                                "1 Game Pass Ultimate (1 mes)"
+                              ]
+                            },
+            subcategory_slug: "xbox",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 23
+          {
+            brand: "ACTIVISION",
+            title: 'Crash bandicoot 4 it\'s about time - playstation 4',
+            price: 380360,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["23_1.avif", "23_2.avif", "23_3.avif", "23_4.avif"],
+            specifications: {
+                              "modelo": "047875785489",
+                              "clasificacion_ESRB": "Adolescentes (13+)",
+                              "tipo_consola": "PlayStation 4",
+                              "genero": "Aventura",
+                              "grupo_edad": "Todas las etapas",
+                              "idioma": "Español",
+                              "garantia": {
+                                "duracion": "3 meses",
+                                "cobertura": "No cubre daños incidentales de posesión y funcionamiento",
+                                "condiciones": "Producto nuevo, sin abrir, sin uso, con sellos de seguridad y empaques originales completos"
+                              },
+                              "condicion": "Nuevo",
+                              "modo_juego": "Multijugador"
+                            },
+            subcategory_slug: "videojuegos",
+            sold_by: "Dingo",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          
+          // Producto 24
+          {
+            brand: "GENERICO",
+            title: 'Base Doble Cargador Usb Para Controles De Ps4 Slim Pro',
+            price: 34900,
+            discount_percentage: 32,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["24_1.avif", "24_2.avif", "24_3.avif"],
+            specifications: {
+                              "nombre": "Base Doble Cargador USB Para Controles De PS4 Slim Pro",
+                              "marca": "China",
+                              "dimensiones": "10x10x10 cm",  // Asumí centímetros. Ajusta si es otro.
+                              "tipo_accesorio": "Cargador Básico",
+                              "modelo": "Base Doble Cargador USB Para Controles De PS4 Slim Pro",
+                              "tipo_consola": "PlayStation 4",
+                              "garantia": {
+                                "duracion": "3 meses",
+                                "detalle": "Garantía: 3 meses."
+                              },
+                              "condicion": {
+                                "estado": "Nuevo",
+                                "detalle": "Nuevo"
+                              }
+                            },
+            subcategory_slug: "playstation",
+            sold_by: "jd market sas",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 25
+          {
+            brand: "GOPRO",
+            title: 'Cámara GoPro Hero 13 Black | Cámara de Acción Resistente al Agua | Video Ultra HD de hasta 5.3K 60fps | 27 MP | Batería de 1900 mAh | Compatible con Lentes Intercambiables | Pantalla de 2,27 Pulgadas |Peso 157 Gramos|Estabilizador de Imagen',
+            price: 1989900,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["25_1.avif", "25_2.avif", "25_3.avif", "25_4.avif"],
+            specifications: {
+                              "marca": "GoPro",
+                              "modelo": "CHDHX-131-RW",
+                              "tipo": "Cámara deportiva",
+                              "pais_origen": "China",
+                              "garantia": "1 año",
+                              "condicion": "Nuevo",
+                              
+                              "memoria": {
+                                "ranura": true,
+                                "expandible": "256GB",
+                                "incluida": false
+                              },
+                              
+                              "audio": {
+                                "parlantes_incluidos": false
+                              },
+                              
+                              "video": {
+                                "calidad_grabacion": "5.3K",
+                                "velocidad_obturador": {
+                                  "foto": "1/8s - 30s",
+                                  "video": "1/30s - 1/480s"
+                                }
+                              },
+                              
+                              "zoom": {
+                                "optico": false,
+                                "digital": true,
+                                "distancia_focal": "No aplica"
+                              },
+                              
+                              "pantalla": {
+                                "tamano": "2.27 pulgadas"
+                              },
+                              
+                              "formato_imagen": ["JPEG", "RAW"],
+                              
+                              "sensibilidad_iso": {
+                                "rango": "100-3200",
+                                "maximo": "6400",
+                                "modo": "Auto"
+                              },
+                              
+                              "bateria": {
+                                "tipo": "Ion litio"
+                              },
+                              
+                              "dimensiones": {
+                                "alto": "5.08 cm",
+                                "ancho": "5.66 cm",
+                                "profundidad": "3.36 cm",
+                                "peso": "0.157 kg"
+                              }
+                            },
+            subcategory_slug: "camaras_deportivas",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 26
+          {
+            brand: "IROBOT",
+            title: 'Roomba Essential Q - Robot Aspirador Inteligente',
+            price: 1399900,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["26_1.avif", "26_2.avif"],
+            specifications: {
+                              "modelo": "Q012020",
+                              "pais_origen": "China",
+                              "anio_lanzamiento": 2018,
+                              "garantia": {
+                                "duracion": "1 año",
+                                "cobertura": "Defectos de fábrica",
+                                "detalle": "Aplica garantía por defectos de fabrica 12 meses"
+                              },
+                              "condicion": "Nuevo",
+                              "requiere_serial": false,
+
+                              "dimensiones": {
+                                "alto": "8 cm",
+                                "ancho": "33 cm",
+                                "largo": "33 cm"
+                              },
+
+                              "capacidad": "600 mililitros",
+                              "sistema_recoleccion": "Bolsa",
+                              "potencia": "600 Pa",
+                              "niveles_potencia": "1",
+                              "voltaje": "110 V",
+
+                              "caracteristicas": [
+                                "Aspira líquidos",
+                                "Encendido electrónico"
+                              ],
+
+                              "conectividad": {
+                                "app": true,
+                                "anticolision": true,
+                                "cable_retractil": true
+                              }
+                            },
+            subcategory_slug: "aspiradoras_robot",
+            sold_by: "CasaMagna",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 27
+          {
+            brand: "AMAZON",
+            title: 'Alexa Parlante Inteligente Amazon Echo Dot 5ª Gen Blanco',
+            price: 329600,
+            discount_percentage: 35,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["27_1.avif", "27_2.avif", "27_3.avif", "27_4.avif"],
+            specifications: {
+                              "modelo": "Echo Dot",
+                              "pais_origen": "Estados Unidos",
+                              "incluye": [
+                                "Cargador",
+                                "Manual de uso"
+                              ],
+                              "garantia": {
+                                "duracion": "3 meses",
+                                "cobertura": "Defectos de fábrica",
+                                "exclusiones": [
+                                  "Daños por humedad",
+                                  "Sobrecargas",
+                                  "Levantamiento de sellos"
+                                ],
+                                "politicas": [
+                                  "30 días de garantía para producto",
+                                  "5 días para retracto de compra",
+                                  "Requiere envío en perfecto estado con caja original y accesorios"
+                                ]
+                              },
+                              "condicion": {
+                                "estado": "Nuevo",
+                                "detalle": "Nuevo"
+                              }
+                            },
+            subcategory_slug: "asistentes_por_voz",
+            sold_by: "dg tech shop",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 28
+          {
+            brand: "Generico",
+            title: 'Consola Retro Mini Game 620 – Juegos Clásicos al Alcance de tu Mano!',
+            price:  2199900,
+            discount_percentage: 35,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["28_1.avif"],
+            specifications: {
+                              "producto": {
+                                "modelo": "620 CLASSIC GAMES",
+                                "tipo": "Consola Retro",
+                                "pais_origen": "Colombia",
+                                "condicion": "Nuevo"
+                              },
+                              "especificaciones": {
+                                "controles": {
+                                  "cantidad": 2,
+                                  "tipo_conexion": "Alámbrico"
+                                },
+                                "hardware": {
+                                  "ram": "2GB",
+                                  "potencia": "2W"  // Asumí vatios (W), ajusta si es otro
+                                }
+                              },
+                              "conectividad": {
+                                "tipo": "Alámbrico"
+                              }
+                            },
+            subcategory_slug: "videojuegos",
+            sold_by: "Starktec",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 29
+          {
+            brand: "FORMAS INTIMAS",
+            title: 'Cachetero Paq X7 Multicolor FI 89061',
+            price: 150000,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["29_1.avif", "29_2.avif", "29_3.avif"],
+            specifications: {
+                              "producto": {
+                                "tipo": "Pantys",
+                                "genero": "Mujer",
+                                "condicion": "Nuevo"
+                              },
+                              "materiales": {
+                                "principal": "Poliéster",
+                                "composicion": "100% Poliéster"  // Asumido 100%, ajusta si es mezcla
+                              }
+                            },
+            subcategory_slug: "calzones_mujer",
+            sold_by: "marketing personal",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 30
+          {
+            brand: "MANGO",
+            title: 'Blazer Mujer MANGO',
+            price: 299900,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["30_1.avif", "30_2.avif", "30_3.avif", "30_4.avif"],
+            specifications: {
+                              "producto": {
+                              "marca": "MANGO",
+                              "modelo": "87010379",
+                              "nombre": "Blazers",
+                              "tipo": "Blazers",
+                              "estilo": "Casual",
+                              "genero": "Mujer",
+                              "condicion": "Nuevo",
+                              "temporada": "Toda temporada",
+                              "fit": "Recto",
+                              "diseno": "Liso",
+                              "cierre": "Botón"
+                            },
+                            "origen": {
+                              "pais": "Vietnam",
+                              "fabricante": "Falabella de Colombia S.A",
+                              "identificacion": {
+                                "NIT": "900017447",
+                                "registro_SIC": "900.017.447-8"
+                              }
+                            },
+                            "materiales": {
+                              "principal": "Poliéster",
+                              "composicion": {
+                                "exterior": {
+                                  "poliéster": "76%",
+                                  "viscosa": "18%",
+                                  "elastano": "6%"
+                                },
+                                "forro": {
+                                  "poliéster": "55%",
+                                  "viscosa": "45%"
+                                },
+                                "forro_mangas": {
+                                  "poliéster": "100%"
+                                },
+                                "vivo": {
+                                  "poliéster": "100%"
+                                }
+                              }
+                            },
+                            "sostenibilidad": {
+                              "mas_verde": false
+                            }
+                            },
+            subcategory_slug: "blazers_mujer",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 31
+          {
+            brand: "LEVOIT",
+            title: 'Purificadores de Aire para Habitación Grande Levoit',
+            price: 1399900,
+            discount_percentage: 18,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["31_1.avif", "31_2.avif", "31_3.avif", "31_4.avif"],
+            specifications: {
+                              "producto": {
+                                "marca": "Levoit",
+                                "modelo": "LAP-V201S-WUS",
+                                "color": "Blanco",
+                                "condicion": "Nuevo",
+                                "observaciones": "La foto es ambientada y no incluye accesorios. El color mostrado es aproximación al real."
+                              },
+                              "especificaciones": {
+                                "dimensiones": {
+                                  "alto": "51 cm",
+                                  "ancho": "38 cm",
+                                  "profundidad": "20 cm"
+                                },
+                                "rendimiento": {
+                                  "cobertura": "1900 m²",
+                                  "nivel_ruido": "24 dB",
+                                  "potencia": "24 W",
+                                  "niveles_potencia": 1
+                                },
+                                "caracteristicas": {
+                                  "tipo_panel": "Digital",
+                                  "temporizador": false,
+                                  "ubicacion": "Interior"
+                                }
+                              },
+                              "incluye": [
+                                "1 purificador de aire inteligente",
+                                "1 prefiltro lavable (preinstalado)",
+                                "1 filtro HEPA/carbón activado (preinstalado)",
+                                "1 manual de usuario (idioma español no garantizado)",
+                                "1 guía de inicio rápido",
+                                "1 adaptador de corriente alterna"
+                              ],
+                              "garantia": {
+                                "duracion": "6 meses"
+                              },
+                              "origen": {
+                                "pais": "Estados Unidos"
+                              }
+                            },
+            subcategory_slug: "aires_acondicionados",
+            sold_by: "HOMECENTER",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 32
+          {
+            brand: "SAMSUNG",
+            title: 'Horno microondas Samsung 23 lt MS23K3513AK/CO 23 Lts con Descongelado Rápido',
+            price: 699900,
+            discount_percentage: 44,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["32_1.avif", "32_2.avif", "32_3.avif", "32_4.avif"],
+            specifications: {
+                              "producto": {
+                                "marca": "Samsung",
+                                "modelo": "MS23K3513AK/CO",
+                                "tipo": "Horno microondas",
+                                "condicion": "Nuevo",
+                                "material": "Acero inoxidable"
+                              },
+                              "dimensiones": {
+                                "alto": "27.5 cm",
+                                "ancho": "48.9 cm",
+                                "profundidad": "37.4 cm",
+                                "peso": "12 kg"
+                              },
+                              "especificaciones_tecnicas": {
+                                "capacidad": "23 litros",
+                                "potencia": "1200 W",
+                                "seguridad": {
+                                  "bloqueo": false
+                                },
+                                "caracteristicas": {
+                                  "reloj": true,
+                                  "incluye": ["Rejilla"]
+                                }
+                              },
+                              "garantia": {
+                                "duracion": "1 año"
+                              },
+                              "origen": {
+                                "pais": "Malasia"
+                              }
+                            },
+            subcategory_slug: "microondas",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 33
+          {
+            brand: "BLACK+DECKER",
+            title: 'Freidora de aire BLACK & DECKER 4.5 Litros',
+            price: 439900,
+            discount_percentage: 39,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["33_1.avif", "33_2.avif", "33_3.avif", "33_4.avif"],
+            specifications: {
+                              "producto": {
+                                "marca": "BLACK+DECKER",
+                                "nombre_comercial": "Freidora de aire 4.5 litros",
+                                "modelo": "HF4004B",
+                                "tipo": "Freidora de Aire",
+                                "condicion": "Nuevo",
+                                "requiere_armado": false
+                              },
+                              "dimensiones": {
+                                "alto": "34 cm",
+                                "ancho": "34 cm",
+                                "profundidad": "32 cm"
+                              },
+                              "especificaciones": {
+                                "capacidad": "4.5 litros",
+                                "potencia": "220 W"
+                              },
+                              "garantia": {
+                                "duracion": "2 años"
+                              },
+                              "origen": {
+                                "pais": "China"
+                              }
+                            },
+            subcategory_slug: "freidoras_de_aire",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 34
+          {
+            brand: "HACEB",
+            title: 'Horno Eléctrico Asf 60-36 Eléctrico 220V',
+            price: 956900,
+            discount_percentage: 10,
+            discount_price : null,
+            special_discount_percentage: 15,
+            rating: null, // Se inicializará en 0
+            images: ["34_1.avif", "34_2.avif", "34_3.avif", "34_4.avif"],
+            specifications: {
+                              "producto": {
+                                "marca": "Haceb",
+                                "modelo": "HE60-36220V I",
+                                "tipo": "Horno eléctrico",
+                                "condicion": "Nuevo",
+                                "material": "Acero"
+                              },
+                              "dimensiones": {
+                                "alto": "36.1 cm",
+                                "ancho": "59.7 cm",
+                                "profundidad": "37.6 cm",
+                                "peso": "13.3 kg"
+                              },
+                              "especificaciones_tecnicas": {
+                                "capacidad": "33 litros",
+                                "potencia": "1525 W",
+                                "temperatura": {
+                                  "maxima": "290 °C"
+                                },
+                                "caracteristicas": {
+                                  "temporizador": true
+                                }
+                              },
+                              "garantia": {
+                                "duracion": "1 año"
+                              },
+                              "origen": {
+                                "pais": "Colombia"
+                              }
+                            },
+            subcategory_slug: "hornos_electricos",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 35
+          {
+            brand: "HOLSTEIN HOUSEWARES",
+            title: 'Horno con Freidora de Aire Holstein 20 Litros',
+            price: 649900,
+            discount_percentage: null,
+            discount_price : 419900,
+            special_discount_percentage: 40,
+            rating: null, // Se inicializará en 0
+            images: ["35_1.avif", "35_2.avif", "35_3.avif", "35_4.avif"],
+            specifications: {
+                              "producto": {
+                                "marca": "Holstein Housewares",
+                                "modelo": "HH-09204007SS",
+                                "condicion": "Nuevo",
+                                "material": "Metal"
+                              },
+                              "dimensiones": {
+                                "alto": "34.8 cm",
+                                "ancho": "41.8 cm",
+                                "profundidad": "40.3 cm",
+                                "peso": "8.8 kg"
+                              },
+                              "especificaciones": {
+                                "potencia": "1500 W",
+                                "funciones": {
+                                  "cantidad": 9,
+                                  "temporizador": true
+                                }
+                              },
+                              "garantia": {
+                                "duracion": "1 año"
+                              },
+                              "origen": {
+                                "pais": "China"
+                              }
+                            },
+            subcategory_slug: "freidoras_de_aire",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 36
+          {
+            brand: "WHIRLPOOL",
+            title: 'Lavadora WHIRLPOOL 23 Kilos Carga Frontal 7MWFW6605MC Gris',
+            price: 599900,
+            discount_percentage: null,
+            discount_price : 400000,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["36_1.avif", "36_2.avif", "36_3.avif", "36_4.avif"],
+            specifications: {
+                              "producto": {
+                                "modelo": "7MWFW6605MC",
+                                "tipo": "Lavadora Automática",
+                                "tipo_carga": "Frontal",
+                                "color": "Gris",
+                                "condicion": "Nuevo",
+                                "requiere_serial": false,
+                                "incluye": "Lavadora"
+                              },
+                              "dimensiones": {
+                                "alto": "98 cm",
+                                "ancho": "69 cm",
+                                "profundidad": "84 cm",
+                                "peso": "108 kg"
+                              },
+                              "especificaciones_tecnicas": {
+                                "capacidad": "23 kg",
+                                "material_tambor": "Acero inoxidable",
+                                "programas": {
+                                  "cantidad": 37,
+                                  "centrifugado": true
+                                },
+                                "eficiencia": {
+                                  "energetica": "A",
+                                  "clima": "N (Normal) 16ºC-32ºC"
+                                },
+                                "potencia": "No aplica",
+                                "voltaje": "110 V"
+                              },
+                              "caracteristicas": {
+                                "pantalla": "Digital",
+                                "funciones": ["Apagado automático"]
+                              },
+                              "garantia": {
+                                "duracion": "1 año",
+                                "detalle": "12 meses"
+                              },
+                              "origen": {
+                                "pais": "China"
+                              }
+                            },
+            subcategory_slug: "lavadoras_carga_frontal",
+            sold_by: "electroferia de la carrera 13 sas",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 37
+          {
+            brand: "ELECTROLUX",
+            title: 'Lavasecadora ELECTROLUX 11kg7kg Carga Frontal EWDX11L3EG Gris',
+            price: 3469000,
+            discount_percentage: null,
+            discount_price : 2989900,
+            special_discount_percentage: 16,
+            rating: null, // Se inicializará en 0
+            images: ["37_1.avif", "37_2.avif", "37_3.avif", "37_4.avif"],
+            specifications: {
+                              "producto": {
+                                "modelo": "EWDX11L3EG",
+                                "tipo": "Lavadora Automática",
+                                "tipo_carga": "Frontal",
+                                "color": "Gris",
+                                "condicion": "Nuevo",
+                                "requiere_serial": false,
+                                "incluye": "Lavadora"
+                              },
+                              "dimensiones": {
+                                "alto": "85 cm",
+                                "ancho": "60 cm",
+                                "profundidad": "66 cm",
+                                "peso": "76 kg"
+                              },
+                              "especificaciones_tecnicas": {
+                                "capacidad_lavado": "11 kg",
+                                "material_tambor": "Acero inoxidable",
+                                "potencia": "1800 W",
+                                "eficiencia_energetica": "A",
+                                "voltaje": "110 V",
+                                "programas": {
+                                  "cantidad": 2,
+                                  "centrifugado": true
+                                },
+                                "clima": {
+                                  "clase": "N",
+                                  "rango_temperatura": "16ºC-32ºC"
+                                }
+                              },
+                              "caracteristicas": {
+                                "pantalla": "Digital",
+                                "funciones_especiales": ["Apagado automático"]
+                              },
+                              "garantia": {
+                                "duracion": "1 mes",
+                                "detalle": "12 meses"
+                              },
+                              "origen": {
+                                "pais": "China"
+                              }
+                            },
+            subcategory_slug: "lavadoras_carga_frontal",
+            sold_by: "electroferia de la carrera 13 sas",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 38
+          {
+            brand: "OPPO",
+            title: 'Celular OPPO A80 256GB 5G| 8GB RAM | Cámara principal 50 MP dual + 2 MP | Cámara frontal 8MP | Carga rápida de 45W SUPERVOOC¿ | Procesador Mediatek Dimensity 6300',
+            price: 1999900,
+            discount_percentage: null,
+            discount_price : 1094900,
+            special_discount_percentage: 50,
+            rating: null, // Se inicializará en 0
+            images: ["38_1.avif", "38_2.avif", "38_3.avif", "38_4.avif"],
+            specifications: {
+                              "marca": "OPPO",
+                              "modelo": "A80",
+                              "nombre_comercial": "OPPO A80 256GB negro",
+                              "condicion": "Nuevo",
+                              "pais_origen": "China",
+                              "garantia": "2 años",
+                              "almacenamiento_interno": "256 GB",
+                              "memoria_externa": false,
+                              "ram": "8GB",
+                              "pantalla_tamano": "6.6 pulgadas",
+                              "pantalla_tipo": "IPS",
+                              "procesador": "MediaTek Dimensity 6300",
+                              "nucleos": "Octa core",
+                              "velocidad_procesador": "2.4 GHz + 2.0 GHz",
+                              "camara_posterior": "50 MP",
+                              "camara_frontal": "8 MP",
+                              "bateria": "5100 mAh",
+                              "carga_rapida": "45W SUPERVOOC",
+                              "conectividad_5g": true,
+                              "bluetooth": true,
+                              "gps": true,
+                              "tipo_sim": "Double SIM",
+                              "sensores": "GPS, AGPS, Sensor de proximidad de luz, Sensor de huella, Giroscopio",
+                              "alto": "16.57 cm",
+                              "ancho": "7.6 cm",
+                              "profundidad": "0.76 cm",
+                              "resistencia": "IP54",
+                              "sistema_operativo": "Android"
+                            },
+            subcategory_slug: "smartphones",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 39
+          {
+            brand: "MOTOROLA",
+            title: 'Celular Motorola Edge 50 Neo 5G 256GB | 8GB RAM | Cámara posterior 50MP|Cámara frontal 32MP| Pantalla 6,3 pulgadas + Mediatek Dimensity 7300x',
+            price: 2499900,
+            discount_percentage: 44,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["39_1.avif", "39_2.avif", "39_3.avif", "39_4.avif"],
+            specifications: {
+                              "marca": "Motorola",
+                              "modelo": "XT2409-2",
+                              "nombre_comercial": "Motorola Edge 50 Neo 5G 256GB",
+                              "tipo_celular": "Smartphone",
+                              "condicion": "Nuevo",
+                              "pais_origen": "China",
+                              "garantia": "2 años",
+                              "almacenamiento": "256 GB",
+                              "memoria_externa": false,
+                              "ram": "8GB",
+                              "pantalla_tamano": "6.3 pulgadas",
+                              "pantalla_tipo": "OLED",
+                              "procesador": "Mediatek Dimensity 7300x",
+                              "velocidad_procesador": "2.5 GHz",
+                              "nucleos_procesador": "Octa core",
+                              "camara_posterior": "50 MP",
+                              "camara_frontal": "32 MP",
+                              "bateria": "4.310 mAh",
+                              "conectividad_5g": true,
+                              "bluetooth": true,
+                              "gps": true,
+                              "sensores_gps": "GPS, AGPS, LTEPP, SUPL, Glonass, Galileo",
+                              "tipo_sim": "Double SIM",
+                              "alto": "15.41 cm",
+                              "ancho": "7.1 cm",
+                              "profundidad": "0.8 cm",
+                              "resistencia_agua": "IP68",
+                              "sistema_operativo": "Android"
+                            },
+            subcategory_slug: "smartphones",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 40
+          {
+            brand: "SYBILLA",
+            title: 'Falda short Mini Mujer Sybilla',
+            price: 89990,
+            discount_percentage: null,
+            discount_price : 79990,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["40_1.avif", "40_2.avif", "40_3.avif", "40_4.avif"],
+            specifications: {
+                              "marca": "Sybilla",
+                              "modelo": "MSP3FAS808JY",
+                              "estilo_vestuario": "No aplica",
+                              "temporada": "Toda temporada",
+                              "segmento": "Juvenil",
+                              "genero": "Mujer",
+                              "condicion": "Nuevo",
+                              "pais_origen": "China",
+                              "fabricante": "Falabella de Colombia S.A",
+                              "identificacion_nit": "900.017.447-8",
+                              "identificacion_sic": "900017447",
+                              "sostenibilidad_mas_verde": false,
+                              "diseno": "Liso",
+                              "composicion": "75% poliéster, 20% viscosa, 5% elastano",
+                              "caracteristicas_prendas": {
+                                "breteles": "Sin breteles",
+                                "largo": "Mini",
+                                "tiro": "Medio"
+                              }
+                            },
+            subcategory_slug: "faldas_mujer",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 41
+          {
+            brand: "SAMURAI",
+            title: 'Ventilador Samurai Ultra Silence Force Pared Negro',
+            price: 307900,
+            discount_percentage: 15,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["41_1.avif", "41_2.avif", "41_3.avif", "41_4.avif"],
+            specifications: {
+                              "marca": "Samurai",
+                              "modelo": "5861030796",
+                              "fabricante": "Groupe SEB",
+                              "pais_origen": "Colombia",
+                              "condicion": "Nuevo",
+                              "garantia": "2 años",
+                              "dimensiones_alto": "50.5 cm",
+                              "dimensiones_profundidad": "50 cm",
+                              "peso": "5.42 kg",
+                              "clima": "ST (SubTropical) 18ºC-38ºC",
+                              "incluye_ruedas": false,
+                              "velocidades": 3,
+                              "potencia": "90 W"
+                            },
+            subcategory_slug: "ventiladores",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 42
+          {
+            brand: "KONFYT",
+            title: 'Ventilador Profesional Pivotante de Alta Velocidad Konwin',
+            price: 1299900,
+            discount_percentage: 65,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["42_1.avif", "42_2.avif", "42_3.avif", "42_4.avif"],
+            specifications: {
+                              "producto": "Ventilador de Mesa Professional System",
+                              "modelo": "Professional System",
+                              "condicion": "Nuevo",
+                              "detalle_condicion": "Producto nuevo empacado y sellado",
+                              "uso": "Industrial",
+                              "tipo_ventilador": "Mesa", 
+                              "pais_origen": "China",
+                              "potencia": "100 W",
+                              "voltaje": "120 V",
+                              "velocidades": 3,
+                              "area_cobertura": "40 metros",
+                              "incluye": "Ventilador, accesorios, caja, manual, plásticos",
+                              "paquetes": 1,
+                              "requiere_serial": false,
+                              "garantia_vendedor": "12 meses",
+                              "garantia_fabricante": "1 año",
+                              "cobertura_garantia": "Defectos de fábrica"
+                            },
+            subcategory_slug: "ventiladores",
+            sold_by: "Jesucristo Electro",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 43
+          {
+            brand: "RUTTA",
+            title: 'Falda Larga Mujer Negro Rutta 102893',
+            price: 128200,
+            discount_percentage: 70,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["43_1.avif", "43_2.avif"],
+            specifications: {
+                              "marca": "Sybilla",
+                              "nombre": "Falda",
+                              "categoria": "Ropa",
+                              "condicion": "Nuevo",
+                              "materiales": "Poliéster-Algodón",
+                              "especificacion_principal": "Talla M",
+                              "genero": "Mujer",
+                              "pais_origen": "China"
+                            },
+            subcategory_slug: "faldas_mujer",
+            sold_by: "marketing personal",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 44
+          {
+            brand: "DR MARCH",
+            title: 'AUGUST - Falda mini animal print',
+            price: 68000,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["44_1.avif"],
+            specifications: {
+                              "categoria": "Ropa",
+                              "tipo": "Falda",
+                              "material": "Mana", 
+                              "diseno": "Estampado",
+                              "largo": "Mini",
+                              "genero": "Mujer",
+                              "condicion": "Nuevo",
+                              "garantia": "30 días por defecto de fábrica",
+                              "pais_origen": "Colombia"
+                            },
+            subcategory_slug: "faldas_mujer",
+            sold_by: "August",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 45
+          {
+            brand: "BASEMENT",
+            title: 'Pantalón 5 Bolsillos Hombre Slim de Algodón Basement',
+            price: 149990,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: 50,
+            rating: null, // Se inicializará en 0
+            images: ["45_1.avif", "45_2.avif", "45_3.avif", "45_4.avif"],
+            specifications: {
+                              "marca": "Basement",
+                              "modelo": "PASL 5POCK S25",
+                              "tipo": "Pantalones",
+                              "categoria": "Ropa",
+                              "material": "Algodón-acetato-elastano",
+                              "composicion": "79% Algodón, 19% acetato, 2% elastano",
+                              "diseno": "Liso",
+                              "estilo": "Casual",
+                              "fit": "Slim",
+                              "genero": "Hombre",
+                              "temporada": "Toda temporada",
+                              "condicion": "Nuevo",
+                              "pais_origen": "China",
+                              "fabricante": "Falabella de Colombia S.A",
+                              "nit": "900.017.447-8",
+                              "sic": "900.017.447-8",
+                              "eco_amigable": false,
+                            },
+            subcategory_slug: "pantalones_hombre",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 46
+          {
+            brand: "RALPH LAUREN",
+            title: 'Pantalón Chino para Hombre Slim Polo Ralph Lauren',
+            price: 579990,
+            discount_percentage: null,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["46_1.avif", "46_2.avif", "46_3.avif", "46_4.avif"],
+            specifications: {
+                              "marca": "Polo Ralph Lauren",
+                              "modelo": "710778778",
+                              "tipo": "Pantalones",
+                              "categoria": "Ropa",
+                              "material": "Algodón-elastano",
+                              "composicion": "97% Algodón, 3% Elastano",
+                              "estilo": "Casual",
+                              "fit": "Slim", 
+                              "genero": "Hombre",
+                              "temporada": "Toda temporada",
+                              "condicion": "Nuevo",
+                              "pais_origen": "Panamá",
+                              "fabricante": "Falabella de Colombia S.A",
+                              "nit": "900.017.447-8",
+                              "sic": "900.017.447-8",
+                              "eco_amigable": false
+                            },
+            subcategory_slug: "pantalones_hombre",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 47
+          {
+            brand: "MOUNTAIN GEAR",
+            title: 'Chaqueta Cortavientos Hombre Mountain Gear',
+            price: 249990,
+            discount_percentage: 30,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["47_1.avif", "47_2.avif", "47_3.avif", "47_4.avif"],
+            specifications: {
+                              "marca": "Mountain Gear",
+                              "modelo": "CV.M.MAIPO.W25",
+                              "tipo": "Prenda deportiva",
+                              "categoria": "Ropa",
+                              "material": "Poliéster",
+                              "composicion": "100% Poliéster",
+                              "estilo": "Deportivo",
+                              "impermeable": false,
+                              "largo_mangas": "Manga larga",
+                              "genero": "Hombre",
+                              "temporada": "Toda temporada",
+                              "condicion": "Nuevo",
+                              "tecnologia_material": "Ninguna",
+                              "pais_origen": "China"
+                            },
+            subcategory_slug: "chaquetas_y_abrigos_hombre",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 48
+          {
+            brand: "MOUNTAIN GEAR",
+            title: 'Chaqueta Deportiva Outdoor para Hombre Mountain Gear',
+            price: 249990,
+            discount_percentage: 30,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["48_1.avif", "48_2.avif", "48_3.avif", "48_4.avif"],
+            specifications: {
+                              "marca": "Mountain Gear",
+                              "producto": "Chaqueta larga deportiva",
+                              "material": "100% Poliéster",
+                              "impermeable": false,
+                              "largo": "Largo",
+                              "mangas": "Largas",
+                              "genero": "Hombre",
+                              "origen": "China",
+                              "estado": "Nuevo",
+                              "estilo": "Deportivo"
+                            },
+            subcategory_slug: "chaquetas_y_abrigos_hombre",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 49
+          {
+            brand: "LA MARTINA",
+            title: 'Camiseta polo Hombre Manga corta La Martina',
+            price: 199990,
+            discount_percentage: 50,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["49_1.avif", "49_2.avif", "49_3.avif", "49_4.avif"],
+            specifications: {
+                              "marca": "La Martina",
+                              "producto": "Polo slim manga corta",
+                              "material": "100% Algodón",
+                              "fit": "Slim",
+                              "cuello": "Polo",
+                              "mangas": "Cortas",
+                              "genero": "Hombre",
+                              "estilo": "Casual",
+                              "origen": "Perú",
+                              "fabricante": "Falabella",
+                              "estado": "Nuevo",
+                              "temporada": "Toda temporada"
+                            },
+            subcategory_slug: "camisetas_hombre",
+            sold_by: "Falabella",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
+          },
+          // Producto 50
+          {
+            brand: "RUTTA",
+            title: 'Camiseta Hombre Azul Rutta 1855',
+            price: 74100,
+            discount_percentage: 70,
+            discount_price : null,
+            special_discount_percentage: null,
+            rating: null, // Se inicializará en 0
+            images: ["50_1.avif", "50_2.avif", "50_3.avif", "50_4.avif"],
+            specifications: {
+                              "marca": "",
+                              "modelo": "",
+                              "tipo": "Camiseta",
+                              "categoria": "Ropa",
+                              "material": "Poliéster-algodón",
+                              "composicion": "Poliéster algodón",
+                              "genero": "Hombre",
+                              "condicion": "Nuevo"
+                            },
+            subcategory_slug: "camisetas_hombre",
+            sold_by: "marketing personal",
+            description: "Mucho texto",
+            stock: 10, // Unidades disponibles
           }
         ];
         
