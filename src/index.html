@@ -124,7 +124,7 @@
       const section = document.getElementById('section-input').value.trim();
       if (section) {
         try {
-          const response = await fetch(`http://localhost:4000/section/${section}`);
+          const response = await fetch(`http://localhost:4000/${section}`);
           if (!response.ok) {
             throw new Error('Error al obtener los productos');
           }
