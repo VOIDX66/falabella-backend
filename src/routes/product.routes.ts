@@ -8,23 +8,23 @@ router.get("/product/:id", getProductById);
 
 // Obtener productos por sección (usando Slug)
 //router.get("/section/:sectionSlug", getProductsBySection);
-router.get("/:sectionSlug", getProductsBySection);
+router.get("/collection/:sectionSlug", getProductsBySection);
 
 // Obtener productos por categoría (usando Slug)
 //router.get("/category/:categorySlug", getProductsByCategory);
-router.get("/:sectionSlug/:categorySlug", getProductsByCategory);
+router.get("/collection/:sectionSlug/:categorySlug", getProductsByCategory);
 
 // Obtener productos por subcategoría (usando Slug)
 //router.get("/subcategory/:subcategorySlug", getProductsBySubcategory);
-router.get("/:sectionSlug/:categorySlug/:subcategorySlug", getProductsBySubcategory);
+router.get("/collection/:sectionSlug/:categorySlug/:subcategorySlug", getProductsBySubcategory);
 
 // Filtrar productos por sección
-router.post("/:sectionSlug", getFilteredProducts);
+router.post("/collection/:sectionSlug", getFilteredProducts);
 
 // Filtrar productos por categoría
-router.post("/:sectionSlug/:categorySlug", getFilteredProducts);
+router.post("/collection/:sectionSlug/:categorySlug", getFilteredProducts);
 
 // Filtrar productos por subcategoría
-router.post("/:sectionSlug/:categorySlug/:subcategorySlug", getFilteredProducts);
+router.post("/collection/:sectionSlug/:categorySlug/:subcategorySlug", getFilteredProducts);
 
 export default router;
