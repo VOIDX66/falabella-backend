@@ -142,9 +142,73 @@ export const getFilteredProducts = async (req: Request, res: Response) : Promise
             query.andWhere("product.brand IN (:...brands)", { brands });
         }
 
-        if (filters.rating) {
-            query.andWhere(`product.rating >= :minRating`, { minRating: filters.rating });
+        if (filters.rating && typeof filters.rating === "object") {
+            const minRating = parseFloat(filters.rating.minRating || "0");
+            query.andWhere(`product.rating >= :minRating`, { minRating });
+        }        
+
+        if (filters.sold_by) {
+            const soldByFilters: string[] = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
+        
+            // Agregar mas tiendas oficiales de ser necesario
+            const knownStores = ["Falabella", "Homecenter"];
+            const conditions: string[] = [];
+        
+            for (const store of knownStores) {
+                if (soldByFilters.includes(store)) {
+                    conditions.push(`product.sold_by = '${store}'`);
+                }
+            }
+        
+            // Si incluye Marketplace, agregamos condición para tiendas no oficiales
+            if (soldByFilters.includes("Marketplace")) {
+                conditions.push(`product.sold_by NOT IN (${knownStores.map(s => `'${s}'`).join(", ")})`);
+            }
+        
+            if (conditions.length) {
+                query = query.andWhere(`(${conditions.join(" OR ")})`);
+            }
         }
+        
+        
+        // Filtros dinámicos en specifications
+        if (filters.specifications && typeof filters.specifications === "object") {
+            const specifications = filters.specifications as Record<string, string>;
+        
+            Object.entries(specifications).forEach(([key, value], index) => {
+                const numericPart = value.toString().replace(/\D/g, "");
+                const isNumeric = /^\d+$/.test(numericPart);
+        
+                if (isNumeric) {
+                    query.andWhere(`
+                        EXISTS (
+                            SELECT 1
+                            FROM jsonb_each_text(product.specifications) AS kv(key, value)
+                            WHERE kv.key ILIKE :key${index}
+                              AND regexp_replace(kv.value, '\\D', '', 'g') <> ''
+                              AND regexp_replace(kv.value, '\\D', '', 'g')::int = :value${index}
+                        )
+                    `, {
+                        [`key${index}`]: `%${key}%`,
+                        [`value${index}`]: parseInt(numericPart, 10)
+                    });
+                } else {
+                    query.andWhere(`
+                        EXISTS (
+                            SELECT 1
+                            FROM jsonb_each_text(product.specifications) AS kv(key, value)
+                            WHERE kv.key ILIKE :key${index}
+                              AND kv.value ILIKE :value${index}
+                        )
+                    `, {
+                        [`key${index}`]: `%${key}%`,
+                        [`value${index}`]: `%${value}%`
+                    });
+                }
+            });
+        }
+        
+        
 
         console.log(query.getQueryAndParameters());
 
