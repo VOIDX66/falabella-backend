@@ -38,9 +38,22 @@ export const getProductById = async (req: Request, res: Response) : Promise<any>
 };
 
 // Obtener productos por sección
-export const getProductsBySection = async (req: Request, res: Response) : Promise<any> => {
+export const getProductsBySection = async (req: Request, res: Response): Promise<any> => {
     try {
         const { sectionSlug } = req.params;
+
+        // 1. Obtener info de la sección (incluye banner_image)
+        const section = await AppDataSource.getRepository("section")
+            .createQueryBuilder("section")
+            .select(["section.name_section", "section.banner_image"])
+            .where("section.slug = :sectionSlug", { sectionSlug })
+            .getOne();
+
+        if (!section) {
+            return res.status(404).json({ message: "Sección no encontrada" });
+        }
+
+        // 2. Obtener productos asociados a la sección
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
@@ -51,17 +64,39 @@ export const getProductsBySection = async (req: Request, res: Response) : Promis
             .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
 
-        return res.json(cleanProductKeys(products));
+        // 3. Enviar respuesta con banner y productos
+        return res.json({
+            info: {
+                name: section.name_section,
+                banner: section.banner_image
+            },
+            products: cleanProductKeys(products)
+        });
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener productos por sección" });
     }
 };
 
+
 // Obtener productos por categoría
-export const getProductsByCategory = async (req: Request, res: Response) : Promise<any> => {
+export const getProductsByCategory = async (req: Request, res: Response): Promise<any> => {
     try {
         const { sectionSlug, categorySlug } = req.params;
+
+        // 1. Obtener información de la categoría
+        const category = await AppDataSource.getRepository("category")
+            .createQueryBuilder("c")
+            .select(["c.name_category", "c.banner_image"])
+            .where("c.slug = :categorySlug", { categorySlug })
+            .getOne();
+
+        if (!category) {
+            return res.status(404).json({ message: "Categoría no encontrada" });
+        }
+
+        // 2. Obtener productos de esa categoría
         const products = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
@@ -74,12 +109,21 @@ export const getProductsByCategory = async (req: Request, res: Response) : Promi
             .addSelect(["c.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
 
-        return res.json(cleanProductKeys(products));
+        // 3. Devolver respuesta estructurada
+        return res.json({
+            info: {
+                name: category.name_category,
+                banner: category.banner_image
+            },
+            products: cleanProductKeys(products)
+        });
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener productos por categoría" });
     }
 };
+
 
 // Obtener productos por subcategoría
 export const getProductsBySubcategory = async (req: Request, res: Response) : Promise<any> => {

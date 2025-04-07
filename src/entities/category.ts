@@ -15,4 +15,7 @@ export class Category extends BaseEntity {
 
     @Column({ unique: true })
     slug: string;
+
+    @Column({ type: "text", nullable: true })
+    banner_image: string | null;
 }

@@ -17,71 +17,76 @@ export const seedDatabase = async () => {
 
         // 1) Insertar SECTIONS con slug
         const sectionsData = [
-          "Tecnología",
-          "Celulares y accesorios",
-          "Electrohogar",
-          "Moda mujer",
-          "Moda hombre"
+          { name: "Tecnología", banner: null },
+          { name: "Celulares y accesorios", banner: "banner_celulares_y_accesorios.webp" },
+          { name: "Electrohogar", banner: null },
+          { name: "Moda mujer", banner: null },
+          { name: "Moda hombre", banner: "banner_moda_hombre.jpg" }
         ];
+        
         const sections: Section[] = [];
-        for (const name of sectionsData) {
+        
+        for (const { name, banner } of sectionsData) {
           const section = new Section();
           section.name_section = name;
           section.slug = name
-              .normalize("NFD") // Descompone caracteres con tilde
-              .replace(/[\u0300-\u036f]/g, "") // Elimina los diacríticos (tildes)
-              .toLowerCase()
-              .replace(/\s+/g, "_"); // Reemplaza espacios con guiones
-
-          // Guardamos la sección con el slug generado
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/\s+/g, "_");
+        
+          section.banner_image = banner ?? null;
+        
           const savedSection = await AppDataSource.manager.save(section);
           sections.push(savedSection);
         }
 
         // 2) Insertar CATEGORIES con slug (sin referencia a Section)
         const categoriesData = [
-          "Computación",
-          "Audio",
-          "TV y video",
-          "Zona gamer",
-          "Consolas",
-          "Smartwatch y accesorios",
-          "Cámaras y drones",
-          "Patinetas eléctricas",
-          "Smart Home",
-          "Celulares",
-          "Audífonos",
-          "Accesorios celulares",
-          "Refrigeración",
-          "Lavado y planchado",
-          "Climatización",
-          "Cocina",
-          "Aspirado y limpieza",
-          "Electrodomésticos de cocina",
-          "Máquinas de coser",
-          "Cuidado personal",
-          "Ropa Mujer",
-          "Ropa Hombre",
-          "Ropa interior y pijamas Mujer",
-          "Ropa interior y pijamas Hhombre",
-          "Ropa deportiva Mujer",
-          "Ropa deportiva Hombre",
-          "Accesorios Mujer",
-          "Accesorios Hombre",
-          "Zapatos Mujer",
-          "Zapatos Hombre"
+          { name: "Computación", banner: "banner_computacion.jpg" },
+          { name: "Audio", banner: null },
+          { name: "TV y video", banner: null },
+          { name: "Zona gamer", banner: null },
+          { name: "Consolas", banner: null },
+          { name: "Smartwatch y accesorios", banner: null },
+          { name: "Cámaras y drones", banner: null },
+          { name: "Patinetas eléctricas", banner: null },
+          { name: "Smart Home", banner: null },
+          { name: "Celulares", banner: null },
+          { name: "Audífonos", banner: null },
+          { name: "Accesorios celulares", banner: null },
+          { name: "Refrigeración", banner: null },
+          { name: "Lavado y planchado", banner: null },
+          { name: "Climatización", banner: null },
+          { name: "Cocina", banner: null },
+          { name: "Aspirado y limpieza", banner: null },
+          { name: "Electrodomésticos de cocina", banner: null },
+          { name: "Máquinas de coser", banner: null },
+          { name: "Cuidado personal", banner: null },
+          { name: "Ropa Mujer", banner: null },
+          { name: "Ropa Hombre", banner: null },
+          { name: "Ropa interior y pijamas Mujer", banner: null },
+          { name: "Ropa interior y pijamas Hhombre", banner: null },
+          { name: "Ropa deportiva Mujer", banner: null },
+          { name: "Ropa deportiva Hombre", banner: null },
+          { name: "Accesorios Mujer", banner: null },
+          { name: "Accesorios Hombre", banner: null },
+          { name: "Zapatos Mujer", banner: null },
+          { name: "Zapatos Hombre", banner: null }
         ];
         const categories: Category[] = [];
-        for (const name of categoriesData) {
+
+        for (const { name, banner } of categoriesData) {
           const category = new Category();
           category.name_category = name;
           category.slug = name
-              .normalize("NFD") // Descompone caracteres con tilde
-              .replace(/[\u0300-\u036f]/g, "") // Elimina los diacríticos (tildes)
-              .toLowerCase()
-              .replace(/\s+/g, "_"); // Reemplaza espacios con guiones
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/\s+/g, "_");
 
-          // Guardamos la categoría con el slug generado
+          category.banner_image = banner ?? null;
+
           const savedCategory = await AppDataSource.manager.save(category);
           categories.push(savedCategory);
         }

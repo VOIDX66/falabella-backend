@@ -121,3 +121,29 @@ export const editProfile = async (req: Request, res: Response): Promise<any> => 
         return res.status(500).json({ errors: [{ field: "server", message: "Server error" }] });
     }
 };
+
+// Eliminar cuenta de usuario por ID (desde el frontend)
+export const deleteAccount = async (req: Request, res: Response): Promise<any> => {
+    const { userId } = req.body;
+
+    try {
+        const user = await User.findOneBy({ user_id: Number(userId) });
+
+        if (!user) {
+            return res.status(404).json({
+                errors: [{ field: "user", message: "User not found" }]
+            });
+        }
+
+        await user.remove(); // Elimina el usuario completamente de la base de datos
+
+        return res.status(200).json({
+            message: "User account deleted successfully"
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            errors: [{ field: "server", message: "Server error" }]
+        });
+    }
+};
