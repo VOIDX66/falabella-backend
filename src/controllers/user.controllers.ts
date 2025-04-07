@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../entities/user";
+import bcrypt from 'bcrypt';
 
 export const get_user_profile = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -27,20 +28,23 @@ export const get_user_profile = async (req: Request, res: Response): Promise<any
 };
 
 // Editar perfil de usuario (name, lastname, lastname2, phone)
-export const editProfile = async (req: Request, res: Response) : Promise<any> => {
+export const editProfile = async (req: Request, res: Response): Promise<any> => {
     const { id } = req.params;
-    const { name, lastname, lastname2, phone } = req.body;
+    const { name, lastname, lastname2, phone, password, new_password } = req.body;
 
     const errors: { field: string, message: string }[] = [];
 
-    // Validar que al menos uno esté presente
-    if (!name && !lastname && !lastname2 && !phone) {
+    const wantsToChangeProfile = name || lastname || lastname2 || phone;
+    const wantsToChangePassword = password || new_password;
+
+    // Validar que al menos se quiera cambiar algo
+    if (!wantsToChangeProfile && !wantsToChangePassword) {
         return res.status(400).json({
-            errors: [{ field: "general", message: "At least one field (name, lastname, lastname2, phone) is required" }]
+            errors: [{ field: "general", message: "At least one field (name, lastname, lastname2, phone, password) is required" }]
         });
     }
 
-    // Validar campos si es que vienen
+    // Validaciones de perfil
     if (name && !/^(?=(?:.*[A-Za-zÁÉÍÓÚáéíóúñÑ]){2,})[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/.test(name)) {
         errors.push({ field: "name", message: "Name must be at least 2 letters and can only contain letters and spaces" });
     }
@@ -57,6 +61,21 @@ export const editProfile = async (req: Request, res: Response) : Promise<any> =>
         errors.push({ field: "phone", message: "Phone must be numeric" });
     }
 
+    // Validaciones de contraseña
+    if (wantsToChangePassword) {
+        if (!password || !new_password) {
+            errors.push({ field: "password", message: "Both password and new_password are required to change password" });
+        } else {
+            const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\s¡¿"ºª·`´çñÑ,]).{8,}$/;
+            if (!passwordRegex.test(new_password)) {
+                errors.push({
+                    field: "new_password",
+                    message: "Password must be at least 8 characters long, contain one number, one uppercase letter, one lowercase letter, no spaces, and no special characters like '\\¡¿\"ºª·`´çñÑ,'"
+                });
+            }
+        }
+    }
+
     if (errors.length > 0) {
         return res.status(400).json({ errors });
     }
@@ -68,10 +87,21 @@ export const editProfile = async (req: Request, res: Response) : Promise<any> =>
             return res.status(404).json({ errors: [{ field: "user", message: "User not found" }] });
         }
 
-        // Si vienen los campos, actualízalos
+        // Cambio de contraseña si se solicitó
+        if (password && new_password) {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(401).json({ errors: [{ field: "password", message: "Current password is incorrect" }] });
+            }
+
+            const hashedPassword = await bcrypt.hash(new_password, 10);
+            user.password = hashedPassword;
+        }
+
+        // Actualización de perfil
         if (name) user.name = name;
         if (lastname) user.lastname = lastname;
-        if (lastname2) (user as any).lastname2 = lastname2; // <- si decides agregarlo luego al entity
+        if (lastname2) (user as any).lastname2 = lastname2;
         if (phone) user.phone = phone;
 
         await user.save();
