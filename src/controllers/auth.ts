@@ -4,6 +4,7 @@ import { Cart } from "../entities/cart";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
+import { MailerSend, EmailParams, Recipient, Sender } from 'mailersend';
 
 // Clave secreta para firmar los tokens
 const JWT_SECRET = process.env.JWT_SECRET as string;
@@ -187,3 +188,118 @@ export const register = async (req: Request, res: Response): Promise<any> => {
     }
 };
 
+
+const mailerSend = new MailerSend({ apiKey: process.env.MAILERSEND_API_KEY! });
+
+// Función para generar código
+const generateResetCode = (): string => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+const tempCodeStore: Record<string, string> = {};
+
+// Enviar correo con código
+const sendResetPasswordEmail = async (email: string, resetCode: string) => {
+  try {
+    const emailParams = new EmailParams();
+
+    emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)"); // Cambia por el remitente verificado
+    emailParams.to = [new Recipient(email, "Usuario")];
+    emailParams.subject = "Código de restablecimiento de contraseña";
+    emailParams.html = `
+      <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
+      <p>Si no fuiste tú, ignora este correo.</p>
+      <p>Código para restablecer tu contraseña:</p>
+      <h2>${resetCode}</h2>
+      <p>Este código expira en 10 minutos.</p>
+    `;
+    emailParams.text = `Tu código de restablecimiento es: ${resetCode}`;
+
+    await mailerSend.email.send(emailParams);
+  } catch (error) {
+    console.error("Error al enviar el correo:", error);
+    throw new Error("No se pudo enviar el correo de restablecimiento");
+  }
+};
+
+// Forgot password
+export const forgotPassword = async (req: Request, res: Response): Promise<any> => {
+  await body("email").isEmail().withMessage("Formato de email inválido").run(req);
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array().map(err => ({
+        field: (err as any).path || "unknown",
+        message: err.msg,
+      })),
+    });
+  }
+
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOneBy({ email });
+
+    if (!user) {
+      return res.status(404).json({ errors: [{ field: "email", message: "Usuario no encontrado" }] });
+    }
+
+    const resetCode = generateResetCode();
+    tempCodeStore[email] = resetCode;
+
+    setTimeout(() => delete tempCodeStore[email], 10 * 60 * 1000);
+
+    await sendResetPasswordEmail(email, resetCode);
+
+    return res.status(200).json({ message: "Código de restablecimiento enviado al correo." });
+  } catch (error) {
+    console.error("Error en forgotPassword:", error);
+    return res.status(500).json({ errors: [{ field: "server", message: "Error del servidor" }] });
+  }
+};
+
+// Verificación del código
+export const verifyCodeAndResetPassword = async (req: Request, res: Response): Promise<any> => {
+    const { email, code, new_password } = req.body;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\s¡¿"ºª·`´çñÑ,]).{8,}$/;
+  
+    if (!email || !code || !new_password) {
+      return res.status(400).json({ message: "Correo, código y nueva contraseña son requeridos." });
+    }
+  
+    // Validar primero el código
+    const storedCode = tempCodeStore[email];
+    if (!storedCode || storedCode !== code) {
+      return res.status(400).json({ message: "Código incorrecto o expirado." });
+    }
+  
+    // Validar formato de la nueva contraseña
+    if (!passwordRegex.test(new_password)) {
+      return res.status(400).json({
+        errors: [{
+          field: "password",
+          message: "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número, sin espacios, y evitar caracteres como '\\¡¿\"ºª·`´çñÑ,'."
+        }]
+      });
+    }
+  
+    try {
+      const user = await User.findOneBy({ email });
+  
+      if (!user) {
+        return res.status(404).json({ message: "Usuario no encontrado." });
+      }
+  
+      const hashedPassword = await bcrypt.hash(new_password, 10);
+      user.password = hashedPassword;
+      await user.save();
+  
+      delete tempCodeStore[email];
+  
+      return res.status(200).json({ message: "Contraseña restablecida con éxito." });
+    } catch (error) {
+      console.error("Error al restablecer contraseña:", error);
+      return res.status(500).json({ message: "Error del servidor al actualizar la contraseña." });
+    }
+  };
