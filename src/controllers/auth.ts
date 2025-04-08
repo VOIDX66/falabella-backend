@@ -205,7 +205,7 @@ const sendResetPasswordEmail = async (email: string, resetCode: string) => {
 
     emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)"); // Cambia por el remitente verificado
     emailParams.to = [new Recipient(email, "Usuario")];
-    emailParams.subject = "Código de restablecimiento de contraseña";
+    emailParams.subject = "Cambia tu contraseña";
     emailParams.html = `
     <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
       <div style="background-color: #ffffff; padding: 20px 0; text-align: center;">
