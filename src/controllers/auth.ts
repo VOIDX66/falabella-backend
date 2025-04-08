@@ -207,12 +207,29 @@ const sendResetPasswordEmail = async (email: string, resetCode: string) => {
     emailParams.to = [new Recipient(email, "Usuario")];
     emailParams.subject = "Código de restablecimiento de contraseña";
     emailParams.html = `
-      <p>Hemos recibido una solicitud para restablecer tu contraseña.</p>
-      <p>Si no fuiste tú, ignora este correo.</p>
-      <p>Código para restablecer tu contraseña:</p>
-      <h2>${resetCode}</h2>
-      <p>Este código expira en 10 minutos.</p>
-    `;
+    <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+      <div style="background-color: #ffffff; padding: 20px 0; text-align: center;">
+        <img src="https://ci3.googleusercontent.com/meips/ADKq_NY2JVNwPPLFUvJ66xqNzNKdP9VrMt3E0aQRKuoj4TV-kgD41MSlMb6BTnboB5Oj7NxTSEcWVroe3jFWiUfzn7vxvmPRDl2XyEPUJ65wqFv_CuKaOQSnbsabsLYikAg1_oOW6GZodPUHqjbWLdToeEcPwAoKM9wL9AEM=s0-d-e1-ft#https://image.corp.falabella.com/lib/fe8e127477650c7a70/m/1/980ae602-08fb-439b-bad9-2943edfe46aa.png" alt="Falabella" style="max-width: 180px;">
+      </div>
+      <div style="padding: 30px; background-color: #ffffff;">
+        <h2 style="color: #333; font-size: 22px;">Te ayudamos a cambiar tu contraseña</h2>
+        <p style="color: #555;">Hola,</p>
+        <p style="color: #555;">¿Se te olvidó la contraseña? A quién no le ha pasado. En la pantalla de recuperación <strong>ingresa este código verificador:</strong></p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="font-size: 40px; color: #2e7d32; font-weight: bold;">${resetCode}</div>
+          <p style="color: #777; font-size: 14px;">Contraseña válida para solo 1 uso.</p>
+        </div>
+        <p style="color: #555;">Si no fuiste tú quien solicitó el cambio, por favor ignora este correo.</p>
+        <div style="margin-top: 20px; background-color: #f9f9f9; padding: 15px; border-left: 4px solid #ff5722;">
+          <strong style="color: #d32f2f;">¡Importante!</strong>
+          <p style="margin: 5px 0; font-size: 14px; color: #555;">Nunca te llamaremos o escribiremos para solicitar este código, no lo compartas.</p>
+        </div>
+      </div>
+      <div style="background-color: #003764; color: white; padding: 15px; text-align: center;">
+        Agradecemos tu confianza
+      </div>
+    </div>
+  `;
     emailParams.text = `Tu código de restablecimiento es: ${resetCode}`;
 
     await mailerSend.email.send(emailParams);
