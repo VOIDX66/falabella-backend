@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../entities/user";
 import { Cart } from "../entities/cart";
+import { FavoriteList } from "../entities/favoritelist";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
@@ -162,6 +163,13 @@ export const register = async (req: Request, res: Response): Promise<any> => {
         await user.save();
         const cart = Cart.create({ user });
         await cart.save();
+
+        const defaultList = FavoriteList.create({
+          user,
+          name: "Mis favoritos",
+          is_default: true,
+        });
+        await defaultList.save();
 
         // Generar JWT para el usuario recién registrado
         const token = jwt.sign(
