@@ -79,13 +79,15 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
         // 1. Obtener info de la sección (incluye banner_image)
         const section = await AppDataSource.getRepository("section")
             .createQueryBuilder("section")
-            .select(["section.name_section", "section.banner_image"])
+            .select(["section.name_section", "section.banner_image", "section.id_section"])
             .where("section.slug = :sectionSlug", { sectionSlug })
             .getOne();
 
         if (!section) {
             return res.status(404).json({ message: "Sección no encontrada" });
         }
+
+        const sectionId = section.id_section;
 
         // 2. Obtener productos asociados a la sección
         const products = await AppDataSource.getRepository(Product)
@@ -98,13 +100,38 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
             .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
 
-        // 3. Enviar respuesta con banner y productos
+        // 3. Obtener destacados: hasta 5 categorías de la sección con 1 imagen representativa de producto
+        const featured = await AppDataSource.getRepository(Product)
+            .createQueryBuilder("product")
+            .select([
+                "category.name_category AS name",
+                "category.slug AS slug",
+                "product.images[1] AS image" // index 1 por seguridad, puede ajustar a 0 si lo prefieres
+            ])
+            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+            .innerJoin("category", "category", "cs.categoryIdCategory = category.id_category")
+            .innerJoin("section_category", "sc", "category.id_category = sc.categoryIdCategory")
+            .where("sc.sectionIdSection = :sectionId", { sectionId })
+            .andWhere("jsonb_array_length(product.images) > 0")
+            .groupBy("category.id_category, product.id_product")
+            .distinctOn(["category.id_category"])
+            .orderBy("category.id_category", "ASC")
+            .limit(5)
+            .getRawMany();
+
+        // 4. Enviar respuesta con banner, productos y destacados
         return res.json({
             info: {
                 name: section.name_section,
-                banner: section.banner_image
+                banner: section.banner_image,
+                featured: featured.map(f => ({
+                    name: f.name,
+                    slug: f.slug,
+                    image: f.image
+                }))
             },
-            products: cleanProductKeys(products)
+            products: cleanProductKeys(products),
         });
 
     } catch (error) {
