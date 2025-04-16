@@ -9,6 +9,8 @@ import { CategorySubcategory } from "./entities/categorysubcategory";
 import { Product } from "./entities/product";
 import { Cart } from "./entities/cart";
 import { CartProduct } from "./entities/cartproduct";
+import { FavoriteList } from "./entities/favoritelist";
+import { FavoriteProduct } from "./entities/favoriteproduct";
 
 dotenv.config();
 
@@ -19,7 +21,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASS,
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME,
-    entities: [User, Section, Category, Subcategory, SectionCategory, CategorySubcategory, Product, Cart, CartProduct],
+    entities: [User, Section, Category, Subcategory, SectionCategory, CategorySubcategory, Product, Cart, CartProduct, FavoriteList, FavoriteProduct],
     logging : true,
     synchronize : true
 })
