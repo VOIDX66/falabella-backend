@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../db";
 import { Product } from "../entities/product";
+import { User } from "../entities/user";
+import { FavoriteProduct } from "../entities/favoriteproduct";
 
 // Función auxiliar para limpiar los prefijos "product_"
 const cleanProductKeys = (products: any[]) => {
@@ -15,27 +17,59 @@ const cleanProductKeys = (products: any[]) => {
 };
 
 // Obtener producto por ID
-export const getProductById = async (req: Request, res: Response) : Promise<any> => {
+export const getProductById = async (req: Request, res: Response): Promise<any> => {
     try {
-        const { id } = req.params;
-        const product = await AppDataSource.getRepository(Product)
-            .createQueryBuilder("product")
-            .where("product.id_product = :id", { id })
-            .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
-            .leftJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
-            .leftJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
-            .leftJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
-            .leftJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
-            .getRawOne();
+      // Obtener el ID del producto desde los parámetros y el ID del usuario desde el cuerpo de la solicitud
+      const { id } = req.params;
+      const userId = req.body.userId; // Suponiendo que el ID del usuario se obtiene del token o sesión
         
-        if (!product) return res.status(404).json({ message: "Producto no encontrado" });
+      console.log(userId)
 
-        return res.json(cleanProductKeys([product])[0]); // Limpiar prefijos antes de enviar
+      // Validación del ID del producto
+      if (isNaN(Number(id))) {
+        return res.status(400).json({ message: "ID de producto no válido" });
+      }
+  
+      // Obtener el producto por ID con las uniones necesarias
+      const product = await AppDataSource.getRepository(Product)
+        .createQueryBuilder("product")
+        .where("product.id_product = :id", { id })
+        .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
+        .leftJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+        .leftJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+        .leftJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
+        .leftJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
+        .getRawOne();
+  
+      if (!product) return res.status(404).json({ message: "Producto no encontrado" });
+  
+      // Inicializar el campo is_favorite como false
+      let isFavorite = false;
+  
+      // Verificar si el usuario está autenticado y si el producto está en la lista de favoritos
+      if (userId) {
+        
+        const favorite = await FavoriteProduct.findOne({
+          where: {
+            product: { id_product: Number(id) }, // Asegurarse de que el ID del producto sea correcto
+            favoriteList: { user: { user_id: userId } }, // Validar la relación con el usuario
+          },
+        });
+  
+        isFavorite = !!favorite; // Si existe un registro en FavoriteProduct, es un favorito
+      }
+  
+      // Limpiar la estructura del producto y agregar el campo is_favorite
+      const cleanedProduct = cleanProductKeys([product])[0];
+      cleanedProduct.is_favorite = isFavorite;
+  
+      // Devolver el producto con el campo is_favorite
+      return res.json(cleanedProduct); // Limpiar prefijos y agregar el campo is_favorite
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Error al obtener producto por ID" });
+      console.error(error);
+      return res.status(500).json({ message: "Error al obtener producto por ID" });
     }
-};
+  };
 
 // Obtener productos por sección
 export const getProductsBySection = async (req: Request, res: Response): Promise<any> => {
