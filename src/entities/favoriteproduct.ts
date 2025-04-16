@@ -2,6 +2,8 @@ import {
     BaseEntity,
     Entity,
     PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
     Column,
     ManyToOne,
     JoinColumn,
@@ -16,17 +18,26 @@ import {
     @PrimaryGeneratedColumn()
     id_favorite_product: number;
   
-    @ManyToOne(() => FavoriteList, (list) => list.products, {
+    @Column()
+    quantity: number;
+  
+    @ManyToOne(() => FavoriteList, (favoriteList) => favoriteList.products, {
       onDelete: "CASCADE",
     })
-    @JoinColumn({ name: "favorite_list_id" })
+    @JoinColumn({ name: "id_favorite_list" })
     favoriteList: FavoriteList;
   
-    @ManyToOne(() => Product, { eager: true, onDelete: "CASCADE" })
+    @ManyToOne(() => Product, {
+      eager: true,
+      onDelete: "CASCADE",
+    })
     @JoinColumn({ name: "product_id" })
     product: Product;
   
-    @Column({ type: "int", default: 1 })
-    quantity: number;
+    @CreateDateColumn()
+    created_at: Date;
+  
+    @UpdateDateColumn()
+    updated_at: Date;
   }
   
