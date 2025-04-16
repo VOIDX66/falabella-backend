@@ -7,11 +7,6 @@ import { CategorySubcategory } from "./entities/categorysubcategory";
 import { Product } from "./entities/product";
 
 export const seedDatabase = async () => {
-  const sectionCount = await AppDataSource.manager.count(Section)
-  if (sectionCount > 0){
-    console.log("Seed de categorias ya esta cargada")
-    return; 
-  }
     try {
         console.log("📦 Base de datos conectada");
 
@@ -27,18 +22,24 @@ export const seedDatabase = async () => {
         const sections: Section[] = [];
         
         for (const { name, banner } of sectionsData) {
-          const section = new Section();
-          section.name_section = name;
-          section.slug = name
+          const slug = name
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .toLowerCase()
             .replace(/\s+/g, "_");
         
+          let section = await AppDataSource.manager.findOneBy(Section, { slug });
+        
+          if (!section) {
+            section = new Section();
+            section.slug = slug;
+          }
+        
+          section.name_section = name;
           section.banner_image = banner ?? null;
         
-          const savedSection = await AppDataSource.manager.save(section);
-          sections.push(savedSection);
+          const saveSection = await AppDataSource.manager.save(section);
+          sections.push(saveSection);
         }
 
         // 2) Insertar CATEGORIES con slug (sin referencia a Section)
@@ -66,7 +67,7 @@ export const seedDatabase = async () => {
           { name: "Ropa Mujer", banner: null },
           { name: "Ropa Hombre", banner: null },
           { name: "Ropa interior y pijamas Mujer", banner: null },
-          { name: "Ropa interior y pijamas Hhombre", banner: null },
+          { name: "Ropa interior y pijamas Hombre", banner: null },
           { name: "Ropa deportiva Mujer", banner: null },
           { name: "Ropa deportiva Hombre", banner: null },
           { name: "Accesorios Mujer", banner: null },
@@ -76,163 +77,177 @@ export const seedDatabase = async () => {
         ];
         const categories: Category[] = [];
 
-        for (const { name, banner } of categoriesData) {
-          const category = new Category();
-          category.name_category = name;
-          category.slug = name
+        //
+        for (const category of categoriesData) {
+          const slug = category.name
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .toLowerCase()
             .replace(/\s+/g, "_");
-
-          category.banner_image = banner ?? null;
-
-          const savedCategory = await AppDataSource.manager.save(category);
-          categories.push(savedCategory);
+        
+          let categoryEntity = await AppDataSource.manager.findOneBy(Category, { slug });
+        
+          if (!categoryEntity) {
+            categoryEntity = new Category();
+            categoryEntity.slug = slug;
+          }
+        
+          categoryEntity.name_category = category.name;
+        
+          const saveCategory = await AppDataSource.manager.save(categoryEntity);
+          categories.push(saveCategory);
         }
-
+        //
 
         // 3) Insertar SUBCATEGORIES (sin referencia a Category)
+
         const subcategoriesData = [
-            "Portátiles",
-            "Tablets",
-            "Impresoras",
-            "Accesorios computación",
-            "Monitores",
-            "PC de escritorio",
-            "Conectividad",
-            "Barras de sonido",
-            "Equipos de sonido y karaoke",
-            "Parlantes",
-            "Televisores",
-            "Proyectores",
-            "Accesorios TV",
-            "Streaming",
-            "Playstation",
-            "Nintendo",
-            "Xbox",
-            "Videojuegos",
-            "Cámaras deportivas",
-            "Cámaras instantaneas",
-            "Cámaras profesionales",
-            "Cámaras semi profesionales",
-            "Asistentes por voz",
-            "Aspiradoras robot",
-            "Iluminación inteligente",
-            "Smartphones",
-            "Celulares básicos",
-            "Audifonos in ear",
-            "Audifonos on ear",
-            "Audifonos over ear",
-            "Baterias externas",
-            "Cargadores y cables",
-            "Forros y estuches",
-            "Protectores de pantalla",
-            "Soporte de celulares",
-            "Cavas",
-            "Congeladores",
-            "Dispensadores de agua",
-            "Minibares",
-            "Nevecones",
-            "Nevera congelador superior",
-            "Congelador inferior",
-            "Lavadoras carga frontal",
-            "Lavadoras carga superior",
-            "Lavadoras secadoras",
-            "Planchas",
-            "Secadoras",
-            "Aires acondicionados",
-            "Calefactores",
-            "Calentadores de agua",
-            "Purificadores de aire",
-            "Ventiladores",
-            "Estufas de piso",
-            "Estufas empotrables",
-            "Extractores y campanas",
-            "Hornos empotrables",
-            "Lavajillas",
-            "Aspiradoras",
-            "Hidrolavadoras",
-            "Freidoras de aire",
-            "Licuadoras",
-            "Batidoras",
-            "Microondas",
-            "Ollas arroceras y multiusos",
-            "Sanducheras y wafleras",
-            "Cafeteras eléctricas",
-            "Cocina divertida",
-            "Exprimidores y extractores",
-            "Grills y parrillas eléctricas",
-            "Hervidores",
-            "Hornos eléctricos",
-            "Procesadores de alimentos",
-            "Tostadoras",
-            "Planchas y alisadores",
-            "Onduladores de pelo",
-            "Barbería",
-            "Depiladoras eléctricas",
-            "Masajeadores eléctricos",
-            "Blazers Mujer",
-            "Blusas Mujer", 
-            "Camisetas Mujer",
-            "Camisetas Hombre",
-            "Chaquetas y abrigos Mujer",
-            "Chaquetas y abrigos Hombre",
-            "Faldas Mujer",
-            "Jeans Mujer",
-            "Jeans Hombre",
-            "Pantalones Mujer",
-            "Pantalones Hombre",
-            "Sacos y hoodies Mujer",
-            "Sacos y hoodies Hombre",
-            "Shorts Mujer",
-            "Vestidos y enterizos",
-            "Vestidos de Baño",
-            "Brasiers Mujer",
-            "Calzones Mujer",
-            "Fajas y moldeadores Mujer",
-            "Medias Mujer",
-            "Medias Hombre",
-            "Packs Mujer",
-            "Packs Hombre",
-            "Pantuflas Mujer",
-            "Pantuflas Hombre",
-            "Pijamas Mujer",
-            "Pijamas Hombre",
-            "Chaquetas y cortavientos Mujer",
-            "Chaquetas y cortavientos Hombre",
-            "Leggins y licras Mujer",
-            "Pantalones shorts y faldas Mujer",
-            "Tops deportivos Mujer",
-            "Medias deportivas Mujer",
-            "Medias deportivas Hombre",
-            "Mundo futbol Mujer",
-            "Mundo futbol Hombre",
-            "Camisetas polo Mujer", 
-            "Camisetas polo Hombre", 
-            "Camisas Casuales Hombre",
-            "Shorts y bermudas Hombre",
-            "Pantalonetas de baño Hombre",
-            "Trajes formales Hombre",
-            "Boxers y calzoncillos Hombre",
-            "Pantalones deportivos Hombre",
-            "Gorras y sombreros Hombre",
-            "Cinturones Hombre",
-            "Billeteras Hombre"
+          { name: "Portátiles" },
+          { name: "Tablets" },
+          { name: "Impresoras" },
+          { name: "Accesorios computación" },
+          { name: "Monitores" },
+          { name: "PC de escritorio" },
+          { name: "Conectividad" },
+          { name: "Barras de sonido" },
+          { name: "Equipos de sonido y karaoke" },
+          { name: "Parlantes" },
+          { name: "Televisores" },
+          { name: "Proyectores" },
+          { name: "Accesorios TV" },
+          { name: "Streaming" },
+          { name: "Playstation" },
+          { name: "Nintendo" },
+          { name: "Xbox" },
+          { name: "Videojuegos" },
+          { name: "Cámaras deportivas" },
+          { name: "Cámaras instantaneas" },
+          { name: "Cámaras profesionales" },
+          { name: "Cámaras semi profesionales" },
+          { name: "Asistentes por voz" },
+          { name: "Aspiradoras robot" },
+          { name: "Iluminación inteligente" },
+          { name: "Smartphones" },
+          { name: "Celulares básicos" },
+          { name: "Audifonos in ear" },
+          { name: "Audifonos on ear" },
+          { name: "Audifonos over ear" },
+          { name: "Baterias externas" },
+          { name: "Cargadores y cables" },
+          { name: "Forros y estuches" },
+          { name: "Protectores de pantalla" },
+          { name: "Soporte de celulares" },
+          { name: "Cavas" },
+          { name: "Congeladores" },
+          { name: "Dispensadores de agua" },
+          { name: "Minibares" },
+          { name: "Nevecones" },
+          { name: "Nevera congelador superior" },
+          { name: "Congelador inferior" },
+          { name: "Lavadoras carga frontal" },
+          { name: "Lavadoras carga superior" },
+          { name: "Lavadoras secadoras" },
+          { name: "Planchas" },
+          { name: "Secadoras" },
+          { name: "Aires acondicionados" },
+          { name: "Calefactores" },
+          { name: "Calentadores de agua" },
+          { name: "Purificadores de aire" },
+          { name: "Ventiladores" },
+          { name: "Estufas de piso" },
+          { name: "Estufas empotrables" },
+          { name: "Extractores y campanas" },
+          { name: "Hornos empotrables" },
+          { name: "Lavajillas" },
+          { name: "Aspiradoras" },
+          { name: "Hidrolavadoras" },
+          { name: "Freidoras de aire" },
+          { name: "Licuadoras" },
+          { name: "Batidoras" },
+          { name: "Microondas" },
+          { name: "Ollas arroceras y multiusos" },
+          { name: "Sanducheras y wafleras" },
+          { name: "Cafeteras eléctricas" },
+          { name: "Cocina divertida" },
+          { name: "Exprimidores y extractores" },
+          { name: "Grills y parrillas eléctricas" },
+          { name: "Hervidores" },
+          { name: "Hornos eléctricos" },
+          { name: "Procesadores de alimentos" },
+          { name: "Tostadoras" },
+          { name: "Planchas y alisadores" },
+          { name: "Onduladores de pelo" },
+          { name: "Barbería" },
+          { name: "Depiladoras eléctricas" },
+          { name: "Masajeadores eléctricos" },
+          { name: "Blazers Mujer" },
+          { name: "Blusas Mujer" },
+          { name: "Camisetas Mujer" },
+          { name: "Camisetas Hombre" },
+          { name: "Chaquetas y abrigos Mujer" },
+          { name: "Chaquetas y abrigos Hombre" },
+          { name: "Faldas Mujer" },
+          { name: "Jeans Mujer" },
+          { name: "Jeans Hombre" },
+          { name: "Pantalones Mujer" },
+          { name: "Pantalones Hombre" },
+          { name: "Sacos y hoodies Mujer" },
+          { name: "Sacos y hoodies Hombre" },
+          { name: "Shorts Mujer" },
+          { name: "Vestidos y enterizos" },
+          { name: "Vestidos de Baño" },
+          { name: "Brasiers Mujer" },
+          { name: "Calzones Mujer" },
+          { name: "Fajas y moldeadores Mujer" },
+          { name: "Medias Mujer" },
+          { name: "Medias Hombre" },
+          { name: "Packs Mujer" },
+          { name: "Packs Hombre" },
+          { name: "Pantuflas Mujer" },
+          { name: "Pantuflas Hombre" },
+          { name: "Pijamas Mujer" },
+          { name: "Pijamas Hombre" },
+          { name: "Chaquetas y cortavientos Mujer" },
+          { name: "Chaquetas y cortavientos Hombre" },
+          { name: "Leggins y licras Mujer" },
+          { name: "Pantalones shorts y faldas Mujer" },
+          { name: "Tops deportivos Mujer" },
+          { name: "Medias deportivas Mujer" },
+          { name: "Medias deportivas Hombre" },
+          { name: "Mundo futbol Mujer" },
+          { name: "Mundo futbol Hombre" },
+          { name: "Camisetas polo Mujer" },
+          { name: "Camisetas polo Hombre" },
+          { name: "Camisas Casuales Hombre" },
+          { name: "Shorts y bermudas Hombre" },
+          { name: "Pantalonetas de baño Hombre" },
+          { name: "Trajes formales Hombre" },
+          { name: "Boxers y calzoncillos Hombre" },
+          { name: "Pantalones deportivos Hombre" },
+          { name: "Gorras y sombreros Hombre" },
+          { name: "Cinturones Hombre" },
+          { name: "Billeteras Hombre" }
         ];
         const subcategories: Subcategory[] = [];
-        for (const name of subcategoriesData) {
-            const subcat = new Subcategory();
-            subcat.name_subcategory = name;
-            subcat.slug = name
-                .normalize("NFD") // Descompone caracteres con tilde
-                .replace(/[\u0300-\u036f]/g, "") // Elimina los diacríticos (tildes)
-                .toLowerCase()
-                .replace(/\s+/g, "_"); // Reemplaza espacios con guiones
 
-            // Guardamos la subcategoría con el slug generado
-            const savedSubcat = await AppDataSource.manager.save(subcat);
-            subcategories.push(savedSubcat);
+        for (const subcategory of subcategoriesData) {
+          const slug = subcategory.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/\s+/g, "_");
+        
+          let subcategoryEntity = await AppDataSource.manager.findOneBy(Subcategory, { slug });
+        
+          if (!subcategoryEntity) {
+            subcategoryEntity = new Subcategory();
+            subcategoryEntity.slug = slug;
+          }
+        
+          subcategoryEntity.name_subcategory = subcategory.name;
+        
+          const savedSubcategory = await AppDataSource.manager.save(subcategoryEntity);
+          subcategories.push(savedSubcategory)
         }
 
         // 4) Vincular Section ↔ Category en SectionCategory
@@ -248,7 +263,7 @@ export const seedDatabase = async () => {
                     "Consolas", 
                     "Smartwatch y accesorios", 
                     "Cámaras y drones", 
-                    "Patinenas elétricas", 
+                    "Patinetas eléctricas", 
                     "Smart Home"
                 ]
             },
@@ -270,7 +285,7 @@ export const seedDatabase = async () => {
                     "Cocina",
                     "Aspirado y limpieza",
                     "Electrodomésticos de cocina",
-                    "Maquinas de coser",
+                    "Máquinas de coser",
                     "Cuidado personal"
                 ]
             },
@@ -295,21 +310,52 @@ export const seedDatabase = async () => {
               ]
             }
         ];
+        
+        // Primero, opcionalmente, limpiamos la tabla de relaciones para evitar duplicados
+        try {
+          console.log("Limpiando la tabla de relaciones SectionCategory...");
+          await AppDataSource.manager.clear(SectionCategory);
+          await AppDataSource.query('TRUNCATE TABLE section_category RESTART IDENTITY CASCADE;');
+
+          console.log("Tabla de relaciones limpiada.");
+        } catch (error) {
+          console.error("Error al limpiar la tabla de relaciones:", error);
+        }
 
         for (const scItem of sectionCategoryData) {
-            const sectionEntity = sections.find(s => s.name_section === scItem.sectionName);
-            if (sectionEntity) {
-                for (const catName of scItem.categoryNames) {
-                    const catEntity = categories.find(c => c.name_category === catName);
-                    if (catEntity) {
-                        const sectionCategory = new SectionCategory();
-                        sectionCategory.section = sectionEntity;
-                        sectionCategory.category = catEntity;
-                        // Reemplazamos sectionCategory.save() por manager.save(sectionCategory)
-                        await AppDataSource.manager.save(sectionCategory);
-                    }
-                }
+          console.log(`\nProcesando relación para la sección: ${scItem.sectionName}`);
+
+          // Buscar la sección usando la propiedad "name_section"
+          const sectionEntity = sections.find(s => s.name_section === scItem.sectionName);
+          if (!sectionEntity) {
+            console.warn(`⚠️  No se encontró la sección: ${scItem.sectionName}`);
+            continue;
+          }
+          console.log(`Se encontró la sección: ${sectionEntity.name_section} (ID: ${sectionEntity.id_section})`);
+
+          for (const catName of scItem.categoryNames) {
+            console.log(`  Procesando categoría: ${catName}`);
+
+            // Buscar la categoría usando la propiedad "name_category"
+            const catEntity = categories.find(c => c.name_category === catName);
+            if (!catEntity) {
+              console.warn(`  ⚠️  No se encontró la categoría: ${catName}`);
+              continue;
             }
+            console.log(`  Se encontró la categoría: ${catEntity.name_category} (ID: ${catEntity.id_category})`);
+
+            // Crear la relación y agregar log de depuración
+            const sectionCategory = new SectionCategory();
+            sectionCategory.section = sectionEntity;
+            sectionCategory.category = catEntity;
+
+            try {
+              const savedRelation = await AppDataSource.manager.save(sectionCategory);
+              console.log(`  ✅ Relación guardada: Section ID ${savedRelation.section.id_section} ↔ Category ID ${savedRelation.category.id_category}`);
+            } catch (error) {
+              console.error(`  ❌ Error al guardar la relación para la categoría ${catName}:`, error);
+            }
+          }
         }
 
         // 5) Vincular Category ↔ Subcategory en CategorySubcategory
@@ -607,6 +653,7 @@ export const seedDatabase = async () => {
         const productsData = [
           // Producto 1 
           {
+            id_product : 1,
             brand: "DELL",
             title: 'PORTATIL DELL INSPIRON 3520 15.6" FHD INTEL CORE I5 1235U RAM 24GB DDR4 SSD 2TB + COMBO INALAMBRICO',
             price: 5200000,
@@ -716,6 +763,7 @@ export const seedDatabase = async () => {
           },
           // Producto 2
           {
+            id_product : 2,
             brand: "ASUS",
             title: 'Portátil ASUS Vivobook 16 | Intel Core i5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |16 Pulgadas | X1605ZA-MB639W | Computador portátil',
             price: 3899900,
@@ -816,6 +864,7 @@ export const seedDatabase = async () => {
           },
           // Producto 3
           {
+            id_product : 3,
             brand: "SOUNDCORE",
             title: 'Audífonos Inalámbricos Soundcore AeroFit Open-Ear',
             price: 462900,
@@ -851,6 +900,7 @@ export const seedDatabase = async () => {
           },
           // Producto 4
           {
+            id_product : 4,
             brand: "INDURAMA",
             title: 'Congelador Indurama CI-199 de 200 litros',
             price: 1250000,
@@ -908,6 +958,7 @@ export const seedDatabase = async () => {
           },
           // Producto 5
           {
+            id_product : 5,
             brand: "ELECTROLUX",
             title: 'Congelador Horizontal Electrolux 251L con Función Turbo EFCC25C3HUW',
             price: 2209900,
@@ -956,6 +1007,7 @@ export const seedDatabase = async () => {
           },
           // Producto 6
           {
+            id_product : 6,
             brand: "XIAOMI",
             title: 'Xiaomi Redmi Note 14 Pro 256/8GB Azul',
             price: 2199900,
@@ -977,6 +1029,7 @@ export const seedDatabase = async () => {
           },
           // Producto 7
           {
+            id_product : 7,
             brand: "SAMSUNG",
             title: 'Celular Samsung Galaxy S24 FE 512GB + 8GB - Negro',
             price: 3499900,
@@ -1018,6 +1071,7 @@ export const seedDatabase = async () => {
           },
           // Producto 8
           {
+            id_product : 8,
             brand: "CAELI",
             title: 'chaqueta abrigo ovegera MUJER lluvia frio semi impermeable marca CAELI',
             price: 94900,
@@ -1059,6 +1113,7 @@ export const seedDatabase = async () => {
           },
           // Producto 9
           {
+            id_product : 9,
             brand: "BASEMENT",
             title: 'Saco de vestir para Hombre Basement',
             price: 329990,
@@ -1088,6 +1143,7 @@ export const seedDatabase = async () => {
           },
           // Producto 10
           {
+            id_product : 10,
             brand: "LENOVO",
             title: 'Tablet Lenovo Idea Tab Pro 256GB | Incluye Teclado, Lápiz y Aud| Pantalla 12.7 pulgadas | 8GB RAM | Camara Posterior 13MP | Camara Frontal 8MP',
             price: 2699900,
@@ -1133,6 +1189,7 @@ export const seedDatabase = async () => {
           },
           // Producto 11
           {
+            id_product : 11,
             brand: "XIAOMI",
             title: 'Tableta Xiaomi Redmi Pad Se 8.7, 4 GB de RAM, 128 GB Verde',
             price: 1000000,
@@ -1179,6 +1236,7 @@ export const seedDatabase = async () => {
           },
           // Producto 12
           {
+            id_product : 12,
             brand: "EPSON",
             title: 'IMPRESORA EPSON L3210 RECARGA CONTINUA MULTIFUNCIONAL USB',
             price: 915000,
@@ -1225,6 +1283,7 @@ export const seedDatabase = async () => {
           },
           // Producto 13
           {
+            id_product : 13,
             brand: "HP",
             title: 'Impresora Multifuncional HP Smart Tank 585',
             price: 819900,
@@ -1256,6 +1315,7 @@ export const seedDatabase = async () => {
           },
           // Producto 14
           {
+            id_product : 14,
             brand: "PRIMUS",
             title: 'Mouse Gamer Primus Grogu Gladius12400T',
             price: 319900,
@@ -1285,6 +1345,7 @@ export const seedDatabase = async () => {
           },
           // Producto 15
           {
+            id_product : 15,
             brand: "STARLINK",
             title: 'Kit de Internet satelital Mini Starlink | Velocidad 100 MB',
             price: 800000,
@@ -1312,6 +1373,7 @@ export const seedDatabase = async () => {
           },
           // Producto 16
           {
+            id_product : 16,
             brand: "HP",
             title: 'Monitor HP Gaming OMEN 24 | 23.8 Pulgadas LED | Tasa de Refresco 165Hz | 780D9AA',
             price: 1599000,
@@ -1343,6 +1405,7 @@ export const seedDatabase = async () => {
           },
           // Producto 17
           {
+            id_product : 17,
             brand: "SAMSUNG",
             title: 'MONITOR Samsung CURVO 32" 4MS- 75 HZ 1920 x 1080 - HDMI VGA Headphone',
             price: 967900,
@@ -1371,6 +1434,7 @@ export const seedDatabase = async () => {
           },
           // Producto 18
           {
+            id_product : 18,
             brand: "ACER",
             title: 'TODO EN UNO ACER AMD RYZEN 5-5500U SSD 1TB RAM 16GB LED 24 FHD',
             price: 3299800,
@@ -1417,6 +1481,7 @@ export const seedDatabase = async () => {
           },
           // Producto 19
           {
+            id_product : 19,
             brand: "JBL",
             title: 'JBL Soundbar SB180 Bluetooth',
             price: 999900,
@@ -1449,6 +1514,7 @@ export const seedDatabase = async () => {
           },
           // Producto 20
           {
+            id_product : 20,
             brand: "SONY",
             title: 'Control Backbone One PlayStation (USB-C) Android y iPhone 15',
             price: 599900,
@@ -1477,6 +1543,7 @@ export const seedDatabase = async () => {
           },
           // Producto 21
           {
+            id_product : 21,
             brand: "NINTENDO",
             title: 'Consola Nintendo Switch | Modelo OLED | Incluye Juego Mario Kart 8 Deluxe (Juego Completo Descargable + 3 Meses de Membresía Nintendo Switch Online) | 64 GB de almacenamiento',
             price: 1799000,
@@ -1517,6 +1584,7 @@ export const seedDatabase = async () => {
           },
           // Producto 22
           {
+            id_product : 22,
             brand: "XBOX",
             title: 'Xbox Serie X + 2 Controles + Game Pass ultimate 1 mes 1 TB',
             price: 3697900,
@@ -1549,6 +1617,7 @@ export const seedDatabase = async () => {
           },
           // Producto 23
           {
+            id_product : 23,
             brand: "ACTIVISION",
             title: 'Crash bandicoot 4 it\'s about time - playstation 4',
             price: 380360,
@@ -1580,6 +1649,7 @@ export const seedDatabase = async () => {
           
           // Producto 24
           {
+            id_product : 24,
             brand: "GENERICO",
             title: 'Base Doble Cargador Usb Para Controles De Ps4 Slim Pro',
             price: 34900,
@@ -1611,6 +1681,7 @@ export const seedDatabase = async () => {
           },
           // Producto 25
           {
+            id_product : 25,
             brand: "GOPRO",
             title: 'Cámara GoPro Hero 13 Black | Cámara de Acción Resistente al Agua | Video Ultra HD de hasta 5.3K 60fps | 27 MP | Batería de 1900 mAh | Compatible con Lentes Intercambiables | Pantalla de 2,27 Pulgadas |Peso 157 Gramos|Estabilizador de Imagen',
             price: 1989900,
@@ -1681,6 +1752,7 @@ export const seedDatabase = async () => {
           },
           // Producto 26
           {
+            id_product : 26,
             brand: "IROBOT",
             title: 'Roomba Essential Q - Robot Aspirador Inteligente',
             price: 1399900,
@@ -1731,6 +1803,7 @@ export const seedDatabase = async () => {
           },
           // Producto 27
           {
+            id_product : 27,
             brand: "AMAZON",
             title: 'Alexa Parlante Inteligente Amazon Echo Dot 5ª Gen Blanco',
             price: 329600,
@@ -1772,6 +1845,7 @@ export const seedDatabase = async () => {
           },
           // Producto 28
           {
+            id_product : 28,
             brand: "Generico",
             title: 'Consola Retro Mini Game 620 – Juegos Clásicos al Alcance de tu Mano!',
             price:  2199900,
@@ -1808,6 +1882,7 @@ export const seedDatabase = async () => {
           },
           // Producto 29
           {
+            id_product : 29,
             brand: "FORMAS INTIMAS",
             title: 'Cachetero Paq X7 Multicolor FI 89061',
             price: 150000,
@@ -1834,6 +1909,7 @@ export const seedDatabase = async () => {
           },
           // Producto 30
           {
+            id_product : 30,
             brand: "MANGO",
             title: 'Blazer Mujer MANGO',
             price: 299900,
@@ -1895,6 +1971,7 @@ export const seedDatabase = async () => {
           },
           // Producto 31
           {
+            id_product : 31,
             brand: "LEVOIT",
             title: 'Purificadores de Aire para Habitación Grande Levoit',
             price: 1399900,
@@ -1951,6 +2028,7 @@ export const seedDatabase = async () => {
           },
           // Producto 32
           {
+            id_product : 32,
             brand: "SAMSUNG",
             title: 'Horno microondas Samsung 23 lt MS23K3513AK/CO 23 Lts con Descongelado Rápido',
             price: 699900,
@@ -1998,6 +2076,7 @@ export const seedDatabase = async () => {
           },
           // Producto 33
           {
+            id_product : 33,
             brand: "BLACK+DECKER",
             title: 'Freidora de aire BLACK & DECKER 4.5 Litros',
             price: 439900,
@@ -2038,6 +2117,7 @@ export const seedDatabase = async () => {
           },
           // Producto 34
           {
+            id_product : 34,
             brand: "HACEB",
             title: 'Horno Eléctrico Asf 60-36 Eléctrico 220V',
             price: 956900,
@@ -2084,6 +2164,7 @@ export const seedDatabase = async () => {
           },
           // Producto 35
           {
+            id_product : 35,
             brand: "HOLSTEIN HOUSEWARES",
             title: 'Horno con Freidora de Aire Holstein 20 Litros',
             price: 649900,
@@ -2126,6 +2207,7 @@ export const seedDatabase = async () => {
           },
           // Producto 36
           {
+            id_product : 36,
             brand: "WHIRLPOOL",
             title: 'Lavadora WHIRLPOOL 23 Kilos Carga Frontal 7MWFW6605MC Gris',
             price: 599900,
@@ -2183,6 +2265,7 @@ export const seedDatabase = async () => {
           },
           // Producto 37
           {
+            id_product : 37,
             brand: "ELECTROLUX",
             title: 'Lavasecadora ELECTROLUX 11kg7kg Carga Frontal EWDX11L3EG Gris',
             price: 3469000,
@@ -2241,6 +2324,7 @@ export const seedDatabase = async () => {
           },
           // Producto 38
           {
+            id_product : 38,
             brand: "OPPO",
             title: 'Celular OPPO A80 256GB 5G| 8GB RAM | Cámara principal 50 MP dual + 2 MP | Cámara frontal 8MP | Carga rápida de 45W SUPERVOOC¿ | Procesador Mediatek Dimensity 6300',
             price: 1999900,
@@ -2286,6 +2370,7 @@ export const seedDatabase = async () => {
           },
           // Producto 39
           {
+            id_product : 39,
             brand: "MOTOROLA",
             title: 'Celular Motorola Edge 50 Neo 5G 256GB | 8GB RAM | Cámara posterior 50MP|Cámara frontal 32MP| Pantalla 6,3 pulgadas + Mediatek Dimensity 7300x',
             price: 2499900,
@@ -2331,6 +2416,7 @@ export const seedDatabase = async () => {
           },
           // Producto 40
           {
+            id_product : 40,
             brand: "SYBILLA",
             title: 'Falda short Mini Mujer Sybilla',
             price: 89990,
@@ -2367,6 +2453,7 @@ export const seedDatabase = async () => {
           },
           // Producto 41
           {
+            id_product : 41,
             brand: "SAMURAI",
             title: 'Ventilador Samurai Ultra Silence Force Pared Negro',
             price: 307900,
@@ -2397,6 +2484,7 @@ export const seedDatabase = async () => {
           },
           // Producto 42
           {
+            id_product : 42,
             brand: "KONFYT",
             title: 'Ventilador Profesional Pivotante de Alta Velocidad Konwin',
             price: 1299900,
@@ -2431,6 +2519,7 @@ export const seedDatabase = async () => {
           },
           // Producto 43
           {
+            id_product : 43,
             brand: "RUTTA",
             title: 'Falda Larga Mujer Negro Rutta 102893',
             price: 128200,
@@ -2456,6 +2545,7 @@ export const seedDatabase = async () => {
           },
           // Producto 44
           {
+            id_product : 44,
             brand: "DR MARCH",
             title: 'AUGUST - Falda mini animal print',
             price: 68000,
@@ -2482,6 +2572,7 @@ export const seedDatabase = async () => {
           },
           // Producto 45
           {
+            id_product : 45,
             brand: "BASEMENT",
             title: 'Pantalón 5 Bolsillos Hombre Slim de Algodón Basement',
             price: 149990,
@@ -2516,6 +2607,7 @@ export const seedDatabase = async () => {
           },
           // Producto 46
           {
+            id_product : 46,
             brand: "RALPH LAUREN",
             title: 'Pantalón Chino para Hombre Slim Polo Ralph Lauren',
             price: 579990,
@@ -2549,6 +2641,7 @@ export const seedDatabase = async () => {
           },
           // Producto 47
           {
+            id_product : 47,
             brand: "MOUNTAIN GEAR",
             title: 'Chaqueta Cortavientos Hombre Mountain Gear',
             price: 249990,
@@ -2580,6 +2673,7 @@ export const seedDatabase = async () => {
           },
           // Producto 48
           {
+            id_product : 48,
             brand: "MOUNTAIN GEAR",
             title: 'Chaqueta Deportiva Outdoor para Hombre Mountain Gear',
             price: 249990,
@@ -2607,6 +2701,7 @@ export const seedDatabase = async () => {
           },
           // Producto 49
           {
+            id_product : 49,
             brand: "LA MARTINA",
             title: 'Camiseta polo Hombre Manga corta La Martina',
             price: 199990,
@@ -2636,6 +2731,7 @@ export const seedDatabase = async () => {
           },
           // Producto 50
           {
+            id_product : 50,
             brand: "RUTTA",
             title: 'Camiseta Hombre Azul Rutta 1855',
             price: 74100,
@@ -2663,8 +2759,7 @@ export const seedDatabase = async () => {
         
         console.log("🔄 Iniciando inserción de productos...");
         
-        const products: Product[] = [];
-        
+        /*/
         for (const productData of productsData) {
           try {
             console.log(`📦 Procesando producto: ${productData.title}`);
@@ -2674,31 +2769,59 @@ export const seedDatabase = async () => {
               continue;
             }
         
-            const product = new Product();
-            product.brand = productData.brand;
-            product.title = productData.title;
-            product.price = productData.price;
-            product.discount_percentage = productData.discount_percentage || null;
-            product.discount_price = productData.discount_price || null;
-            product.special_discount_percentage = productData.special_discount_percentage || null;
-            product.rating = productData.rating ?? 0; // Si no tiene, inicia en 0
-            product.images = productData.images;
-            product.specifications = productData.specifications;
-            product.subcategory_slug = productData.subcategory_slug;
-            product.sold_by = productData.sold_by || "Marketplace";
-            product.description = productData.description || null; // Información adicional
-            product.stock = productData.stock ?? 0; // Si no tiene, inicia en 0
+            // Buscar si el producto ya existe por `id_product`
+            const existingProduct = await AppDataSource.manager.findOne(Product, {
+              where: { id_product: productData.id_product }, // Usamos `id_product` para la búsqueda
+            });
         
-            console.log(`Guardando en la base de datos: ${product.title}`);
-            const savedProduct = await AppDataSource.manager.save(product);
-            products.push(savedProduct);
-            console.log(`✅ Producto guardado: ${savedProduct.title} (ID: ${savedProduct.id_product})`);
+            if (existingProduct) {
+              // Si el producto existe, actualizamos sus datos
+              existingProduct.brand = productData.brand;
+              existingProduct.title = productData.title;
+              existingProduct.price = productData.price;
+              existingProduct.discount_percentage = productData.discount_percentage || null;
+              existingProduct.discount_price = productData.discount_price || null;
+              existingProduct.special_discount_percentage = productData.special_discount_percentage || null;
+              existingProduct.rating = productData.rating ?? 0;
+              existingProduct.images = productData.images;
+              existingProduct.specifications = productData.specifications;
+              existingProduct.subcategory_slug = productData.subcategory_slug;
+              existingProduct.sold_by = productData.sold_by || "Marketplace";
+              existingProduct.description = productData.description || null;
+              existingProduct.stock = productData.stock ?? 0;
         
+              // Guardamos el producto actualizado
+              console.log(`Actualizando producto en la base de datos: ${existingProduct.title}`);
+              await AppDataSource.manager.save(existingProduct);
+              console.log(`✅ Producto actualizado: ${existingProduct.title} (ID: ${existingProduct.id_product})`);
+            } else {
+              // Si no existe, lo creamos como nuevo
+              const newProduct = new Product();
+              newProduct.id_product = productData.id_product; // Aseguramos que use el mismo ID
+              newProduct.brand = productData.brand;
+              newProduct.title = productData.title;
+              newProduct.price = productData.price;
+              newProduct.discount_percentage = productData.discount_percentage || null;
+              newProduct.discount_price = productData.discount_price || null;
+              newProduct.special_discount_percentage = productData.special_discount_percentage || null;
+              newProduct.rating = productData.rating ?? 0;
+              newProduct.images = productData.images;
+              newProduct.specifications = productData.specifications;
+              newProduct.subcategory_slug = productData.subcategory_slug;
+              newProduct.sold_by = productData.sold_by || "Marketplace";
+              newProduct.description = productData.description || null;
+              newProduct.stock = productData.stock ?? 0;
+        
+              // Guardamos el nuevo producto
+              console.log(`Guardando en la base de datos: ${newProduct.title}`);
+              await AppDataSource.manager.save(newProduct);
+              console.log(`✅ Producto guardado: ${newProduct.title} (ID: ${newProduct.id_product})`);
+            }
           } catch (error) {
             console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
           }
-        }        
-      //
+        }      
+      /*/
         console.log("✅ Datos insertados correctamente");
     } catch (error) {
         console.error("❌ Error insertando datos:", error);
