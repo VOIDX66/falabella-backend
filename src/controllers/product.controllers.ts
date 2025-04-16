@@ -140,7 +140,6 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
     }
 };
 
-
 // Obtener productos por categoría
 export const getProductsByCategory = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -149,13 +148,15 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
         // 1. Obtener información de la categoría
         const category = await AppDataSource.getRepository("category")
             .createQueryBuilder("c")
-            .select(["c.name_category", "c.banner_image"])
+            .select(["c.name_category", "c.banner_image", "c.id_category"])
             .where("c.slug = :categorySlug", { categorySlug })
             .getOne();
 
         if (!category) {
             return res.status(404).json({ message: "Categoría no encontrada" });
         }
+
+        const categoryId = category.id_category;
 
         // 2. Obtener productos de esa categoría
         const products = await AppDataSource.getRepository(Product)
@@ -167,14 +168,38 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             .innerJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
             .where("sec.slug = :sectionSlug", { sectionSlug })
             .andWhere("c.slug = :categorySlug", { categorySlug })
-            .addSelect(["c.slug AS category_slug", "sec.slug AS section_slug"])
+            .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
 
-        // 3. Devolver respuesta estructurada
+        // 3. Obtener destacados: hasta 5 subcategorías con una imagen representativa
+        const featured = await AppDataSource.getRepository(Product)
+            .createQueryBuilder("product")
+            .select([
+                "sub.name_subcategory AS name",
+                "sub.slug AS slug",
+                "product.images[1] AS image"
+            ])
+            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+            .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
+            .where("c.id_category = :categoryId", { categoryId })
+            .andWhere("jsonb_array_length(product.images) > 0")
+            .groupBy("sub.id_subcategory, product.id_product")
+            .distinctOn(["sub.id_subcategory"])
+            .orderBy("sub.id_subcategory", "ASC")
+            .limit(5)
+            .getRawMany();
+
+        // 4. Enviar respuesta estructurada
         return res.json({
             info: {
                 name: category.name_category,
-                banner: category.banner_image
+                banner: category.banner_image,
+                featured: featured.map(f => ({
+                    name: f.name,
+                    slug: f.slug,
+                    image: f.image
+                }))
             },
             products: cleanProductKeys(products)
         });
@@ -184,7 +209,6 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
         return res.status(500).json({ message: "Error al obtener productos por categoría" });
     }
 };
-
 
 // Obtener productos por subcategoría
 export const getProductsBySubcategory = async (req: Request, res: Response) : Promise<any> => {
