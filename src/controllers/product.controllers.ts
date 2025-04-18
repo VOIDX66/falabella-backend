@@ -106,16 +106,16 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
             .select([
                 "category.name_category AS name",
                 "category.slug AS slug",
-                "product.images[1] AS image" // index 1 por seguridad, puede ajustar a 0 si lo prefieres
+                "product.images[0] AS image" // Primera imagen del array (índice 0)
             ])
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("category", "category", "cs.categoryIdCategory = category.id_category")
             .innerJoin("section_category", "sc", "category.id_category = sc.categoryIdCategory")
             .where("sc.sectionIdSection = :sectionId", { sectionId })
-            .andWhere("jsonb_array_length(product.images) > 0")
+            .andWhere("jsonb_array_length(product.images) > 0") // Solo productos con al menos una imagen
             .groupBy("category.id_category, product.id_product")
-            .distinctOn(["category.id_category"])
+            .distinctOn(["category.id_category"]) // Solo un producto por categoría
             .orderBy("category.id_category", "ASC")
             .limit(5)
             .getRawMany();
