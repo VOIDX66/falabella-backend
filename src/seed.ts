@@ -2757,6 +2757,7 @@ export const seedDatabase = async () => {
           },
           // Producto 51
           {
+            id_product : 51,
             brand: "ASUS",
             title: "PORTÁTIL ASUS GO 15 OLED RYZEN 5 7520U 1TB SSD 16GB RAM PANTALLA 15.6″",
             price: 4449850,
@@ -2789,6 +2790,7 @@ export const seedDatabase = async () => {
           },
           //Producto 52
           {
+            id_product : 52,
             brand: "HP",
             title: "PORTÁTIL HP RYZEN 7 7730U / RAM 32GB / SSD 1TB / PANTALLA 16\" FHD",
             price: 2479900,
@@ -2820,6 +2822,7 @@ export const seedDatabase = async () => {
           },
           //Producto 53
           {
+            id_product : 53,
             brand: "ASUS",
             title: "Portátil ASUS Vivobook Go 15 | AMD Ryzen 5 | 16GB de RAM | 1TB SSD de almacenamiento | Windows 11 |15.6 Pulgadas | E1504FA-NJ1092W | Computador portátil",
             price: 2489900,
@@ -2854,6 +2857,7 @@ export const seedDatabase = async () => {
           },
           //Producto 54
           {
+            id_product : 54,
             brand: "Dell",
             title: "PORTÁTIL DELL INSPIRON 3520 INTEL CORE I7 1255U SSD 1TB RAM 24GB 15,6 FHD PLATINUM SILVER",
             price: 2439900,
@@ -2888,6 +2892,7 @@ export const seedDatabase = async () => {
           },
           //Producto 55
           {
+            id_product : 55,
             brand: "MSI",
             title: "MSI Cyborg I7 13620H DDR5 32GB 1TB RTX 4050 6GB 15.6\" 144Hz",
             price: 4866240,
@@ -2922,6 +2927,7 @@ export const seedDatabase = async () => {
           },
           //Producto 56
           {
+            id_product : 56,
             brand: "HP",
             title: "HP VICTUS INTEL CORE I5-12450H RTX 3050 4GB SSD 512GB RAM 16GB LED 15.6\" FHD 144Hz",
             price: 3299900,
@@ -2962,6 +2968,7 @@ export const seedDatabase = async () => {
           },
           //Producto 57
           {
+            id_product : 57,
             brand: "Dell",
             title: "PORTÁTIL DELL INSPIRON 3520 15.6\" INTEL CORE I7 1255U 32GB/ SSD 1TB M.2",
             price: 2415900,
@@ -3001,6 +3008,7 @@ export const seedDatabase = async () => {
           },
           //Producto 58
           {
+            id_product : 58,
             brand: "Lenovo",
             title: "PORTÁTIL IDEAPAD SLIM 3 15IRH8 INTEL CORE i7-13620H 16GB DDR5 1TB SSD 15.6\" FHD",
             price: 2827900,
@@ -3042,6 +3050,7 @@ export const seedDatabase = async () => {
           },
           //Producto 59
           {
+            id_product : 59,
             brand: "HP",
             title: "Portátil HP 2 en 1 Pavilion x360 táctil 14-ek1011la | Intel core i5 | 8GB RAM | 512GB SSD | Windows 11 | 14 pulgadas",
             price: 2489000,
@@ -3080,6 +3089,7 @@ export const seedDatabase = async () => {
           },
           //Producto 60
           {
+            id_product : 60,
             brand: "Lenovo",
             title: "Portátil Lenovo Ideapad Pro 5 | Intel Core Ultra 9 | 32GB RAM | 1TB SSD | Windows 11 | 16\" WQXGA",
             price: 6499900,
@@ -3124,6 +3134,7 @@ export const seedDatabase = async () => {
           },
           //Producto 61
           {
+            id_product : 61,
             brand: "Derek",
             title: "Blusa Para Mujer Derek",
             price: 54950,
@@ -3157,6 +3168,7 @@ export const seedDatabase = async () => {
           },
           //Producto 62
           {
+            id_product : 62,
             brand: "Sybilla",
             title: "Camisa Mujer Manga larga de Algodón Sybilla",
             price: 39990,
@@ -3194,6 +3206,7 @@ export const seedDatabase = async () => {
           },
           //Producto 63
           {
+            id_product : 63,
             brand: "Sybilla",
             title: "Top Mujer con Estampado Manga larga Sybilla",
             price: 49990,
@@ -3228,6 +3241,7 @@ export const seedDatabase = async () => {
           },
           //Producto 64
           {
+            id_product : 64,
             brand: "Sybilla",
             title: "Top Mujer con Estampado Manga larga Sybilla",
             price: 49990,
@@ -3258,6 +3272,7 @@ export const seedDatabase = async () => {
           },
           //Producto 65
           {
+            id_product : 65,
             brand: "Karl Lagerfeld",
             title: "Blusón Karl Lagerfeld Mujer Manga Larga",
             price: 879200,
@@ -3291,6 +3306,7 @@ export const seedDatabase = async () => {
           },
           //Producto 66
           {
+            id_product : 66,
             brand: "Karl Lagerfeld",
             title: "Camisa Karl Lagerfeld Mujer Algodón Orgánico",
             price: 879200,
@@ -3325,6 +3341,7 @@ export const seedDatabase = async () => {
           },
           //Producto 67
           {
+            id_product : 67,
             brand: "University Club",
             title: "Camisa Mujer Manga larga University Club",
             price: 99990,
@@ -3359,6 +3376,7 @@ export const seedDatabase = async () => {
           },
           //Producto 68
           {
+            id_product : 68,
             brand: "Basement",
             title: "Blusa Mujer Manga larga Basement",
             price: 59990,
@@ -3392,6 +3410,7 @@ export const seedDatabase = async () => {
           },
           //Producto 69
           {
+            id_product : 69,
             brand: "Sybilla",
             title: "Blusa Mujer Ojalillo Sin Mangas de Algodón Sybilla",
             price: 99990,
@@ -3427,6 +3446,7 @@ export const seedDatabase = async () => {
           },
           //Producto 70
           {
+            id_product : 70,
             brand: "Genérico",
             title: "Dril Licrado para Hombre",
             price: 63000,
@@ -3462,6 +3482,7 @@ export const seedDatabase = async () => {
           },
           //Producto 71
           {
+            id_product : 71,
             brand: "Brooksfield",
             title: "Pantalón Brooksfield Khaki Hombre",
             price: 119600,
@@ -3497,6 +3518,7 @@ export const seedDatabase = async () => {
           },
           //Producto 72
           {
+            id_product : 72,
             brand: "University Club",
             title: "Jean 5 Bolsillos Hombre Slim de Algodón University Club",
             price: 89990,
@@ -3530,6 +3552,7 @@ export const seedDatabase = async () => {
           },
           //Producto 73
           {
+            id_product : 73,
             brand: "University Club",
             title: "Jean 5 Bolsillos Hombre Slim de Algodón University Club",
             price: 89990,
@@ -3563,6 +3586,7 @@ export const seedDatabase = async () => {
           },
           //Producto 74
           {
+            id_product : 74,
             brand: "Croydon",
             title: "Jean Santiago Azul para Hombre Croydon",
             price: 129990,
@@ -3603,6 +3627,7 @@ export const seedDatabase = async () => {
           },
           //Producto 75
           {
+            id_product : 75,
             brand: "Penguin",
             title: "Jean para Hombre Penguin BLACK Slim Fit",
             price: 194500,
@@ -3637,6 +3662,7 @@ export const seedDatabase = async () => {
           },
           //Producto 76
           {
+            id_product : 76,
             brand: "Bearcliff",
             title: "Jean 5 Bolsillos Hombre Skinny de Algodón Bearcliff",
             price: 73990,
@@ -3673,6 +3699,7 @@ export const seedDatabase = async () => {
           },
           //Producto 77
           {
+            id_product : 77,
             brand: "Bearcliff",
             title: "Jean 5 Bolsillos Hombre Skinny de Algodón Bearcliff",
             price: 73990,
@@ -3710,6 +3737,7 @@ export const seedDatabase = async () => {
           },
           //Producto 78
           {
+            id_product : 78,
             brand: "Christian Lacroix",
             title: "Jean 5 Bolsillos Hombre Slim de Algodón Christian Lacroix",
             price: 89990,
@@ -3744,6 +3772,7 @@ export const seedDatabase = async () => {
           },
           //Producto 79
           {
+            id_product : 79,
             brand: "Basement",
             title: "Pantalón 5 Bolsillos Hombre Slim de Algodón Basement",
             price: 99990,
