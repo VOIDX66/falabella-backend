@@ -3807,7 +3807,12 @@ export const seedDatabase = async () => {
             sold_by: "Falabella",
             description: "Pantalón Basement slim fit de algodón con diseño de 5 bolsillos, disponible en seis colores versátiles: verde, negro, beige, navy, gris y azul. Confeccionado con 98% algodón y 2% elastano para ofrecer comodidad y un ajuste moderno que sigue las líneas del cuerpo. Ideal para looks casuales contemporáneos, perfecto para combinar con camisetas, polos o camisas en tu día a día.",
             stock: 20
-          }
+          },
+          //Producto 80
+
+          //Producto 81
+
+          //Producto 82
         ];
         
         console.log("🔄 Iniciando inserción de productos...");
