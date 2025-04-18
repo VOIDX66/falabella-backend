@@ -76,7 +76,7 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
     try {
         const { sectionSlug } = req.params;
 
-        // 1. Obtener info de la sección (incluye banner_image)
+        // 1. Obtener info de la sección
         const section = await AppDataSource.getRepository("section")
             .createQueryBuilder("section")
             .select(["section.name_section", "section.banner_image", "section.id_section"])
@@ -90,8 +90,9 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
         const sectionId = section.id_section;
 
         // 2. Obtener productos asociados a la sección
-        const products = await AppDataSource.getRepository(Product)
+        const products_uc = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
+            .distinct(true)
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
@@ -102,25 +103,25 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
 
         // 3. Obtener destacados: hasta 5 categorías de la sección con 1 imagen representativa de producto
         const featured = await AppDataSource.getRepository(Product)
-            .createQueryBuilder("product")
+            .createQueryBuilder("featured")
             .select([
                 "category.name_category AS name",
                 "category.slug AS slug",
-                "product.images[0] AS image" // Primera imagen del array (índice 0)
+                "featured.images[0] AS image"
             ])
-            .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
+            .innerJoin("subcategory", "sub", "featured.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("category", "category", "cs.categoryIdCategory = category.id_category")
             .innerJoin("section_category", "sc", "category.id_category = sc.categoryIdCategory")
             .where("sc.sectionIdSection = :sectionId", { sectionId })
-            .andWhere("jsonb_array_length(product.images) > 0") // Solo productos con al menos una imagen
-            .groupBy("category.id_category, product.id_product")
-            .distinctOn(["category.id_category"]) // Solo un producto por categoría
+            .andWhere("jsonb_array_length(featured.images) > 0")
+            .groupBy("category.id_category, featured.id_product")
+            .distinctOn(["category.id_category"])
             .orderBy("category.id_category", "ASC")
             .limit(5)
             .getRawMany();
 
-        // 4. Enviar respuesta con banner, productos y destacados
+        // 4. Respuesta
         return res.json({
             info: {
                 name: section.name_section,
@@ -131,15 +132,17 @@ export const getProductsBySection = async (req: Request, res: Response): Promise
                     image: f.image
                 }))
             },
-            products: cleanProductKeys(products),
+            products: cleanProductKeys(products_uc),
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Error en getProductsBySection:", error);
         return res.status(500).json({ message: "Error al obtener productos por sección" });
     }
 };
 
+
+// Obtener productos por categoría
 // Obtener productos por categoría
 export const getProductsByCategory = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -158,9 +161,10 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
 
         const categoryId = category.id_category;
 
-        // 2. Obtener productos de esa categoría
-        const products = await AppDataSource.getRepository(Product)
+        // 2. Obtener productos de esa categoría (evitar duplicados)
+        const productsRaw = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
+            .distinct(true)
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
@@ -170,6 +174,14 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             .andWhere("c.slug = :categorySlug", { categorySlug })
             .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
+
+        // Filtro extra por si acaso se duplican aún
+        const seen = new Set();
+        const products = productsRaw.filter(p => {
+            if (seen.has(p.product_id_product)) return false;
+            seen.add(p.product_id_product);
+            return true;
+        });
 
         // 3. Obtener destacados: hasta 5 subcategorías con una imagen representativa
         const featured = await AppDataSource.getRepository(Product)
@@ -209,6 +221,7 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
         return res.status(500).json({ message: "Error al obtener productos por categoría" });
     }
 };
+
 
 // Obtener productos por subcategoría
 export const getProductsBySubcategory = async (req: Request, res: Response) : Promise<any> => {
