@@ -2783,7 +2783,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               bisagra: "Planas de 180°"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Tecnomarket.Ink",
             description: "El ASUS Vivobook Go 15 OLED combina potencia, diseño y tecnología avanzada para acompañarte en cada tarea. Con su pantalla OLED de 15.6\", bisagra plana de 180°, y carga rápida que alcanza el 60% en solo 49 minutos, este portátil es perfecto para quienes buscan eficiencia y calidad visual. Disfruta de un audio excepcional con ASUS SonicMaster y mantén tu contenido seguro con su función de atenuación adaptativa. Todo en un equipo ligero, compacto y listo para liberar tu potencial.",
             stock: 8
@@ -2815,7 +2815,7 @@ export const seedDatabase = async () => {
               sistema_operativo: "Windows 11 Home",
               bateria: "3 celdas (hasta 8 horas)"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Technology S.A.S",
             description: "Portátil HP con potente procesador Ryzen 7 7730U y 32GB de RAM para multitarea exigente. Pantalla FHD de 16\" con tecnología antirreflejo, almacenamiento ultrarrápido de 1TB SSD y diseño ligero para movilidad. Ideal para trabajo profesional y entretenimiento.",
             stock: 12
@@ -2850,7 +2850,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               color: "Blanco"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Falabella",
             description: "Es liviana, es compacta, es la ASUS Vivobook Go 15 y está diseñada para que seas productivo y te mantengas entretenido dondequiera que vayas. Con su bisagra plana de 180°, el protector físico de la cámara web y un montón de características de diseño bien pensadas, incluida una hermosa pantalla con bordes ultradelgados, ¡Vivobook Go 15 es la laptop que te permite hacer todo!",
             stock: 15
@@ -2885,7 +2885,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               caracteristicas: "Teclado numérico, lector de huellas opcional"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "TecnoMarket.Ink",
             description: "El Dell Inspiron 3520 es la elección perfecta para quienes buscan un equilibrio entre potencia, eficiencia y diseño. Con una pantalla Full HD de 15.6\", podrás disfrutar de imágenes nítidas y vibrantes, mientras que el procesador Intel Core i7 de 12ª generación garantiza un rendimiento fluido y rápido para tareas exigentes. Su memoria RAM de 24 GB y su almacenamiento SSD de 1TB ofrecen un rendimiento excepcional y tiempos de carga ultra rápidos. Con conectividad avanzada como Wi-Fi, Bluetooth y puertos versátiles, este modelo está diseñado para facilitar tu productividad diaria.",
             stock: 7
@@ -2920,7 +2920,7 @@ export const seedDatabase = async () => {
               garantia: "2 años",
               incluye: "Computador, cargador 180W, manuales, caja original"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Atmósfera Tecnológica",
             description: "El MSI Cyborg 15 combina alto rendimiento y portabilidad. Con procesador Intel Core i7 de 13ª generación, gráficos NVIDIA RTX 4050 y pantalla FHD 144Hz, es ideal para gaming, diseño y productividad. Su diseño futurista con iluminación RGB y sistema de enfriamiento avanzado aseguran máximo desempeño en un chasis ligero.",
             stock: 5
@@ -2961,7 +2961,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               caracteristicas_especiales: "Teclado resistente a derrames, OMEN Gaming Hub"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Compumarket Bga",
             description: "El HP Victus ofrece rendimiento gaming con procesador Intel Core i5 de 12va generación y gráficos NVIDIA RTX 3050. Pantalla FHD 144Hz para gameplay fluido, teclado retroiluminado y diseño azul característico. Ideal para gamers que buscan equilibrio entre precio y desempeño con la confianza HP.",
             stock: 9
@@ -3001,7 +3001,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               caracteristicas: "Diseño delgado, bisagra elevadora"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Technology S.A.S",
             description: "Portátil Dell Inspiron 3520 con procesador Intel Core i7 de 12ª generación y 32GB de RAM para multitarea exigente. Almacenamiento ultrarrápido de 1TB SSD y pantalla FHD de 15.6\". Ideal para trabajo profesional y estudio, combina rendimiento ágil con diseño portátil y silencioso.",
             stock: 6
@@ -3043,7 +3043,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               caracteristicas: "Chasis de aluminio, diseño ultradelgado"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Tecnomarket.Ink",
             description: "El Lenovo IdeaPad Slim 3 combina potencia y portabilidad con su procesador Intel Core i7 de 13ª generación y 16GB de RAM LPDDR5. Disfruta de una pantalla FHD IPS de 15.6\" con 300 nits de brillo y tecnología anti-reflejo, perfecta para trabajo y entretenimiento. Con almacenamiento ultrarrápido de 1TB SSD, conectividad Wi-Fi 6 y diseño delgado de solo 1.62kg, es ideal para usuarios exigentes que valoran movilidad y rendimiento.",
             stock: 11
@@ -3082,7 +3082,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               incluye: "Lápiz táctil opcional"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Falabella",
             description: "La HP Pavilion x360 es un convertible 2-en-1 con pantalla táctil FHD de 14\" y bisagra de 360° para múltiples modos de uso. Equipada con procesador Intel Core i5 de 12ª generación, 8GB RAM y rápido almacenamiento SSD de 512GB. Disfruta de audio premium con B&O Play y conectividad avanzada Wi-Fi 6. Su diseño incluye materiales reciclados y pesa solo 1.51kg para máxima portabilidad.",
             stock: 14
@@ -3127,7 +3127,7 @@ export const seedDatabase = async () => {
               garantia: "2 años",
               caracteristicas: "Chasis de aluminio, huella digital, teclado resistente a derrames"
             },
-            subcategory_slug: "Portátiles",
+            subcategory_slug: "portatiles",
             sold_by: "Falabella",
             description: "La Lenovo IdeaPad Pro 5i con procesador Intel Core Ultra 9 redefine el rendimiento con capacidades IA integradas. Su pantalla WQXGA de 16\" 120Hz ofrece colores precisos y fluidez excepcional, mientras que los 32GB de RAM y SSD de 1TB garantizan multitarea sin límites. Certificación Intel Evo asegura respuestas instantáneas, conectividad Thunderbolt 4 y hasta 12 horas de batería en un diseño premium ultradelgado.",
             stock: 7
@@ -3161,7 +3161,7 @@ export const seedDatabase = async () => {
               pais_fabricacion: "Colombia",
               garantia: "30 días contra defectos de fabricación"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Baguer S.A.S",
             description: "Blusa Derek de estilo contemporáneo que combina comodidad y elegancia. Confeccionada en 95% poliéster y 5% spandex para ofrecer flexibilidad y movimiento. Diseño versátil que realza la silueta femenina, ideal para mujeres empoderadas que buscan un estilo distintivo. Perfecta para usar en múltiples ocasiones, desde el trabajo hasta eventos sociales.",
             stock: 25
@@ -3199,7 +3199,7 @@ export const seedDatabase = async () => {
               fabricante: "Falabella de Colombia S.A",
               garantia: "30 días por defectos de fabricación"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Falabella",
             description: "Camisa Sybilla de manga larga en 100% algodón, disponible en colores blanco y rosado. Confeccionada para ofrecer máxima comodidad y ajuste perfecto, ideal para looks formales o casuales. Cuello clásico y diseño versátil que se adapta a múltiples ocasiones. Prenda transpirable que combina elegancia y frescura para tu guardarropa diario.",
             stock: 18
@@ -3234,7 +3234,7 @@ export const seedDatabase = async () => {
               pais_fabricacion: "China",
               garantia: "30 días por defectos de fabricación"
             },
-            subcategory_slug: "Tops deportivos Mujer",
+            subcategory_slug: "tops_deportivos_mujer",
             sold_by: "Falabella",
             description: "Top Sybilla de manga larga con estampado, disponible en vibrantes colores verde, beige, negro y rojo. Confeccionado en 95% poliéster y 5% elastano para ofrecer comodidad y flexibilidad. Diseño versátil que se adapta a múltiples ocasiones, perfecto para combinar con jeans, faldas o pantalones. Prenda ideal para mantener un estilo fresco y moderno en tu día a día.",
             stock: 22
@@ -3265,7 +3265,7 @@ export const seedDatabase = async () => {
               pais_fabricacion: "China",
               garantia: "30 días"
             },
-            subcategory_slug: "Tops deportivos Mujer",
+            subcategory_slug: "tops_deportivos_mujer",
             sold_by: "Falabella",
             description: "Top Sybilla de manga larga con estampado, disponible en colores verde, beige, negro y rojo. Confeccionado en 95% poliéster y 5% elastano para mayor comodidad y flexibilidad. Diseño versátil que se adapta a múltiples ocasiones, ideal para combinar con diferentes looks y mantener un estilo fresco y moderno.",
             stock: 15
@@ -3299,7 +3299,7 @@ export const seedDatabase = async () => {
               garantia: "1 año",
               coleccion: "Edición Limitada"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Closet",
             description: "Exclusivo blusón Karl Lagerfeld de manga larga confeccionado en 100% algodón premium. Pertenece a una colección especial con aplicaciones únicas que realzan su diseño de alta costura. Prenda de edición limitada que combina comodidad excepcional con el distintivo estilo vanguardista de la casa Lagerfeld. Ideal para looks sofisticados y ocasiones especiales.",
             stock: 8
@@ -3334,7 +3334,7 @@ export const seedDatabase = async () => {
               garantia: "2 años",
               exclusividad: "Edición limitada numerada"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Closet",
             description: "Exclusiva camisa Karl Lagerfeld confeccionada en algodón orgánico certificado de máxima calidad. Presenta un innovador diseño con dobladillo asimétrico y bordado del icónico logotipo en contraste. Prenda de edición limitada numerada que combina el savoir-faire de la maison Lagerfeld con materiales sustentables. Ideal para mujeres que aprecian el lujo consciente y el diseño vanguardista.",
             stock: 6
@@ -3369,7 +3369,7 @@ export const seedDatabase = async () => {
               pais_fabricacion: "Colombia",
               garantia: "30 días"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Falabella",
             description: "Camisa University Club de manga larga en 100% algodón, disponible en colores blanco, azul claro y negro. Diseño clásico y versátil que ofrece comodidad y estilo para cualquier ocasión. Prenda esencial que se adapta perfectamente a looks formales o casuales, ideal para combinar con diferentes prendas de tu guardarropa.",
             stock: 20
@@ -3403,7 +3403,7 @@ export const seedDatabase = async () => {
               pais_fabricacion: "Colombia",
               garantia: "30 días"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Falabella",
             description: "Blusa Basement de manga larga en viscosa con elastano, disponible en vibrantes tonos rojo, café, blanco y negro. Confeccionada para ofrecer máximo confort con un 95% de viscosa que proporciona fluidez y drapeado natural, complementado con 5% de elastano para mejor ajuste. Prenda versátil que transita perfectamente del día a la noche, ideal para mujeres que buscan comodidad sin sacrificar estilo.",
             stock: 18
@@ -3439,7 +3439,7 @@ export const seedDatabase = async () => {
               pais_fabricacion: "España",
               garantia: "30 días"
             },
-            subcategory_slug: "Blusas Mujer",
+            subcategory_slug: "blusas_mujer",
             sold_by: "Falabella",
             description: "Blusa Sybilla sin mangas en 100% algodón con diseño de ojalillos, disponible en tonos rosado, blanco y azul. Su corte holgado y fresco la convierte en la opción perfecta para climas cálidos, ofreciendo comodidad y estilo simultáneamente. Prenda versátil que puede usarse desde looks playeros hasta outfits urbanos casuales, manteniendo siempre un aire elegante y juvenil característico de Sybilla.",
             stock: 15

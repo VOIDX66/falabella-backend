@@ -224,11 +224,14 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
 
 
 // Obtener productos por subcategoría
-export const getProductsBySubcategory = async (req: Request, res: Response) : Promise<any> => {
+export const getProductsBySubcategory = async (req: Request, res: Response): Promise<any> => {
     try {
         const { sectionSlug, categorySlug, subcategorySlug } = req.params;
-        const products = await AppDataSource.getRepository(Product)
+
+        // 1. Obtener productos por subcategoría
+        const productsRaw = await AppDataSource.getRepository(Product)
             .createQueryBuilder("product")
+            .distinct(true)
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
             .innerJoin("category", "c", "cs.categoryIdCategory = c.id_category")
@@ -240,12 +243,30 @@ export const getProductsBySubcategory = async (req: Request, res: Response) : Pr
             .addSelect(["c.slug AS category_slug", "sec.slug AS section_slug"])
             .getRawMany();
 
-        return res.json(cleanProductKeys(products));
+        // Filtro extra por si acaso se duplican productos
+        const seen = new Set();
+        const products = productsRaw.filter(p => {
+            if (seen.has(p.product_id_product)) return false;
+            seen.add(p.product_id_product);
+            return true;
+        });
+
+        // 2. Enviar respuesta con datos organizados (sin banner ni destacados por el momento)
+        return res.json({
+            info: {
+                name: null,  // No hay banner ni destacados para este endpoint
+                banner: null,  // Mantén null por si quieres agregarlo más adelante
+                featured: null,  // Mantén null por si quieres agregarlo más adelante
+            },
+            products: cleanProductKeys(products)
+        });
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al obtener productos por subcategoría" });
     }
 };
+
 
 // Obtener productos filtrados
 export const getFilteredProducts = async (req: Request, res: Response) : Promise<any> => {
