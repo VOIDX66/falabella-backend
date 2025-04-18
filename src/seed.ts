@@ -2759,7 +2759,7 @@ export const seedDatabase = async () => {
         
         console.log("🔄 Iniciando inserción de productos...");
         
-        /*/
+        //
         for (const productData of productsData) {
           try {
             console.log(`📦 Procesando producto: ${productData.title}`);
@@ -2821,7 +2821,7 @@ export const seedDatabase = async () => {
             console.error(`❌ ERROR al procesar el producto "${productData.title}":`, error);
           }
         }      
-      /*/
+      //
         console.log("✅ Datos insertados correctamente");
     } catch (error) {
         console.error("❌ Error insertando datos:", error);
