@@ -69,16 +69,15 @@ export class Product extends BaseEntity {
       this.discount_price = Math.round(
         this.price - (this.price * this.discount_percentage) / 100
       );
-
-      if (this.special_discount_percentage && this.special_discount_percentage > 0) {
-        this.special_price = Math.round(
-          this.price - (this.price * this.special_discount_percentage) / 100
-        );
-      } else {
-        this.special_price = null;
-      }
     } else {
       this.discount_price = null;
+    }
+  
+    if (this.special_discount_percentage && this.special_discount_percentage > 0) {
+      this.special_price = Math.round(
+        this.price - (this.price * this.special_discount_percentage) / 100
+      );
+    } else {
       this.special_price = null;
     }
   }

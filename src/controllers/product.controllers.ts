@@ -189,7 +189,7 @@ export const getProductsByCategory = async (req: Request, res: Response): Promis
             .select([
                 "sub.name_subcategory AS name",
                 "sub.slug AS slug",
-                "product.images[1] AS image"
+                "product.images[0] AS image"
             ])
             .innerJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
             .innerJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
