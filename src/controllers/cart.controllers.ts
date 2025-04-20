@@ -57,79 +57,45 @@ export const addProductToCart = async (req: Request, res: Response): Promise<any
 
 // Obtener carrito completo agrupado por tienda
 export const getCartByUserId = async (req: Request, res: Response): Promise<any> => {
-    const { userId, selectedProductsByStore } = req.body;
-  
-    try {
+  const { userId } = req.body;
+
+  try {
+      // Obtener el usuario por userId
       const user = await User.findOneBy({ user_id: Number(userId) });
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
   
+      // Obtener el carrito del usuario
       const cart = await Cart.findOneBy({ user: { user_id: user.user_id } });
       if (!cart) return res.status(404).json({ message: "Carrito no encontrado" });
   
+      // Obtener todos los productos del carrito
       const cartProducts = await CartProduct.find({
-        where: { cart: { id_cart: cart.id_cart } },
-        relations: ["product"]
+          where: { cart: { id_cart: cart.id_cart } },
+          relations: ["product"]
       });
   
       if (cartProducts.length === 0) {
-        return res.status(200).json({ message: "El carrito está vacío", data: {} });
+          return res.status(200).json({}); // Respuesta vacía si no hay productos
       }
   
-      const groupedByStore: Record<string, any[]> = {
-        Falabella: [],
-        Homecenter: [],
-        Marketplace: []
-      };
+      // Crear el objeto en el formato {"id_product": "quantity"}
+      const productDetails: Record<number, number> = cartProducts.reduce((acc, cartProduct) => {
+          acc[cartProduct.product.id_product] = cartProduct.quantity;
+          return acc;
+      }, {} as Record<number, number>); // Definir el tipo explícito aquí
   
-      let totalBase = 0;
-      let totalDiscount = 0;
-      let totalSpecial = 0;
+      // Devolver el objeto con el formato esperado
+      return res.status(200).json(productDetails);
   
-      for (const cartProduct of cartProducts) {
-        const { product, quantity } = cartProduct;
-        const soldBy = ["Falabella", "Homecenter"].includes(product.sold_by)
-          ? product.sold_by
-          : "Marketplace";
-  
-        const isSelected =
-          !selectedProductsByStore || // no se envió => todo seleccionado
-          (selectedProductsByStore[soldBy] &&
-            selectedProductsByStore[soldBy].includes(product.id_product));
-  
-        groupedByStore[soldBy].push({
-          productId: product.id_product,
-          title: product.title,
-          brand: product.brand,
-          price: product.price,
-          discount_price: product.discount_price,
-          special_price: product.special_price,
-          quantity,
-          stock: product.stock,
-          image: product.images[0] ?? null,
-          selected: isSelected
-        });
-  
-        if (isSelected) {
-          totalBase += product.price * quantity;
-          totalDiscount += (product.discount_price ?? product.price) * quantity;
-          totalSpecial += (product.special_price ?? product.discount_price ?? product.price) * quantity;
-        }
-      }
-  
-      return res.status(200).json({
-        data: groupedByStore,
-        totals: {
-          base: totalBase,
-          discount: totalDiscount,
-          special: totalSpecial
-        }
-      });
-  
-    } catch (error) {
+  } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Error al obtener el carrito" });
-    }
+  }
 };
+
+
+
+
 
 // Eliminar producto del carrito
 export const removeProductFromCart = async (req: Request, res: Response) : Promise<any> => {
