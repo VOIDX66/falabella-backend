@@ -12,7 +12,7 @@ const router = Router();
 router.post("/cart/add_product", addProductToCart); // Recibe userId, productId, quantity
 
 // Obtener carrito por usuario (autenticado)
-router.get("/cart", getCartByUserId); // Recibe userId
+router.post("/cart", getCartByUserId); // Recibe userId
 
 // Eliminar producto del carrito
 router.delete("/cart/remove_product", removeProductFromCart); // Recibe userId, productId
