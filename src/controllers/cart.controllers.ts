@@ -6,65 +6,54 @@ import { User } from "../entities/user";
 
 // Agregar producto al carrito
 export const addProductToCart = async (req: Request, res: Response): Promise<any> => {
-    const { userId, productId, quantity } = req.body;
-  
-    try {
-        // Validar cantidad
-        const parsedQuantity = Number(quantity);
-        if (isNaN(parsedQuantity) || parsedQuantity < 1) {
-            return res.status(400).json({ message: "La cantidad debe ser al menos 1" });
-        }
-    
-        // Verificar usuario
-        const user = await User.findOneBy({ user_id: userId });
-        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
-    
-        // Obtener carrito
-        const cart = await Cart.findOne({ where: { user: { user_id: userId } } });
-        if (!cart) return res.status(404).json({ message: "Carrito no encontrado" });
-    
-        // Verificar producto
-        const product = await Product.findOneBy({ id_product: productId });
-        if (!product) return res.status(404).json({ message: "Producto no encontrado" });
-        if (product.stock <= 0) return res.status(400).json({ message: "Producto sin stock" });
-    
-        // Verificar si ya está en el carrito
-        let cartProduct = await CartProduct.findOne({
-            where: {
-            cart: { id_cart: cart.id_cart },
-            product: { id_product: product.id_product }
-            }
-        });
-    
-        if (cartProduct) {
-            const totalQuantity = cartProduct.quantity + parsedQuantity;
-            if (totalQuantity > product.stock) {
-            return res.status(400).json({
-                message: `Solo hay ${product.stock - cartProduct.quantity} unidades disponibles para agregar`
-            });
-            }
-            cartProduct.quantity = totalQuantity;
-        } else {
-            if (parsedQuantity > product.stock) {
-            return res.status(400).json({
-                message: `Solo hay ${product.stock} unidades disponibles`
-            });
-            }
-            cartProduct = CartProduct.create({
-            cart,
-            product,
-            quantity: parsedQuantity
-            });
-        }
-    
-        await cartProduct.save();
-        return res.status(200).json({ message: "Producto agregado al carrito correctamente" });
-    
-        } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Error al agregar producto al carrito" });
-        }
+  const { userId, productId, quantity } = req.body;
+
+  try {
+      // Validar cantidad
+      const parsedQuantity = Number(quantity);
+      if (isNaN(parsedQuantity) || parsedQuantity < 1) {
+          return res.status(400).json({ message: "La cantidad debe ser al menos 1" });
+      }
+
+      // Verificar usuario
+      const user = await User.findOneBy({ user_id: userId });
+      if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+      // Obtener carrito
+      const cart = await Cart.findOne({ where: { user: { user_id: userId } } });
+      if (!cart) return res.status(404).json({ message: "Carrito no encontrado" });
+
+      // Verificar producto
+      const product = await Product.findOneBy({ id_product: productId });
+      if (!product) return res.status(404).json({ message: "Producto no encontrado" });
+
+      // Verificar si ya está en el carrito
+      let cartProduct = await CartProduct.findOne({
+          where: {
+              cart: { id_cart: cart.id_cart },
+              product: { id_product: product.id_product }
+          }
+      });
+
+      if (cartProduct) {
+          cartProduct.quantity += parsedQuantity;
+      } else {
+          cartProduct = CartProduct.create({
+              cart,
+              product,
+              quantity: parsedQuantity
+          });
+      }
+
+      await cartProduct.save();
+      return res.status(200).json({ message: "Producto agregado al carrito correctamente" });
+
+  } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error al agregar producto al carrito" });
+  }
 };
+
 
 // Obtener carrito completo agrupado por tienda
 export const getCartByUserId = async (req: Request, res: Response): Promise<any> => {
