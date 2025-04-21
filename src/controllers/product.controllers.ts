@@ -308,7 +308,18 @@ export const getFilteredProducts = async (req: Request, res: Response) : Promise
         if (filters.rating && typeof filters.rating === "object") {
             const minRating = parseFloat(filters.rating.minRating || "0");
             query.andWhere(`product.rating >= :minRating`, { minRating });
-        }        
+        }
+        
+        if (filters.discount_percentage?.min) {
+            const minDiscount = filters.discount_percentage.min;
+        
+            // Verifica que el mayor descuento (especial o normal) sea al menos igual al mínimo requerido
+            query.andWhere(`
+                COALESCE(product.special_discount_percentage, product.discount_percentage, 0) >= :minDiscount
+            `, {
+                minDiscount,
+            });
+        }
 
         if (filters.sold_by) {
             const soldByFilters: string[] = Array.isArray(filters.sold_by) ? filters.sold_by : [filters.sold_by];
