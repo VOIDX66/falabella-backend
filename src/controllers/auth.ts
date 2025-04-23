@@ -248,6 +248,7 @@ const sendResetPasswordEmail = async (email: string, resetCode: string) => {
 };
 
 // Forgot password
+// Envío del código de recuperación
 export const forgotPassword = async (req: Request, res: Response): Promise<any> => {
   await body("email").isEmail().withMessage("Formato de email inválido").run(req);
   const errors = validationResult(req);
@@ -284,47 +285,52 @@ export const forgotPassword = async (req: Request, res: Response): Promise<any> 
   }
 };
 
-// Verificación del código
+// Verificación del código y cambio de contraseña
 export const verifyCodeAndResetPassword = async (req: Request, res: Response): Promise<any> => {
-    const { email, code, new_password } = req.body;
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\s¡¿"ºª·`´çñÑ,]).{8,}$/;
-  
-    if (!email || !code || !new_password) {
-      return res.status(400).json({ message: "Correo, código y nueva contraseña son requeridos." });
+  const { email, code, new_password } = req.body;
+  const errors: { field: string, message: string }[] = [];
+
+  if (!email) errors.push({ field: "email", message: "El correo es requerido." });
+  if (!code) errors.push({ field: "code", message: "El código es requerido." });
+  if (!new_password) errors.push({ field: "password", message: "La nueva contraseña es requerida." });
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+
+  const storedCode = tempCodeStore[email];
+  if (!storedCode || storedCode !== code) {
+    return res.status(400).json({
+      errors: [{ field: "code", message: "Código incorrecto o expirado." }]
+    });
+  }
+
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\s¡¿"ºª·`´çñÑ,]).{8,}$/;
+  if (!passwordRegex.test(new_password)) {
+    return res.status(400).json({
+      errors: [{
+        field: "password",
+        message: "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número, sin espacios, y evitar caracteres como '\\¡¿\"ºª·`´çñÑ,'."
+      }]
+    });
+  }
+
+  try {
+    const user = await User.findOneBy({ email });
+
+    if (!user) {
+      return res.status(404).json({ errors: [{ field: "email", message: "Usuario no encontrado" }] });
     }
-  
-    // Validar primero el código
-    const storedCode = tempCodeStore[email];
-    if (!storedCode || storedCode !== code) {
-      return res.status(400).json({ message: "Código incorrecto o expirado." });
-    }
-  
-    // Validar formato de la nueva contraseña
-    if (!passwordRegex.test(new_password)) {
-      return res.status(400).json({
-        errors: [{
-          field: "password",
-          message: "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número, sin espacios, y evitar caracteres como '\\¡¿\"ºª·`´çñÑ,'."
-        }]
-      });
-    }
-  
-    try {
-      const user = await User.findOneBy({ email });
-  
-      if (!user) {
-        return res.status(404).json({ message: "Usuario no encontrado." });
-      }
-  
-      const hashedPassword = await bcrypt.hash(new_password, 10);
-      user.password = hashedPassword;
-      await user.save();
-  
-      delete tempCodeStore[email];
-  
-      return res.status(200).json({ message: "Contraseña restablecida con éxito." });
-    } catch (error) {
-      console.error("Error al restablecer contraseña:", error);
-      return res.status(500).json({ message: "Error del servidor al actualizar la contraseña." });
-    }
-  };
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    delete tempCodeStore[email];
+
+    return res.status(200).json({ message: "Contraseña restablecida con éxito." });
+  } catch (error) {
+    console.error("Error al restablecer contraseña:", error);
+    return res.status(500).json({ errors: [{ field: "server", message: "Error del servidor al actualizar la contraseña." }] });
+  }
+};
