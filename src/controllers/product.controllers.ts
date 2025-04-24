@@ -23,7 +23,7 @@ export const getProductById = async (req: Request, res: Response): Promise<any> 
       const { id } = req.params;
       const userId = req.body.userId; // Suponiendo que el ID del usuario se obtiene del token o sesión
         
-      console.log(userId)
+      //console.log(userId)
 
       // Validación del ID del producto
       if (isNaN(Number(id))) {
