@@ -6,18 +6,15 @@ WORKDIR /app
 
 # Copiar archivos del proyecto al contenedor
 COPY package.json package-lock.json ./
-RUN npm install
 
-# Copiar el resto del Analizacódigo
+# Instalar dependencias y construir
+RUN npm install && npm run build
+
+# Copiar el resto del proyecto
 COPY . .
-
-# Compilar TypeScript a JavaScript
-RUN npm run build
 
 # Exponer el puerto en el que corre la aplicación
 EXPOSE 4000
 
-# Comando para iniciar la aplicación
-#CMD ["npm", "run", "dev"]
 # Correr la app compilada
 CMD ["npm", "start"]
