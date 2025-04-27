@@ -13,11 +13,14 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
+
+// Servir archivos estáticos desde la carpeta "images"
+app.use("/images", express.static(path.join(__dirname, "images")));
+
 app.use(user_routes);
 app.use(product_routes);
 app.use(cart_routes);
 app.use(favorite_routes);
-// Servir archivos estáticos desde la carpeta "images"
-app.use("/images", express.static(path.join(__dirname, "images")));
+
 
 export default app;
