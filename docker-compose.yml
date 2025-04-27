@@ -14,9 +14,6 @@ services:
       DB_PASS: meroscrum
       DB_NAME: mi_arepa
       JWT_SECRET: el_sancocho_es_mas_rico_que_el_mondongo
-    volumes:
-      - ./:/app
-      - /app/node_modules
     
 
   db:
@@ -24,7 +21,7 @@ services:
     container_name: falabella-db
     restart: always
     ports:
-      - "5432:5432"
+      - "5435:5432"
     environment:
       POSTGRES_USER: arepa_user
       POSTGRES_PASSWORD: meroscrum
