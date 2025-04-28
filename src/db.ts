@@ -24,5 +24,5 @@ export const AppDataSource = new DataSource({
     ssl: { rejectUnauthorized: false }, // Render requiere SSL
     entities: [User, Section, Category, Subcategory, SectionCategory, CategorySubcategory, Product, Cart, CartProduct, FavoriteList, FavoriteProduct],
     logging : false,
-    synchronize : false
+    synchronize : true
 })
