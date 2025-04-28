@@ -34,9 +34,10 @@ export const getProductById = async (req: Request, res: Response): Promise<any> 
       const product = await AppDataSource.getRepository(Product)
         .createQueryBuilder("product")
         .where("product.id_product = :id", { id })
-        .addSelect(["sub.slug AS category_slug", "sec.slug AS section_slug"])
+        .addSelect(["cat.slug AS category_slug", "sec.slug AS section_slug"])
         .leftJoin("subcategory", "sub", "product.subcategory_slug = sub.slug")
         .leftJoin("category_subcategory", "cs", "sub.id_subcategory = cs.subcategoryIdSubcategory")
+        .leftJoin("category", "cat", "cs.categoryIdCategory = cat.id_category")
         .leftJoin("section_category", "sc", "cs.categoryIdCategory = sc.categoryIdCategory")
         .leftJoin("section", "sec", "sc.sectionIdSection = sec.id_section")
         .getRawOne();
