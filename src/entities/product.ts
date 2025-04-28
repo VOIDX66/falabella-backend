@@ -41,9 +41,6 @@ export class Product extends BaseEntity {
   @Column({ type: "jsonb", nullable: true })
   specifications: any;
 
-  @Column()
-  subcategory_slug: string;
-
   @Column({ nullable: false })
   sold_by: string;
 
@@ -61,6 +58,9 @@ export class Product extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column()
+  subcategory_slug: string;
 
   @BeforeInsert()
   @BeforeUpdate()
