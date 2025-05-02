@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addProductToCart,
   getCartByUserId,
+  processPayment,
   removeProductFromCart,
   updateProductQuantity
 } from "../controllers/cart.controllers";
@@ -20,4 +21,5 @@ router.delete("/cart/remove_product", removeProductFromCart); // Recibe userId, 
 // Actualizar cantidad de un producto
 router.put("/cart/update_quantity", updateProductQuantity); // Recibe userId, productId, quantity
 
+router.post("/cart/process_payment", processPayment); // Recibe userId, productId, quantity
 export default router;
