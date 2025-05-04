@@ -334,3 +334,131 @@ export const verifyCodeAndResetPassword = async (req: Request, res: Response): P
     return res.status(500).json({ errors: [{ field: "server", message: "Error del servidor al actualizar la contraseña." }] });
   }
 };
+
+///
+// Enviar correo con código para continuar con la compra
+const sendPurchaseContinueEmail = async (email: string, resetCode: string) => {
+  try {
+    const emailParams = new EmailParams();
+
+    emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)"); // Cambia por el remitente verificado
+    emailParams.to = [new Recipient(email, "Usuario")];
+    emailParams.subject = "Termina tu compra con esta contraseña";
+    emailParams.html = `
+    <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+      <div style="background-color: #ffffff; padding: 20px 0; text-align: center;">
+        <img src="https://ci3.googleusercontent.com/meips/ADKq_NY2JVNwPPLFUvJ66xqNzNKdP9VrMt3E0aQRKuoj4TV-kgD41MSlMb6BTnboB5Oj7NxTSEcWVroe3jFWiUfzn7vxvmPRDl2XyEPUJ65wqFv_CuKaOQSnbsabsLYikAg1_oOW6GZodPUHqjbWLdToeEcPwAoKM9wL9AEM=s0-d-e1-ft#https://image.corp.falabella.com/lib/fe8e127477650c7a70/m/1/980ae602-08fb-439b-bad9-2943edfe46aa.png" alt="Falabella" style="max-width: 180px;">
+      </div>
+      <div style="padding: 30px; background-color: #ffffff;">
+        <h2 style="color: #333; font-size: 22px;">Termina tu compra con esta contraseña</h2>
+        <p style="color: #555;">Hola,</p>
+        <p style="color: #555;">Estamos para ayudarte. Continúa tu compra con esta contraseña:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="font-size: 40px; color: #2e7d32; font-weight: bold;">${resetCode}</div>
+          <p style="color: #777; font-size: 14px;">Contraseña válida para solo 1 uso.</p>
+        </div>
+        <p style="color: #555;">Si no fuiste tú quien solicitó el cambio, por favor ignora este correo.</p>
+        <div style="margin-top: 20px; background-color: #f9f9f9; padding: 15px; border-left: 4px solid #ff5722;">
+          <strong style="color: #d32f2f;">¡Importante!</strong>
+          <p style="margin: 5px 0; font-size: 14px; color: #555;">Nunca te llamaremos o escribiremos para solicitar este código, no lo compartas.</p>
+        </div>
+      </div>
+      <div style="background-color: #003764; color: white; padding: 15px; text-align: center;">
+        Agradecemos tu confianza
+      </div>
+    </div>
+  `;
+    emailParams.text = `Tu código para continuar la compra es: ${resetCode}`;
+
+    await mailerSend.email.send(emailParams);
+  } catch (error) {
+    console.error("Error al enviar el correo:", error);
+    throw new Error("No se pudo enviar el correo de restablecimiento");
+  }
+};
+
+// Endpoint para enviar el código de verificación para continuar con la compra
+export const sendVerificationCodeForPurchase = async (req: Request, res: Response): Promise<any> => {
+  await body("email").isEmail().withMessage("Formato de email inválido").run(req);
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array().map(err => ({
+        field: (err as any).path || "unknown",
+        message: err.msg,
+      })),
+    });
+  }
+
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOneBy({ email });
+
+    if (!user) {
+      return res.status(404).json({ errors: [{ field: "email", message: "Usuario no encontrado" }] });
+    }
+
+    const resetCode = generateResetCode();
+    tempCodeStore[email] = resetCode;
+
+    setTimeout(() => delete tempCodeStore[email], 10 * 60 * 1000); // El código expira en 10 minutos
+
+    await sendPurchaseContinueEmail(email, resetCode); // Enviar el correo
+
+    return res.status(200).json({ message: "Código de verificación enviado al correo." });
+  } catch (error) {
+    console.error("Error al enviar código de verificación:", error);
+    return res.status(500).json({ errors: [{ field: "server", message: "Error del servidor" }] });
+  }
+};
+
+// Verificar código de verificación y generar token para continuar con la compra
+export const verifyPurchaseCodeAndGenerateToken = async (req: Request, res: Response): Promise<any> => {
+  const { email, code } = req.body;
+  const errors: { field: string; message: string }[] = [];
+
+  if (!email) errors.push({ field: "email", message: "El correo es requerido." });
+  if (!code) errors.push({ field: "code", message: "El código es requerido." });
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+
+  const storedCode = tempCodeStore[email];
+  if (!storedCode || storedCode !== code) {
+    return res.status(400).json({
+      errors: [{ field: "code", message: "Código incorrecto o expirado." }]
+    });
+  }
+
+  try {
+    // Verificar que el usuario existe
+    const user = await User.findOneBy({ email });
+
+    if (!user) {
+      return res.status(404).json({ errors: [{ field: "email", message: "Usuario no encontrado" }] });
+    }
+
+    // Generar el JWT para el usuario sin requerir contraseña
+    const token = jwt.sign(
+      { userId: user.user_id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: "2h" } // Token expira en 2 horas
+    );
+
+    // Eliminar el código de verificación para evitar reusos
+    delete tempCodeStore[email];
+
+    return res.status(200).json({
+      message: "Código verificado con éxito. Token de sesión generado.",
+      token
+    });
+  } catch (error) {
+    console.error("Error al verificar el código y generar el token:", error);
+    return res.status(500).json({
+      errors: [{ field: "server", message: "Error del servidor al generar el token." }]
+    });
+  }
+};

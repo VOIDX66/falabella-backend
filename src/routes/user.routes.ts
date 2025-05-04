@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { register, login} from "../controllers/auth"
 import { get_user_profile, editProfile, deleteAccount } from "../controllers/user.controllers"
-import { forgotPassword, verifyCodeAndResetPassword } from "../controllers/auth"
+import { forgotPassword, verifyCodeAndResetPassword, sendVerificationCodeForPurchase, verifyPurchaseCodeAndGenerateToken } from "../controllers/auth"
 import { authenticate_token } from "../middlewares/middleware"
 
 const router = Router()
@@ -13,4 +13,6 @@ router.put("/editProfile/:id", editProfile)
 router.delete("/deleteAccount", deleteAccount) // Recibe userId
 router.post("/forgot_password", forgotPassword); // Recibe email
 router.post("/verify_reset_code", verifyCodeAndResetPassword); // Recibe email, code y la nueva contraseña
+router.post("/send_code_purchase", sendVerificationCodeForPurchase); // Recibe email
+router.post("/verify_purchase_code", verifyPurchaseCodeAndGenerateToken); // Recibe email, code
 export default router;
