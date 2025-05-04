@@ -2,7 +2,7 @@ services:
   app:
     build: .
     container_name: falabella-app
-    restart: always
+    restart: no
     ports:
       - "4000:4000"
     depends_on:
