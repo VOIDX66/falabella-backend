@@ -192,6 +192,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
             },
         });
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ errors: [{ field: "server", message: "Server Error" }] });
     }
 };
