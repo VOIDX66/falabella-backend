@@ -11,6 +11,8 @@ import { Cart } from "./entities/cart";
 import { CartProduct } from "./entities/cartproduct";
 import { FavoriteList } from "./entities/favoritelist";
 import { FavoriteProduct } from "./entities/favoriteproduct";
+import { ProductReview } from "./entities/comment"
+import { UserVote } from "./entities/vote";
 
 dotenv.config();
 
@@ -22,7 +24,21 @@ export const AppDataSource = new DataSource({
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME,
     ssl: { rejectUnauthorized: false }, // Render requiere SSL
-    entities: [User, Section, Category, Subcategory, SectionCategory, CategorySubcategory, Product, Cart, CartProduct, FavoriteList, FavoriteProduct],
+    entities: [
+                User,
+                Section,
+                Category,
+                Subcategory,
+                SectionCategory,
+                CategorySubcategory,
+                Product,
+                Cart,
+                CartProduct,
+                FavoriteList,
+                FavoriteProduct,
+                ProductReview,
+                UserVote
+            ],
     logging : false,
     synchronize : true
 })
