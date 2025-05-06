@@ -3,6 +3,8 @@ import { AppDataSource } from "../db";
 import { Product } from "../entities/product";
 import { User } from "../entities/user";
 import { FavoriteProduct } from "../entities/favoriteproduct";
+import { ProductReview } from "../entities/comment";
+import { UserVote } from "../entities/vote";
 
 // Función auxiliar para limpiar los prefijos "product_"
 const cleanProductKeys = (products: any[]) => {
@@ -392,5 +394,152 @@ export const getFilteredProducts = async (req: Request, res: Response) : Promise
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Error al filtrar productos" });
+    }
+};
+
+// Crear comentario de producto
+export const createProductComment = async (req: Request, res: Response): Promise<any> => {
+	try {
+		const {
+			userId,
+			productId,
+			rating,
+			reviewerName,
+			summary,
+			comment,
+			recommended,
+		} = req.body;
+
+        // Validación básica obligatoria
+        if (!userId) {
+            return res.status(400).json({ message: "Falta el campo obligatorio: userId." });
+        }
+
+        if (!productId) {
+            return res.status(400).json({ message: "Falta el campo obligatorio: productId." });
+        }
+
+        if (!rating) {
+            return res.status(400).json({ message: "Falta el campo obligatorio: rating." });
+        }
+
+        if (!reviewerName) {
+            return res.status(400).json({ message: "Falta el campo obligatorio: reviewerName." });
+        }
+
+		if (rating < 1 || rating > 5) {
+			return res.status(400).json({ message: "La calificación debe estar entre 1 y 5." });
+		}
+
+		// Procesar archivos subidos
+        const files = req.files as Express.Multer.File[];
+        if (files && files.length > 6) {
+            return res.status(400).json({ message: "Máximo 6 fotos permitidas." });
+        }
+
+        const photoPaths = files?.map(file => file.filename) || [];
+
+		const newComment = AppDataSource.getRepository(ProductReview).create({
+			userId: parseInt(userId),
+			productId: parseInt(productId),
+			rating,
+			reviewerName,
+			summary,
+			comment,
+			recommended: recommended === "true" || recommended === false, // si viene como string
+			photos: photoPaths,
+		});
+
+		await AppDataSource.getRepository(ProductReview).save(newComment);
+
+		return res.status(201).json({ message: "Comentario creado exitosamente." });
+	} catch (error) {
+		console.error("Error al crear comentario:", error);
+		return res.status(500).json({ message: "Error interno del servidor." });
+	}
+};
+
+// Obtener los comentarios
+export const getProductReviews = async (req: Request, res: Response) : Promise<any> => {
+    const { productId } = req.params;
+  
+    try {
+      const reviews = await ProductReview.find({
+        where: { productId: parseInt(productId) },
+        order: {
+          createdAt: 'DESC', // Ordena los comentarios por fecha (más recientes primero)
+        },
+      });
+  
+      if (reviews.length === 0) {
+        return res.status(404).json({ message: 'No reviews found for this product.' });
+      }
+  
+      return res.status(200).json(reviews);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error retrieving reviews.' });
+    }
+  };
+
+//
+export const giveLikeOrDislike = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { userId, commentId, action } = req.body;
+  
+      // Validación básica
+      if (!userId) {
+        return res.status(400).json({ message: 'Invalid or missing userId' });
+      }
+  
+      if (!commentId) {
+        return res.status(400).json({ message: 'Invalid or missing commentId' });
+      }
+  
+      if (!action || !['like', 'dislike'].includes(action)) {
+        return res.status(400).json({ message: 'Action must be "like" or "dislike"' });
+      }
+  
+      // Paso 1: Buscar el comentario
+      const review = await ProductReview.findOne({ where: { id_comment: commentId } });
+  
+      if (!review) {
+        return res.status(404).json({ message: 'Review not found' });
+      }
+  
+      // Paso 2: Verificar si ya votó
+      const existingVote = await UserVote.findOne({
+        where: { userId, comment: { id_comment: commentId } },
+      });
+  
+      if (existingVote) {
+        return res.status(400).json({ message: 'You have already voted on this review' });
+      }
+  
+      // Paso 3: Inicializar contadores si no existen
+      if (typeof review.likes !== 'number') review.likes = 0;
+      if (typeof review.dislikes !== 'number') review.dislikes = 0;
+  
+      // Paso 4: Actualizar conteo
+      if (action === 'like') {
+        review.likes += 1;
+      } else {
+        review.dislikes += 1;
+      }
+  
+      await review.save();
+  
+      // Paso 5: Guardar voto
+      const userVote = new UserVote();
+      userVote.userId = userId;
+      userVote.action = action;
+      userVote.comment = review;
+  
+      await userVote.save();
+  
+      return res.status(200).json({message: 'Review updated successfully'});
+    } catch (err) {
+      console.error('Error in giveLikeOrDislike:', err);
+      return res.status(500).json({ message: 'Internal server error' });
     }
 };
