@@ -19,7 +19,7 @@ services:
   db:
     image: postgres:15
     container_name: falabella-db
-    restart: always
+    restart: no
     ports:
       - "5435:5432"
     environment:
