@@ -4,8 +4,11 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    BaseEntity
+    BaseEntity,
+    OneToMany
 } from "typeorm";
+
+import { Address } from "./address";
 
 @Entity()
 export class User extends BaseEntity {
@@ -36,6 +39,9 @@ export class User extends BaseEntity {
 
     @Column()
     password : string
+
+    @OneToMany(() => Address, address => address.user, { cascade: true })
+    addresses: Address[];
 
     @CreateDateColumn()
     create_at : Date
