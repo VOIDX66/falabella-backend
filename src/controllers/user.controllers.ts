@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../entities/user";
+import { Address } from "../entities/address";
 import bcrypt from 'bcrypt';
 
 export const get_user_profile = async (req: Request, res: Response): Promise<any> => {
@@ -19,7 +20,8 @@ export const get_user_profile = async (req: Request, res: Response): Promise<any
             id_type : user.id_type,
             id_number : user.id_number,
             email: user.email,
-            phone: user.phone
+            phone: user.phone,
+            address : user.addresses
         });
 
     } catch (error) {
@@ -144,6 +146,281 @@ export const deleteAccount = async (req: Request, res: Response): Promise<any> =
     } catch (error) {
         return res.status(500).json({
             errors: [{ field: "server", message: "Server error" }]
+        });
+    }
+};
+
+export const addAddress = async (req: Request, res: Response): Promise<any> => {
+    const { address, userId } = req.body;
+    const errors: { field: string; message: string }[] = [];
+
+    if (!address || typeof address !== "object") {
+        errors.push({ field: "address", message: "Address must be a valid object" });
+    } else {
+        const {
+            department,
+            city,
+            via,
+            primary_number,
+            complement_1,
+            complement_2,
+            neighborhood,
+            reference,
+        } = address;
+
+        if (!department || department.trim().length < 2)
+            errors.push({ field: "department", message: "Department is required and must be at least 2 characters" });
+
+        if (!city || city.trim().length < 2)
+            errors.push({ field: "city", message: "City is required and must be at least 2 characters" });
+
+        if (!via || via.trim().length < 2)
+            errors.push({ field: "via", message: "Via is required and must be at least 2 characters" });
+
+        if (!primary_number || primary_number.trim().length < 1)
+            errors.push({ field: "primary_number", message: "Primary number is required" });
+
+        if (!neighborhood || neighborhood.trim().length < 2)
+            errors.push({ field: "neighborhood", message: "Neighborhood is required and must be at least 2 characters" });
+
+        if (reference && reference.trim().length < 2)
+            errors.push({ field: "reference", message: "Reference must be at least 2 characters if provided" });
+    }
+
+    if (!userId) {
+        errors.push({ field: "userId", message: "A valid userId is required" });
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
+    }
+
+    try {
+        const user = await User.findOne({
+            where: { user_id: Number(userId) },
+            relations: ["addresses"]
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                errors: [{ field: "user", message: "User not found" }]
+            });
+        }
+
+        const normalized = {
+            department: address.department.trim().toLowerCase(),
+            city: address.city.trim().toLowerCase(),
+            via: address.via.trim().toLowerCase(),
+            primary_number: address.primary_number.trim().toLowerCase(),
+            complement_1: address.complement_1?.trim().toLowerCase() || "",
+            complement_2: address.complement_2?.trim().toLowerCase() || "",
+            neighborhood: address.neighborhood.trim().toLowerCase(),
+            reference: address.reference?.trim().toLowerCase() || null,
+        };
+
+        const exists = user.addresses.some(existing => (
+            existing.department.toLowerCase() === normalized.department &&
+            existing.city.toLowerCase() === normalized.city &&
+            existing.via.toLowerCase() === normalized.via &&
+            existing.primary_number.toLowerCase() === normalized.primary_number &&
+            (existing.complement_1?.toLowerCase() || "") === normalized.complement_1 &&
+            (existing.complement_2?.toLowerCase() || "") === normalized.complement_2 &&
+            existing.neighborhood.toLowerCase() === normalized.neighborhood &&
+            (existing.reference?.toLowerCase() || "") === (normalized.reference || "")
+        ));
+
+        if (exists) {
+            return res.status(409).json({
+                errors: [{
+                    field: "address",
+                    message: "This address already exists for the user"
+                }]
+            });
+        }
+
+        const newAddress = Address.create({
+            department: address.department.trim(),
+            city: address.city.trim(),
+            via: address.via.trim(),
+            primary_number: address.primary_number.trim(),
+            complement_1: address.complement_1?.trim() || "",
+            complement_2: address.complement_2?.trim() || "",
+            neighborhood: address.neighborhood.trim(),
+            reference: address.reference?.trim() || null,
+            user,
+        });
+
+        await newAddress.save();
+
+        return res.status(201).json({
+            message: "Address created successfully",
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            errors: [{
+                field: "server",
+                message: "Server error",
+                detail: error instanceof Error ? error.message : String(error)
+            }]
+        });
+    }
+};
+
+
+// Direcciones Favoritas
+export const toggleFavoriteAddress = async (req: Request, res: Response): Promise<any> => {
+    const { userId, addressId } = req.body; 
+
+    const errors: { field: string; message: string }[] = [];
+
+    // Verificar que se pasen los parámetros requeridos
+    if (!userId || !addressId) {
+        errors.push({
+            field: "params",
+            message: "Both userId and addressId are required"
+        });
+    }
+
+    if (errors.length > 0) {
+        return res.status(400).json({ errors });
+    }
+
+    try {
+        // Verificar si el usuario existe
+        const user = await User.findOne({ where: { user_id: Number(userId) } });
+        if (!user) {
+            return res.status(404).json({
+                errors: [{ field: "user", message: "User not found" }]
+            });
+        }
+
+        // Verificar si la dirección existe y está asociada al usuario
+        const address = await Address.findOne({
+            where: {
+                address_id: Number(addressId),
+                user: { user_id: Number(userId) }
+            },
+            relations: ["user"]
+        });
+        
+        if (!address) {
+            return res.status(404).json({
+                errors: [{ field: "address", message: "Address not found for this user" }]
+            });
+        }
+
+        // Alternar el valor de is_favorite
+        address.is_favorite = !address.is_favorite;
+        await address.save();
+
+        return res.status(200).json({
+            message: `Address ${address.is_favorite ? 'marked as' : 'unmarked as'} favorite successfully`,
+            address: {
+                address_id: address.address_id,
+                is_favorite: address.is_favorite
+            }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            errors: [{
+                field: "server",
+                message: "Server error",
+                detail: error instanceof Error ? error.message : String(error)
+            }]
+        });
+    }
+};
+
+// Borrar direccion
+export const deleteAddress = async (req: Request, res: Response): Promise<any> => {
+    const { userId, addressId } = req.body;
+
+    if (!userId || !addressId) {
+        return res.status(400).json({
+            errors: [{
+                field: "params",
+                message: "Both userId and addressId are required"
+            }]
+        });
+    }
+
+    try {
+        const address = await Address.findOne({
+            where: {
+                address_id: Number(addressId),
+                user: { user_id: Number(userId) }
+            }
+        });
+
+        if (!address) {
+            return res.status(404).json({
+                errors: [{
+                    field: "address",
+                    message: "Address not found for this user"
+                }]
+            });
+        }
+
+        await address.remove();
+
+        return res.status(200).json({
+            message: "Address deleted successfully",
+            address_id: address.address_id
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            errors: [{
+                field: "server",
+                message: "Server error",
+                detail: error instanceof Error ? error.message : String(error)
+            }]
+        });
+    }
+};
+
+// Obtener direcciones de un usuario
+export const getUserAddresses = async (req: Request, res: Response): Promise<any> => {
+    const { userId } = req.body;
+
+    if (!userId) {
+        return res.status(400).json({
+            errors: [{
+                field: "userId",
+                message: "UserId is required"
+            }]
+        });
+    }
+
+    try {
+        const user = await User.findOne({
+            where: { user_id: Number(userId) },
+            relations: ["addresses"]
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                errors: [{
+                    field: "user",
+                    message: "User not found"
+                }]
+            });
+        }
+
+        return res.status(200).json({
+            message: "User addresses retrieved successfully",
+            addresses: user.addresses
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            errors: [{
+                field: "server",
+                message: "Server error",
+                detail: error instanceof Error ? error.message : String(error)
+            }]
         });
     }
 };
