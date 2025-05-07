@@ -13,6 +13,7 @@ import { FavoriteList } from "./entities/favoritelist";
 import { FavoriteProduct } from "./entities/favoriteproduct";
 import { ProductReview } from "./entities/comment"
 import { UserVote } from "./entities/vote";
+import { Address } from "./entities/address";
 
 dotenv.config();
 
@@ -37,7 +38,8 @@ export const AppDataSource = new DataSource({
                 FavoriteList,
                 FavoriteProduct,
                 ProductReview,
-                UserVote
+                UserVote,
+                Address
             ],
     logging : false,
     synchronize : true
