@@ -18,5 +18,5 @@ router.post("/verify_purchase_code", verifyPurchaseCodeAndGenerateToken); // Rec
 router.post("/add_address", addAddress) // Recibe address y userId
 router.patch("/favorite_address", toggleFavoriteAddress) // Recibe addressId y userId
 router.delete("/delete_address", deleteAddress) // Recibe addressId y userId
-router.get("/get_addresses", getUserAddresses) // Recibe userId
+router.post("/get_addresses", getUserAddresses) // Recibe userId
 export default router;
