@@ -1,5 +1,7 @@
 # Proyecto Falabella Clone
 Este proyecto es una réplica de la plataforma Falabella, construida con tecnologías modernas. Aquí te dejamos una guía paso a paso para clonar el repositorio y ejecutar el entorno de desarrollo usando Docker.
+-
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/VOIDX66/falabella-backend)
 
 ## Pasos para ejecutar el proyecto
 
