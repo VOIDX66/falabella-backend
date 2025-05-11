@@ -3,6 +3,8 @@ import { Product } from "../entities/product";
 import { Cart } from "../entities/cart";
 import { CartProduct } from "../entities/cartproduct";
 import { User } from "../entities/user";
+import { Order } from "../entities/order";
+import { OrderProduct } from "../entities/orderproduct";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { MailerSend, EmailParams, Recipient, Sender } from 'mailersend';
 
@@ -339,6 +341,37 @@ export const processPayment = async (req: Request, res: Response): Promise<any> 
     // Enviar correo según estado del pago
     if (paymentStatus.status === "approved") {
       await sendPaymentSuccessEmail(user.email, items, paymentStatus.transaction_amount?? precio_total);
+      //
+      const newOrder = new Order();
+      newOrder.total_price = Number(precio_total);
+      newOrder.payment_status = paymentStatus.status;
+      newOrder.payment_id = paymentId.toString()
+      newOrder.user = user;
+      console.log(newOrder)
+      await newOrder.save();
+
+      for (const productId in products) {
+        const quantity = Number(products[productId]);
+        const dbProduct = await Product.findOne({ where: { id_product: Number(productId) } });
+
+        if (dbProduct) {
+          const orderProduct = new OrderProduct();
+          orderProduct.order = newOrder;
+          orderProduct.product = dbProduct;
+          orderProduct.quantity = quantity;
+
+          const unitPrice =
+            dbProduct.special_price ??
+            dbProduct.discount_price ??
+            dbProduct.price;
+
+          orderProduct.unit_price = unitPrice;
+
+          await orderProduct.save();
+        }
+      }
+
+      //
     } else {
       const estado = paymentStatus.status_detail || "desconocido";
       await sendPaymentFailureEmail(user.email, estado);

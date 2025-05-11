@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 
 import { Address } from "./address";
+import { Order } from "./order";
 
 @Entity()
 export class User extends BaseEntity {
@@ -42,6 +43,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Address, address => address.user, { cascade: true })
     addresses: Address[];
+
+    @OneToMany(() => Order, order => order.user)
+    orders: Order[];
 
     @CreateDateColumn()
     create_at : Date

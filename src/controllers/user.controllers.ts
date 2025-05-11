@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../entities/user";
 import { Address } from "../entities/address";
+import { Order } from "../entities/order";
 import bcrypt from "bcrypt";
 
 export const get_user_profile = async (
@@ -537,6 +538,82 @@ export const getUserAddresses = async (
           detail: error instanceof Error ? error.message : String(error),
         },
       ],
+    });
+  }
+};
+
+export const getUserOrders = async (req: Request, res: Response) : Promise<any> => {
+  const { userId } = req.body;  // userId en el cuerpo de la solicitud
+
+  if (!userId) {
+    return res.status(400).json({
+      errors: [{ field: "userId", message: "El ID del usuario es obligatorio." }]
+    });
+  }
+
+  try {
+    // Usamos userId, pero en la base de datos lo buscamos como 'user_id'
+    const user = await User.findOne({
+      where: { user_id: userId }, // aquí usamos 'user_id' en lugar de 'userId'
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        errors: [{ field: "user_id", message: "Usuario no encontrado." }]
+      });
+    }
+
+    const orders = await Order.find({
+      where: { user: { user_id: userId } },  // también en la relación usamos 'user_id'
+      relations: ["products", "products.product"]
+    });
+
+    return res.status(200).json({ orders });
+
+  } catch (error: any) {
+    console.error("Error al obtener las órdenes:", error);
+    return res.status(500).json({
+      errors: [{
+        field: "server",
+        message: "Error interno al obtener las compras.",
+        detail: error.message
+      }]
+    });
+  }
+};
+
+export const getOrderById = async (req: Request, res: Response) : Promise<any> => {
+  const { orderId } = req.body; // Obtener el orderId desde el cuerpo de la solicitud
+
+  if (!orderId) {
+    return res.status(400).json({
+      errors: [{ field: "orderId", message: "El ID de la orden es obligatorio." }]
+    });
+  }
+
+  try {
+    // Buscar la orden por ID
+    const order = await Order.findOne({
+      where: { id: orderId },
+      relations: ["products", "products.product"], // Incluir productos y detalles del producto
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        errors: [{ field: "orderId", message: "Orden no encontrada." }]
+      });
+    }
+
+    return res.status(200).json({ order });
+
+  } catch (error: any) {
+    console.error("Error al obtener la orden:", error);
+    return res.status(500).json({
+      errors: [{
+        field: "server",
+        message: "Error interno al obtener la orden.",
+        detail: error.message
+      }]
     });
   }
 };

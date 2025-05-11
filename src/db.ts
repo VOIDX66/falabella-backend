@@ -14,6 +14,8 @@ import { FavoriteProduct } from "./entities/favoriteproduct";
 import { ProductReview } from "./entities/comment";
 import { UserVote } from "./entities/vote";
 import { Address } from "./entities/address";
+import { Order } from "./entities/order";
+import { OrderProduct } from "./entities/orderproduct";
 
 dotenv.config();
 
@@ -40,6 +42,8 @@ export const AppDataSource = new DataSource({
     ProductReview,
     UserVote,
     Address,
+    Order,
+    OrderProduct
   ],
   logging: false,
   synchronize: true,

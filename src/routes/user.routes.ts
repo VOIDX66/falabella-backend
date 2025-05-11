@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { register, login} from "../controllers/auth"
-import { get_user_profile, editProfile, deleteAccount, addAddress, toggleFavoriteAddress, deleteAddress, getUserAddresses } from "../controllers/user.controllers"
+import { get_user_profile, editProfile, deleteAccount, addAddress, toggleFavoriteAddress, deleteAddress, getUserAddresses, getUserOrders, getOrderById } from "../controllers/user.controllers"
 import { forgotPassword, verifyCodeAndResetPassword, sendVerificationCodeForPurchase, verifyPurchaseCodeAndGenerateToken } from "../controllers/auth"
 import { authenticate_token } from "../middlewares/middleware"
 
@@ -19,4 +19,6 @@ router.post("/add_address", addAddress) // Recibe address y userId
 router.patch("/favorite_address", toggleFavoriteAddress) // Recibe addressId y userId
 router.delete("/delete_address", deleteAddress) // Recibe addressId y userId
 router.post("/get_addresses", getUserAddresses) // Recibe userId
+router.post("/get_user_orders", getUserOrders) // Recibe userId
+router.post("/get_order", getOrderById) // Recibe orderId
 export default router;
