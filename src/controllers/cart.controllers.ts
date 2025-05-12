@@ -347,7 +347,6 @@ export const processPayment = async (req: Request, res: Response): Promise<any> 
       newOrder.payment_status = paymentStatus.status;
       newOrder.payment_id = paymentId.toString()
       newOrder.user = user;
-      console.log(newOrder)
       await newOrder.save();
 
       for (const productId in products) {
