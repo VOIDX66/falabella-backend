@@ -376,6 +376,12 @@ export const processPayment = async (req: Request, res: Response): Promise<any> 
       await sendPaymentFailureEmail(user.email, estado);
     }
 
+    const cart = await Cart.findOne({ where: { user: { user_id } } });
+
+    if (cart) {
+      await CartProduct.delete({ cart: { id_cart: cart.id_cart } });
+    }
+
     return res.status(200).json({
       message: "Pago procesado",
       payment: {
