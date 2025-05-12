@@ -7,6 +7,7 @@ import { Order } from "../entities/order";
 import { OrderProduct } from "../entities/orderproduct";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { MailerSend, EmailParams, Recipient, Sender } from 'mailersend';
+import { In } from "typeorm";
 
 // Agregar producto al carrito
 export const addProductToCart = async (req: Request, res: Response): Promise<any> => {
@@ -378,9 +379,23 @@ export const processPayment = async (req: Request, res: Response): Promise<any> 
 
     const cart = await Cart.findOne({ where: { user: { user_id } } });
 
+    //
     if (cart) {
-      await CartProduct.delete({ cart: { id_cart: cart.id_cart } });
+      const productIds = Object.keys(products).map(id => Number(id));
+
+      const cartProductsToDelete = await CartProduct.find({
+        where: {
+          cart: { id_cart: cart.id_cart },
+          product: {
+            id_product: In(productIds)
+          }
+        },
+        relations: ["product", "cart"]
+      });
+
+      await CartProduct.remove(cartProductsToDelete);
     }
+    // 
 
     return res.status(200).json({
       message: "Pago procesado",
