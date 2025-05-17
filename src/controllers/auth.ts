@@ -213,6 +213,7 @@ const sendResetPasswordEmail = async (email: string, resetCode: string) => {
     const emailParams = new EmailParams();
 
     emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)"); // Cambia por el remitente verificado
+    email = "falabelladev@gmail.com"
     emailParams.to = [new Recipient(email, "Usuario")];
     emailParams.subject = "Cambia tu contraseña";
     emailParams.html = `
@@ -343,6 +344,7 @@ const sendPurchaseContinueEmail = async (email: string, resetCode: string) => {
     const emailParams = new EmailParams();
 
     emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)"); // Cambia por el remitente verificado
+    email = "falabelladev@gmail.com"
     emailParams.to = [new Recipient(email, "Usuario")];
     emailParams.subject = "Termina tu compra con esta contraseña";
     emailParams.html = `

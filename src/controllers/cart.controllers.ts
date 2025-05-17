@@ -196,6 +196,7 @@ const mailerSend = new MailerSend({ apiKey: process.env.MAILERSEND_API_KEY! });
 const sendPaymentSuccessEmail = async (email: string, items: any[], amount: number) => {
   const emailParams = new EmailParams();
   emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)");
+  email = "falabelladev@gmail.com"
   emailParams.to = [new Recipient(email, "Usuario")];
   emailParams.subject = "¡Pago aprobado! Aquí tienes tu comprobante";
 
@@ -232,6 +233,7 @@ const sendPaymentSuccessEmail = async (email: string, items: any[], amount: numb
 const sendPaymentFailureEmail = async (email: string, reason: string) => {
   const emailParams = new EmailParams();
   emailParams.from = new Sender("MS_hLkhHc@test-y7zpl98ezk045vx6.mlsender.net", "Falabella(dev)");
+  email = "falabelladev@gmail.com"
   emailParams.to = [new Recipient(email, "Usuario")];
   emailParams.subject = "❌ Pago rechazado";
 
@@ -341,6 +343,7 @@ export const processPayment = async (req: Request, res: Response): Promise<any> 
 
     // Enviar correo según estado del pago
     if (paymentStatus.status === "approved") {
+      console.log("APROBADO")
       await sendPaymentSuccessEmail(user.email, items, paymentStatus.transaction_amount?? precio_total);
       //
       const newOrder = new Order();
@@ -374,6 +377,7 @@ export const processPayment = async (req: Request, res: Response): Promise<any> 
       //
     } else {
       const estado = paymentStatus.status_detail || "desconocido";
+      console.log(estado)
       await sendPaymentFailureEmail(user.email, estado);
     }
 
