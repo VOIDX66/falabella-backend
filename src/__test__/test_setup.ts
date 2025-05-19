@@ -11,6 +11,11 @@ import { Cart } from "../entities/cart";
 import { CartProduct } from "../entities/cartproduct";
 import { FavoriteList } from "../entities/favoritelist";
 import { FavoriteProduct } from "../entities/favoriteproduct";
+import { ProductReview } from "../entities/comment";
+import { UserVote } from "../entities/vote";
+import { Address } from "../entities/address";
+import { Order } from "../entities/order";
+import { OrderProduct } from "../entities/orderproduct";
 
 // Cargar las variables de entorno
 dotenv.config();
@@ -43,8 +48,13 @@ export const AppDataSource = new DataSource({
         Cart,
         CartProduct,
         FavoriteList,
-        FavoriteProduct
-    ],
+        FavoriteProduct,
+        ProductReview,
+        UserVote,
+        Address,
+        Order,
+        OrderProduct
+      ],
     logging: false,
     synchronize: isTest, // Solo sincronizar en entorno de pruebas
 });
